@@ -17,11 +17,15 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Connection extends JFrame {
+public class WelcomePane extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfHostName;
@@ -33,7 +37,7 @@ public class Connection extends JFrame {
 
 	
 	
-	public Connection() {
+	public WelcomePane() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 405, 143);
@@ -57,13 +61,30 @@ public class Connection extends JFrame {
 		tfHostName.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(tfHostName);
 		tfHostName.setColumns(10);
-		
 		JButton btnConnect = new JButton("CONNECT");
+		
 		btnConnect.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		contentPane.add(btnConnect);
+		
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 	}
 	
 	public void startGUI() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WelcomePane frame = new WelcomePane();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		String host = tfHostName.getText();
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
@@ -71,7 +92,7 @@ public class Connection extends JFrame {
 			//FACCIO PARTIRE LA MAIN PANEL
 			
 		} catch (RemoteException e) {
-            Notification.notify("Connection Notification", "Connessione non riuscita \nriprovare", true);
+            Notification.notify("Connection Notification", "Connessione non riuscita \n riprovare", true);
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
