@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import Game.Move;
 import Services.User;
 
 public class DBManager implements DBManagerInterface{

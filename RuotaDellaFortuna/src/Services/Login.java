@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class Login implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	protected String password;
+	protected String passwordC;
 	protected String email;
 	
 	public Login(String email, String password) {
 		this.email = email;
-		this.password = password;
+		this.passwordC = password;
 	}
 	
 	public String getEmail() {
@@ -20,4 +20,8 @@ public class Login implements Serializable {
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
+	public String getPasswordC() {
+        return passwordC;
+    }
+
 }

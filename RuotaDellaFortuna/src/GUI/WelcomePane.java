@@ -1,11 +1,14 @@
 package GUI;
 
+import Server.Server;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Server.ServerInterface;
+import Services.AdminChecker;
 import Services.Client;
+import Services.Controller;
 import Services.Notification;
 
 import javax.swing.JLabel;
@@ -97,5 +100,10 @@ public class WelcomePane extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	   public static void setController(Controller c) {
+	        c.setServer(server);
+	        c.setAdmin(AdminChecker.isIsAdmin());
+	    }
 	
 }

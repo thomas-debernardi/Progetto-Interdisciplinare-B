@@ -10,6 +10,7 @@ import java.util.logging.ErrorManager;
 
 import Database.DBManager;
 import Services.Client;
+import Services.EmailManager;
 
 /**
  * Oggetto remoto che implementa l'interfaccia {@link RemoteMatch}

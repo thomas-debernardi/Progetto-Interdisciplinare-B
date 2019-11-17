@@ -1,7 +1,8 @@
 package Database;
-import server.match.Move;
 
 import java.sql.SQLException;
+
+import Game.Move;
 
 /**
  * Interfaccia del Data Access Object che si occupa degli accessi al database relativi alle mosse
