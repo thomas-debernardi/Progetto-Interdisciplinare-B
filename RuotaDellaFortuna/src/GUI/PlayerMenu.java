@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 
-public class AdminMenu extends JFrame {
+public class PlayerMenu extends JFrame {
 
 	private JPanel contentPane;
 
@@ -19,7 +19,7 @@ public class AdminMenu extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminMenu frame = new AdminMenu();
+					PlayerMenu frame = new PlayerMenu();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,32 +31,32 @@ public class AdminMenu extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdminMenu() {
+	public PlayerMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 380, 328);
+		setBounds(100, 100, 419, 333);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnWatchAMatch = new JButton("Watch a Match");
-		btnWatchAMatch.setBounds(10, 10, 170, 112);
+		JButton btnWatchAMatch = new JButton("Create a Match");
+		btnWatchAMatch.setBounds(10, 10, 183, 119);
 		contentPane.add(btnWatchAMatch);
 		
-		JButton btnAddMisteryPhrases = new JButton("Add Mistery Phrases");
-		btnAddMisteryPhrases.setBounds(190, 10, 170, 112);
-		contentPane.add(btnAddMisteryPhrases);
+		JButton btnShowMatches = new JButton("Show Matches");
+		btnShowMatches.setBounds(215, 10, 183, 119);
+		contentPane.add(btnShowMatches);
 		
-		JButton btnStatistics = new JButton("Statistics");
-		btnStatistics.setBounds(10, 132, 170, 112);
-		contentPane.add(btnStatistics);
+		JButton btnShowStatistics = new JButton("Show Statistics");
+		btnShowStatistics.setBounds(10, 139, 183, 119);
+		contentPane.add(btnShowStatistics);
 		
-		JButton btnAccountSettings = new JButton("Account Settings");
-		btnAccountSettings.setBounds(190, 132, 170, 112);
-		contentPane.add(btnAccountSettings);
+		JButton btnAccount = new JButton("Account");
+		btnAccount.setBounds(215, 139, 183, 119);
+		contentPane.add(btnAccount);
 		
 		JButton btnExit = new JButton("EXIT");
-		btnExit.setBounds(10, 254, 350, 21);
+		btnExit.setBounds(10, 268, 390, 21);
 		contentPane.add(btnExit);
 	}
 }
