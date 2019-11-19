@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Server.ServerInterface;
 import Services.AdminChecker;
 import Services.Client;
 import Services.Controller;
@@ -35,7 +34,7 @@ public class WelcomePane extends JFrame {
     private Registry registry;
     
     
-    private static ServerInterface server;
+    private static Server server;
     private static Client client;
 
 	
@@ -91,7 +90,7 @@ public class WelcomePane extends JFrame {
 		String host = tfHostName.getText();
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
-			server = (ServerInterface) registry.lookup("SERVER");
+			server = (Server) registry.lookup("SERVER");
 			//FACCIO PARTIRE LA MAIN PANEL
 			
 		} catch (RemoteException e) {
