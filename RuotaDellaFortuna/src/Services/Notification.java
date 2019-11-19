@@ -3,6 +3,9 @@ package Services;
 
 import java.nio.charset.StandardCharsets;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import GUI.NotificationModel;
 
 public class Notification {
@@ -16,6 +19,7 @@ public class Notification {
         byte[] bMsg = msg.getBytes();
         int duration = 3;
         if (error) {
+        	JOptionPane.showMessageDialog(Jframe frame = new JFrame(), "Eggs are not supposed to be green.");
             NotificationModel.create()
                     .title(new String(bTitle, StandardCharsets.UTF_8))
                     .text(new String(bMsg, StandardCharsets.UTF_8))
