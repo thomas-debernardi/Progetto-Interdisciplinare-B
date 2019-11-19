@@ -1,11 +1,10 @@
 package GUI;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Server.ServerInterface;
+import Server.Server;
 import Services.Client;
 
 import javax.swing.JLabel;
@@ -18,7 +17,7 @@ public class Login extends JFrame {
 	private JTextField tfEmail;
 	private JTextField tfPassword;
 	
-	 private static ServerInterface server;
+	 private static Server server;
 	    private static Client client;
 	    private static boolean admin;
 	    private static boolean isServer = false;

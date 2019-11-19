@@ -1,10 +1,11 @@
 package Database;
-import server.match.Move;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import Game.Move;
 
 /**
  * Implementazione dell'interfaccia {@link MovesDAO}

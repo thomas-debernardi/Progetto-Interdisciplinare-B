@@ -1,5 +1,6 @@
-package Services;
+package Email;
 
+import javax.mail.MessagingException;
 
 
 /**

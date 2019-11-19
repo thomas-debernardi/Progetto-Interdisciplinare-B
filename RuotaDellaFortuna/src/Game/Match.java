@@ -9,8 +9,10 @@ import java.util.*;
 import java.util.logging.ErrorManager;
 
 import Database.DBManager;
+import Email.EmailManager;
 import Services.Client;
-import Services.EmailManager;
+import Services.MatchData;
+
 
 /**
  * Oggetto remoto che implementa l'interfaccia {@link RemoteMatch}

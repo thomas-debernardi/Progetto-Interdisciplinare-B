@@ -227,4 +227,16 @@ public class ClientImplementation extends UnicastRemoteObject implements Client,
     public void updateTimer(int num) throws RemoteException {
         game.updateTimer(num);
     }
+
+	@Override
+	public String getid() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String setNickname() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
