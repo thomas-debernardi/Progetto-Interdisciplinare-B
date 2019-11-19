@@ -42,5 +42,17 @@ public class AdminMenu extends JFrame {
 		JButton btnWatchAMatch = new JButton("Watch a Match");
 		btnWatchAMatch.setBounds(23, 83, 170, 112);
 		contentPane.add(btnWatchAMatch);
+		
+		JButton btnAddMisteryPhrases = new JButton("Add Mistery Phrases");
+		btnAddMisteryPhrases.setBounds(203, 83, 170, 112);
+		contentPane.add(btnAddMisteryPhrases);
+		
+		JButton btnStatistics = new JButton("Statistics");
+		btnStatistics.setBounds(23, 209, 170, 112);
+		contentPane.add(btnStatistics);
+		
+		JButton btnAccountSettings = new JButton("Account Settings");
+		btnAccountSettings.setBounds(203, 205, 170, 112);
+		contentPane.add(btnAccountSettings);
 	}
 }
