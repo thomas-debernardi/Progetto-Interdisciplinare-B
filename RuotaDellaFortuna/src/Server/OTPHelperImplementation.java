@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import Services.Client;
+import Services.CryptPassword;
 
 /**
  * Oggetto remoto utilizzato dal client per inviare l'OTP ricevuta via email. Se il codice è esatto permette a {@link WaitingThread} di completare la registrazione.

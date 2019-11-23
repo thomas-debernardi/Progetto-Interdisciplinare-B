@@ -1,15 +1,15 @@
-package server.registration;
-
-import util.client.Client;
-import util.logging.CryptPassword;
-import util.logging.User;
-import server.dbComm.DBManager;
-import server.dbComm.UsersDTO;
-import server.email.EmailAddressDoesNotExistException;
-import server.email.EmailManager;
+package Server;
 
 import java.rmi.RemoteException;
 import java.util.Random;
+
+import Database.DBManager;
+import Database.UsersDTO;
+import Email.EmailAddressDoesNotExistException;
+import Email.EmailManager;
+import Services.Client;
+import Services.CryptPassword;
+import Services.User;
 
 /**
  * Questa classe gestisce la registrazione dell'utente. I metodi {@link #checkEmail(String)} e {@link #checkNickname(String)} permettono di allegerire i controlli sul metodo principale della classe {@link #signUp(User, Client, boolean)}

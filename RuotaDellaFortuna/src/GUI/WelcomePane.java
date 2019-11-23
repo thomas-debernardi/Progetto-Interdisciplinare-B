@@ -31,62 +31,53 @@ public class WelcomePane extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfHostName;
-    private Registry registry;
-    
-    
+    private Registry registry;    
     private static Server server;
     private static Client client;
 
 	
 	
 	public WelcomePane() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 405, 143);
+		JFrame frame = new JFrame();
+		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 405, 143);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		frame.setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JLabel title = new JLabel("The Wheel Of Fortune");
+		title.setBounds(35, 10, 330, 33);
 		title.setForeground(Color.BLUE);
 		title.setFont(new Font("Snap ITC", Font.BOLD | Font.ITALIC, 25));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(title);
 		
 		JLabel lblHostName = new JLabel("Host Name");
+		lblHostName.setBounds(61, 52, 74, 19);
 		lblHostName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		contentPane.add(lblHostName);
 		
 		tfHostName = new JTextField();
+		tfHostName.setBounds(140, 52, 96, 19);
 		tfHostName.setToolTipText("Host name");
 		tfHostName.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(tfHostName);
 		tfHostName.setColumns(10);
 		JButton btnConnect = new JButton("CONNECT");
-		
+		btnConnect.setBounds(241, 48, 99, 27);
 		btnConnect.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		contentPane.add(btnConnect);
-		
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				startGameView();
 			}
 		});
 	}
 	
-	public void startGUI() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WelcomePane frame = new WelcomePane();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
+	public void startGameView() {		
 		String host = tfHostName.getText();
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
@@ -100,7 +91,7 @@ public class WelcomePane extends JFrame {
 		}
 	}
 	
-	   public static void setController(Controller c) {
+ 	   public static void setController(Controller c) {
 	        c.setServer(server);
 	        c.setAdmin(AdminChecker.isIsAdmin());
 	    }

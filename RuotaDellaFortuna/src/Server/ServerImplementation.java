@@ -8,7 +8,13 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import Database.DBManager;
-import Services.EmailManager;
+import Email.EmailManager;
+import Game.MatchManager;
+import Game.RemoteMatch;
+import Services.Client;
+import Services.Login;
+import Services.MatchData;
+import Services.User;
 
 /**
  * Implementazione dell'interfaccia remota Server.

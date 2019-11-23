@@ -1,11 +1,13 @@
-package server;
+package Server;
 
-import util.logging.CryptPassword;
-import server.dbComm.DBManager;
-import server.dbComm.UsersDTO;
-import server.email.EmailManager;
+
 
 import java.util.Random;
+
+import Database.DBManager;
+import Database.UsersDTO;
+import Email.EmailManager;
+import Services.CryptPassword;
 
 /**
  * Questa classe si occupa della modifica dei dati di uno specifico utente.

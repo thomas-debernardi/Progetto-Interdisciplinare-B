@@ -12,6 +12,6 @@ public class AdminStart extends JFrame {
 	public static void main(String[] args) throws Exception{
         AdminChecker.setIsAdmin(true);
         WelcomePane connectionGUI = new WelcomePane();
-        connectionGUI.startGUI();
+        connectionGUI.startGameView();
 	}
 }

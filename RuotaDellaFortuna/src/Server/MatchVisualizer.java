@@ -1,12 +1,13 @@
-package server;
+package Server;
 
-import util.MatchData;
-import server.match.MatchManager;
-import server.match.Match;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+
+import Game.Match;
+import Game.MatchManager;
+import Services.MatchData;
 
 
 /**

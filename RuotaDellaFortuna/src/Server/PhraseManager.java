@@ -1,13 +1,13 @@
-package server;
+package Server;
 
-import com.opencsv.CSVReader;
-import server.dbComm.DBManager;
-import server.dbComm.PhrasesDTO;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import Database.DBManager;
+import Database.PhrasesDTO;
 
 
 /**

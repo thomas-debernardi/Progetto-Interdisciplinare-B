@@ -1,8 +1,8 @@
-package server;
+package Server;
 
-import server.dbComm.DBManager;
-import server.dbComm.MovesDTO;
-import server.dbComm.UsersDTO;
+import Database.DBManager;
+import Database.MovesDTO;
+import Database.UsersDTO;
 
 /**
  * Questa classe si occupa dell'accesso al database al fine di ottenere le statistiche di utilizzo della piattaforma
