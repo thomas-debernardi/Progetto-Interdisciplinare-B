@@ -2,14 +2,24 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Server.OTPHelper;
+import Server.Server;
+import Services.Client;
+import Services.Notification;
+import Services.User;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Registration extends JFrame {
 
@@ -20,6 +30,13 @@ public class Registration extends JFrame {
 	private JTextField textFieldEmail;
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldRepeat;
+	
+	 private static Server server;
+	    private static Client client;
+	    private User user;
+	    private boolean admin;
+	    private static boolean isServer;
+	    private static OTPHelper otp;
 
 	/**
 	 * Launch the application.
@@ -77,6 +94,16 @@ public class Registration extends JFrame {
 		contentPane.add(lblRepeatPassword);
 		
 		JButton btnRegister = new JButton("REGISTER");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					confirm();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnRegister.setBounds(109, 275, 85, 21);
 		contentPane.add(btnRegister);
 		
@@ -107,5 +134,47 @@ public class Registration extends JFrame {
 		passwordFieldRepeat = new JPasswordField();
 		passwordFieldRepeat.setBounds(178, 218, 96, 21);
 		contentPane.add(passwordFieldRepeat);
+		
+		
 	}
+	
+	public void confirm() throws IOException {
+		if(!(passwordFieldRepeat.getText().equals(passwordField.getText())))
+			Notification.notify("ERRORE", "Le due password non coincidono", false);
+		        
+				//se la mail non esiste visualizza notifica
+		else if (!(textFieldName.getText().equals("") || textFieldSurname.getText().equals("") || textFieldNickname.getText().equals("") || textFieldEmail.getText().equals("") || passwordField.getText().equals("") || passwordFieldRepeat.getText().equals(""))) {
+				if (!server.checkEMail(textFieldEmail.getText())) {
+                Notification.notify("Mail Notification", "E-mail già presente \nimmettere nuova mail", true);
+                //se esiste nickName visualizza notifica
+				} else if (!server.checkNickname(textFieldNickname.getText())) {
+                Notification.notify("Mail Notification", "Nickname già presente \nimmettere un nuovo nickname", true);
+				} else {
+	                String nameStr = textFieldName.getText();
+	                String surnameStr = textFieldSurname.getText();
+	                String nickStr = textFieldNickname.getText();
+	                String mailStr = textFieldEmail.getText();
+	                String passwordStr = passwordField.getText();
+	//                user = new User(passwordStr, buildString(mailStr), buildString(nameStr), buildString(surnameStr), buildString(nickStr));
+	                user = new User(passwordStr, mailStr, nameStr, surnameStr, nickStr);
+	                try {
+	                    otp = server.signUp(user, client, admin);
+	                    
+	                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("OTP_registration_pane.fxml"));
+	                    Scene scene = new Scene(root);
+	                    Stage primaryStage = new Stage();
+	                    primaryStage.setTitle(FrameTitle.main);
+	                    primaryStage.setScene(scene);
+	                    primaryStage.show();
+	                    ApplicationCloser.setCloser(primaryStage);
+	                    Stage thisStage = (Stage) confirmButton.getScene().getWindow();
+	                    thisStage.close();
+	                } catch (EmailAddressDoesNotExistException e) {
+	                    this.notifyIllegalEmailAddress();
+	                }
+	            }
+        } else {
+            Notification.notify("Registration Notification", "Errore:\nTutti i campi sono obbligatori", true);
+        }
+    }
 }

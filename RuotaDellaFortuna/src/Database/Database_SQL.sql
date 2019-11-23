@@ -1,20 +1,13 @@
 create table users
 (
     id       varchar(36) primary key,
-    type     numeric(1)  not null,
+    tipo     numeric(1)  not null,
     name     varchar(50) not null,
     surname  varchar(50) not null,
     nickname varchar(50) not null unique,
     email    varchar(50) not null unique,
     password varchar     not null
 );
-
-create table phrases
-(
-    phrase varchar(60) primary key,
-    theme  varchar(60) not null
-);
-
 
 create table matches
 (
@@ -23,7 +16,11 @@ create table matches
     time varchar(10) not null
 );
 
-
+create table phrases
+(
+    phrase varchar(60) primary key,
+    theme  varchar(60) not null
+);
 
 create table manches
 (

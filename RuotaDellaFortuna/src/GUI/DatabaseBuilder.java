@@ -130,6 +130,7 @@ public class DatabaseBuilder extends JFrame {
                 stmt.execute("CREATE DATABASE dbrdf");
             } catch (SQLException e) {
                 System.out.println("DATABASE GIA' ESISTENTE");
+                dbCreated = true;
             } finally {
                 if (!dbCreated) {
                     Connection conn = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + "/dbrdf", user, password);

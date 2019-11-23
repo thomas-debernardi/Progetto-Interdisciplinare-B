@@ -1,25 +1,23 @@
-package Server;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import Database.DBManager;
 import Services.Notification;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-
-public class PrimePaneServer extends JFrame {
+public class ServerMainPane extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldUser;
@@ -28,8 +26,6 @@ public class PrimePaneServer extends JFrame {
 	private JTextField textFieldPort;
 	
     private DBManager manager;
-
-
 	/**
 	 * Launch the application.
 	 */
@@ -37,56 +33,27 @@ public class PrimePaneServer extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrimePaneServer frame = new PrimePaneServer();
-					frame.setVisible(true);
+					ServerMainPane frame = new ServerMainPane();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
-    public void login() throws IOException {
-
-        String user = textFieldUser.getText();
-        String password = passwordField.getText();
-        String hostname = textFieldHostname.getText();
-        String port = textFieldPort.getText();
-        try {
-            String url = hostname + ":" + port;
-            manager = DBManager.createDBManager(url, user, password);
-            InsubriaLoginController.setDbManager(manager);
-            Parent root1 = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("insubria_login_pane.fxml"));
-            Stage primaryStage = new Stage();
-            Scene scene = new Scene(root1);
-            primaryStage.setTitle(FrameTitle.main);
-            primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-            primaryStage.setOnCloseRequest((WindowEvent event1) -> {
-                Platform.exit();
-                System.exit(0);
-            });
-            Stage oldStage = (Stage) confirmButton.getScene().getWindow();
-            oldStage.close();
-
-        } catch (SQLException e) {
-            Notification.notify("Connection Notification", "Connessione non riuscita \nriprovare", true);
-        }
-
-    }
 
 	/**
 	 * Create the frame.
 	 */
-	public PrimePaneServer() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 240, 207);
+	public ServerMainPane() {
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 450, 300);
+		frame.setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
+		frame.setContentPane(contentPane);
+		contentPane.setLayout(null);
 		JLabel lblUser = new JLabel("User");
 		lblUser.setBounds(10, 10, 46, 13);
 		contentPane.add(lblUser);
@@ -125,9 +92,28 @@ public class PrimePaneServer extends JFrame {
 		JButton btnStart = new JButton("START");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				login();
 			}
 		});
-		btnStart.setBounds(69, 139, 85, 21);
+		btnStart.setBounds(10, 136, 140, 44);
 		contentPane.add(btnStart);
+		
 	}
+	
+	public void login() {
+		 String user = textFieldUser.getText();
+	     String password = passwordField.getText();
+	     String hostname = textFieldHostname.getText();
+	     String port = textFieldPort.getText();
+	     
+	     try {
+	            String url = hostname + ":" + port;
+	            manager = DBManager.createDBManager(url, user, password);
+	            InsubriaLoginController.setDbManager(manager);
+	            InsubriaLoginController insubria = new InsubriaLoginController();
+	        } catch (SQLException e) {
+	            Notification.notify("Connection Notification", "Connessione non riuscita \nriprovare", true);
+	        }
+	}
+
 }
