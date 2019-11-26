@@ -66,11 +66,11 @@ public class WelcomePane extends JFrame {
 		tfHostName.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(tfHostName);
 		tfHostName.setColumns(10);
-		JButton btnConnect = new JButton("CONNECT");
-		btnConnect.setBounds(241, 48, 99, 27);
-		btnConnect.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		contentPane.add(btnConnect);
-		btnConnect.addActionListener(new ActionListener() {
+		JButton btnConfirm = new JButton("CONFIRM");
+		btnConfirm.setBounds(241, 48, 99, 27);
+		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		contentPane.add(btnConfirm);
+		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startGameView();
 			}
