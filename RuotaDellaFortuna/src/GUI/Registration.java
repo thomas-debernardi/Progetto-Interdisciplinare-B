@@ -3,14 +3,18 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Email.EmailAddressDoesNotExistException;
 import Server.OTPHelper;
 import Server.Server;
 import Services.Client;
+import Services.Controller;
 import Services.Notification;
 import Services.User;
 
@@ -159,16 +163,7 @@ public class Registration extends JFrame {
 	                user = new User(passwordStr, mailStr, nameStr, surnameStr, nickStr);
 	                try {
 	                    otp = server.signUp(user, client, admin);
-	                    
-	                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("OTP_registration_pane.fxml"));
-	                    Scene scene = new Scene(root);
-	                    Stage primaryStage = new Stage();
-	                    primaryStage.setTitle(FrameTitle.main);
-	                    primaryStage.setScene(scene);
-	                    primaryStage.show();
-	                    ApplicationCloser.setCloser(primaryStage);
-	                    Stage thisStage = (Stage) confirmButton.getScene().getWindow();
-	                    thisStage.close();
+	                    OTPRegistrationPane otpPane = new OTPRegistrationPane();
 	                } catch (EmailAddressDoesNotExistException e) {
 	                    this.notifyIllegalEmailAddress();
 	                }
@@ -177,4 +172,55 @@ public class Registration extends JFrame {
             Notification.notify("Registration Notification", "Errore:\nTutti i campi sono obbligatori", true);
         }
     }
+	
+	 public void back() throws IOException {
+	        if (!isServer) {
+	        	WelcomePane wp = new WelcomePane();
+	        } else {
+	        	InsubriaLoginController ilc = new InsubriaLoginController();
+	        }
+	    }
+
+	    public static void setServer(boolean server) {
+	        isServer = server;
+	    }
+
+	    public void setServer(Server server) {
+	        this.server = server;
+	    }
+
+	    public void setClient(Client client) {
+	        this.client = client;
+	    }
+
+	    public void setAdmin(boolean admin) {
+	        this.admin = admin;
+	    }
+
+	    public void initialize(URL location, ResourceBundle resources) {
+	        if (InsubriaLoginController.forServer) {
+	            InsubriaLoginController.setReg(this);
+	        } else {
+	            Controller.setRegistration(this);
+	        }
+	    }
+
+	    /**
+	     * Metodo utilizzato per passare le informazioni del client a {@link OTPRegistrationController}
+	     *
+	     * @param otpp il riferimento al controller {@link OTPRegistrationController}
+	     */
+	    public static void setOTP(OTPRegistrationPane otpp) {
+	        otpp.setClient(client);
+	        otpp.setServer(server);
+	        otpp.setOtp(otp);
+	    }
+
+	    /**
+	     * Notifica che non e' stato possibile inviare la mail all'indirizzo email specificato al momento della registrazione
+	     * per problemi di connessione o perche' non esistente
+	     */
+	    public void notifyIllegalEmailAddress() {
+	        Notification.notify("Errore", "L'indirizzo email inserito non\nè disponibile o non esiste.", true);
+	    }
 }

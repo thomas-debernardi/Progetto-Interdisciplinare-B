@@ -30,22 +30,6 @@ public class OTPRegistrationPane extends JFrame {
     private Client client;
     private OTPHelper otp;
     private JFrame frame;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new OTPRegistrationPane();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */

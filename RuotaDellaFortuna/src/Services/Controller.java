@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.text.PasswordView;
 
+import GUI.Registration;
 import GUI.WelcomePane;
 import Server.Server;
 
@@ -151,7 +152,7 @@ public class Controller extends JFrame {
      *
      * @param registration il riferimento al controller {@link RegistrationFormController}
      */
-    public static void setRegistration(RegistrationFormController registration){
+    public static void setRegistration(Registration registration){
         registration.setClient(client);
         registration.setServer(server);
         registration.setServer(false);

@@ -81,7 +81,7 @@ public class InsubriaLoginController extends JFrame {
         return registry;
     }
 
-    public static void setReg(RegistrationFormController r) {
+    public static void setReg(Registration r) {
         r.setServer(true);
         r.setServer(server);
         r.setAdmin(true);

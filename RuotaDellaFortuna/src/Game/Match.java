@@ -9,7 +9,12 @@ import java.util.*;
 import java.util.logging.ErrorManager;
 
 import Database.DBManager;
+import Database.ManchesDTO;
+import Database.MatchesDTO;
+import Database.PhrasesDTO;
+import Database.UsersDTO;
 import Email.EmailManager;
+import Server.ServerImplementation;
 import Services.Client;
 import Services.MatchData;
 
@@ -619,7 +624,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
             String idPlayer2 = players.get(1).getIdPlayer();
             String idPlayer3 = players.get(2).getIdPlayer();
 
-            List<PhrasesDTO> phrases = dbManager.get5Phrases(idPlayer1, idPlayer2, idPlayer3);
+            List<> phrases = dbManager.get5Phrases(idPlayer1, idPlayer2, idPlayer3);
 
             if (phrases == null || phrases.size() < 5) {
                 try {

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Database.DBManager;
+import GUI.InsubriaLoginController;
 import Services.Notification;
 
 import javax.swing.JLabel;
@@ -26,8 +27,8 @@ public class PrimePaneServer extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textFieldHostname;
 	private JTextField textFieldPort;
-	
     private DBManager manager;
+	static PrimePaneServer frame = new PrimePaneServer();
 
 
 	/**
@@ -37,7 +38,6 @@ public class PrimePaneServer extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrimePaneServer frame = new PrimePaneServer();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,36 +46,6 @@ public class PrimePaneServer extends JFrame {
 		});
 	}
 	
-    public void login() throws IOException {
-
-        String user = textFieldUser.getText();
-        String password = passwordField.getText();
-        String hostname = textFieldHostname.getText();
-        String port = textFieldPort.getText();
-        try {
-            String url = hostname + ":" + port;
-            manager = DBManager.createDBManager(url, user, password);
-            InsubriaLoginController.setDbManager(manager);
-            Parent root1 = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("insubria_login_pane.fxml"));
-            Stage primaryStage = new Stage();
-            Scene scene = new Scene(root1);
-            primaryStage.setTitle(FrameTitle.main);
-            primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-            primaryStage.setOnCloseRequest((WindowEvent event1) -> {
-                Platform.exit();
-                System.exit(0);
-            });
-            Stage oldStage = (Stage) confirmButton.getScene().getWindow();
-            oldStage.close();
-
-        } catch (SQLException e) {
-            Notification.notify("Connection Notification", "Connessione non riuscita \nriprovare", true);
-        }
-
-    }
-
 	/**
 	 * Create the frame.
 	 */
@@ -125,9 +95,36 @@ public class PrimePaneServer extends JFrame {
 		JButton btnStart = new JButton("START");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					login();
+				} catch (IOException e1) {
+					
+				}
+				
 			}
 		});
 		btnStart.setBounds(69, 139, 85, 21);
 		contentPane.add(btnStart);
 	}
+	
+    public void login() throws IOException {
+        String user = textFieldUser.getText();
+        String password = passwordField.getText();
+        String hostname = textFieldHostname.getText();
+        String port = textFieldPort.getText();
+        try {
+            String url = hostname + ":" + port;
+            manager = DBManager.createDBManager(url, user, password);
+            InsubriaLoginController.setDbManager(manager);
+            InsubriaLoginController ilc = new InsubriaLoginController();     
+            frame.dispose();
+            Notification.notify("ACCESSO ESEGUITO", "", false);
+        } catch (SQLException e) {
+        	System.out.println(e);
+            Notification.notify("Connection Notification", e.toString(), true);
+        }
+
+    }
+
+	
 }
