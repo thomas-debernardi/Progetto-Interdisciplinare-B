@@ -6,6 +6,9 @@ package Services;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import GUI.GamePlayerController;
+import GUI.OTPRegistrationController;
+
 /**
  * Interfaccia dell'oggetto remoto utilizzato da PlayerRdF e AdminRdF per ricevere notifiche dal server
  */

@@ -5,7 +5,11 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class ClientImplementation extends UnicastRemoteObject implements Client, Serializable {
+import GUI.GamePlayerController;
+import GUI.OTPRegistrationController;
+import GUI.TabPaneController;
+
+public class ClientImplementation extends UnicastRemoteObject implements Client, Serializable, Runnable {
 
     public static final long serialVersionUID = 1L;
 
@@ -77,12 +81,8 @@ public class ClientImplementation extends UnicastRemoteObject implements Client,
 
     @Override
     public void notifyServerError() throws RemoteException {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Notification.notify("Errore", "Errore di connessione al server", true);
-            }
-        });
+run();
+    
     }
 
     @Override
@@ -238,5 +238,12 @@ public class ClientImplementation extends UnicastRemoteObject implements Client,
 	public String setNickname() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+        Notification.notify("Errore", "Errore di connessione al server", true);
+
 	}
 }

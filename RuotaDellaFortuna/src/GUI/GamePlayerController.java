@@ -7,31 +7,15 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-public class GamePlayerPane {
+public class GamePlayerController {
 
 	private JFrame frame;
 	private JTextField textField;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GamePlayerPane window = new GamePlayerPane();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
-	public GamePlayerPane() {
+	public GamePlayerController() {
 		initialize();
 	}
 
@@ -43,7 +27,7 @@ public class GamePlayerPane {
 		frame.setBounds(100, 100, 1287, 667);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+		frame.setVisible(true);
 		textField = new JTextField();
 		textField.setToolTipText("Insert the solution");
 		textField.setBounds(44, 486, 627, 29);

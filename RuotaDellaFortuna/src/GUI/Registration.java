@@ -25,7 +25,7 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Registration extends JFrame {
+public class Registration {
 
 	private JPanel contentPane;
 	private JTextField textFieldName;
@@ -41,32 +41,24 @@ public class Registration extends JFrame {
 	    private boolean admin;
 	    private static boolean isServer;
 	    private static OTPHelper otp;
+	    JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registration frame = new Registration();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	public Registration() {
+		initialize();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public Registration() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 304, 375);
+	public void initialize() {
+		frame = new JFrame("Registration");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 304, 375);
+		frame.setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblRegistration = new JLabel("REGISTRATION");
@@ -163,7 +155,7 @@ public class Registration extends JFrame {
 	                user = new User(passwordStr, mailStr, nameStr, surnameStr, nickStr);
 	                try {
 	                    otp = server.signUp(user, client, admin);
-	                    OTPRegistrationPane otpPane = new OTPRegistrationPane();
+	                    OTPRegistrationController otpPane = new OTPRegistrationController();
 	                } catch (EmailAddressDoesNotExistException e) {
 	                    this.notifyIllegalEmailAddress();
 	                }
@@ -210,7 +202,7 @@ public class Registration extends JFrame {
 	     *
 	     * @param otpp il riferimento al controller {@link OTPRegistrationController}
 	     */
-	    public static void setOTP(OTPRegistrationPane otpp) {
+	    public static void setOTP(OTPRegistrationController otpp) {
 	        otpp.setClient(client);
 	        otpp.setServer(server);
 	        otpp.setOtp(otp);

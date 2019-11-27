@@ -117,8 +117,8 @@ public class PrimePaneServer extends JFrame {
             manager = DBManager.createDBManager(url, user, password);
             InsubriaLoginController.setDbManager(manager);
             InsubriaLoginController ilc = new InsubriaLoginController();     
-            frame.dispose();
             Notification.notify("ACCESSO ESEGUITO", "", false);
+            frame.dispose();
         } catch (SQLException e) {
         	System.out.println(e);
             Notification.notify("Connection Notification", e.toString(), true);

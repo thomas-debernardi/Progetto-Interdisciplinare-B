@@ -20,7 +20,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class OTPRegistrationPane extends JFrame {
+public class OTPRegistrationController extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -33,7 +33,7 @@ public class OTPRegistrationPane extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OTPRegistrationPane() {
+	public OTPRegistrationController() {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);

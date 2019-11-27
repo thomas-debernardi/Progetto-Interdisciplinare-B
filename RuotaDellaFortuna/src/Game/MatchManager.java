@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import Database.DBManager;
+import Email.EmailManager;
+import Server.ServerImplementation;
 import Services.Client;
 
 

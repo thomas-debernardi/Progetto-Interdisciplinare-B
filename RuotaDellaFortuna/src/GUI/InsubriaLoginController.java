@@ -47,7 +47,7 @@ public class InsubriaLoginController {
 	 * Create the frame.
 	 */
 	public void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("INSUBRIA LOGIN CONTROLLER");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setVisible(true);
@@ -76,8 +76,7 @@ public class InsubriaLoginController {
 		
 		JButton btnSend = new JButton("SEND");
 		btnSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {				
 					try {
 						loginManager();
 					} catch (IOException e1) {
