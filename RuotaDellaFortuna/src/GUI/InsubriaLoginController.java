@@ -37,7 +37,7 @@ public class InsubriaLoginController {
     private static Server server;
     private static Client client;
     public static boolean forServer = false;
-    JFrame frame;
+    private JFrame frame;
 	
     public InsubriaLoginController() {
 		initialize();
@@ -105,7 +105,7 @@ public class InsubriaLoginController {
 	            	MainPane mp = new MainPane();
 	            	frame.dispose();
 	            } else {
-	            	Registration reg = new Registration();
+	            	Registration reg = new Registration(server, true);
 	                frame.dispose();
 	            }
 	        } else {

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Email.EmailAddressDoesNotExistException;
+import Email.EmailManager;
 import Server.OTPHelper;
 import Server.Server;
 import Services.Client;
@@ -44,7 +45,9 @@ public class Registration {
 	    JFrame frame;
 
 	
-	public Registration() {
+	public Registration(Server server, Boolean admin) {
+		this.server = server;
+		this.admin = admin;
 		initialize();
 	}
 
@@ -151,14 +154,13 @@ public class Registration {
 	                String nickStr = textFieldNickname.getText();
 	                String mailStr = textFieldEmail.getText();
 	                String passwordStr = passwordField.getText();
-	//                user = new User(passwordStr, buildString(mailStr), buildString(nameStr), buildString(surnameStr), buildString(nickStr));
 	                user = new User(passwordStr, mailStr, nameStr, surnameStr, nickStr);
-	                try {
-	                    otp = server.signUp(user, client, admin);
-	                    OTPRegistrationController otpPane = new OTPRegistrationController();
-	                } catch (EmailAddressDoesNotExistException e) {
-	                    this.notifyIllegalEmailAddress();
-	                }
+	                
+	                
+	                //AGGIUNGERE TRY CATCH CON EMAIL NON ESISTENTE ECC
+	                otp = server.signUp(user, client, admin);
+	                OTPRegistrationController otpPane = new OTPRegistrationController();
+
 	            }
         } else {
             Notification.notify("Registration Notification", "Errore:\nTutti i campi sono obbligatori", true);
@@ -214,5 +216,5 @@ public class Registration {
 	     */
 	    public void notifyIllegalEmailAddress() {
 	        Notification.notify("Errore", "L'indirizzo email inserito non\nè disponibile o non esiste.", true);
-	    }
+	    } 
 }

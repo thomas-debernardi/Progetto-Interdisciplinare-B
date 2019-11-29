@@ -93,25 +93,9 @@ public class TabPaneController {
     public void addMatch(ActionEvent actionEvent) throws RemoteException {
         try {
             match = server.createMatch(client);
-            try {
-            	//ON CLOSE LASCIARE LA PARTITA NELLA FINESTRA CREATA
-            	GamePlayerController gpc = new GamePlayerController();
-                primaryStage.setScene(scene);
-                primaryStage.show();
-                primaryStage.setOnCloseRequest((WindowEvent event1) -> {
-                    try {
-                        match.leaveMatchAsPlayer(client);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    System.exit(0);
-                });
-                Stage oldStage = (Stage) createMatchButton.getScene().getWindow();
-                oldStage.close();
-                frame.dispose();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            //ON CLOSE LASCIARE LA PARTITA NELLA FINESTRA CREATA
+			GameWheel gw = new GameWheel(match, client);
+			frame.dispose();
         } catch (RemoteException e) {
             client.notifyServerError();
         }

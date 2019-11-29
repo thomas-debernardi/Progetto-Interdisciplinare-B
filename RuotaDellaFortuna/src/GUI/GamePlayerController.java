@@ -53,5 +53,7 @@ public class GamePlayerController {
 		JLabel lblPlayer_2 = new JLabel("Player 3");
 		lblPlayer_2.setBounds(895, 393, 46, 13);
 		frame.getContentPane().add(lblPlayer_2);
+		
+		
 	}
 }
