@@ -42,7 +42,7 @@ public class Registration {
 	    private boolean admin;
 	    private static boolean isServer;
 	    private static OTPHelper otp;
-	    JFrame frame;
+	    private JFrame frame;
 
 	
 	public Registration(Server server, Boolean admin) {
