@@ -16,39 +16,67 @@ import javax.swing.border.EmptyBorder;
 import Server.Server;
 
 import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class HostView extends JFrame {
+public class HostView {
 
 	private JPanel contentPane;
 	private Registry r;
 	private Server server;
 	private JLabel lblHost;
+	private JButton btnExit;
+	
+	public HostView() {
+		initialize();
+	}
+	
 	/**
 	 * Create the frame.
 	 */
-	public HostView() {
+	public void initialize() {	
 		JFrame frame = new JFrame();
+		frame.setUndecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 406, 229);
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		frame.setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		lblHost = new JLabel("HOST NAME");
-		contentPane.add(lblHost, BorderLayout.CENTER);
-	}
-	
-		public void initialize(URL location, ResourceBundle resources) {
-			InsubriaLoginController.setHost(this);
-			try {
-				takeAddress();
-			} catch (Exception e) {
-				e.printStackTrace();
+		lblHost.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHost.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblHost.setForeground(Color.WHITE);
+		contentPane.add(lblHost);
+		
+		btnExit = new JButton("EXIT");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
+		});
+		btnExit.setBackground(Color.RED);
+		btnExit.setForeground(Color.WHITE);
+		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		contentPane.add(btnExit, BorderLayout.SOUTH);
+		InsubriaLoginController.setHost(this);
+		try {
+			takeAddress();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
+	}
+			
 		public void takeAddress() throws Exception{
 			r = LocateRegistry.createRegistry(1099);
 			r.rebind("SERVER",server);

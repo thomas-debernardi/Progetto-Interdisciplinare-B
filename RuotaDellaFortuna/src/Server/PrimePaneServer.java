@@ -100,6 +100,7 @@ public class PrimePaneServer extends JFrame {
 		contentPane.add(passwordField);
 		
 		textFieldHostname = new JTextField();
+		textFieldHostname.setText("localhost");
 		textFieldHostname.setForeground(Color.BLACK);
 		textFieldHostname.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldHostname.setBounds(145, 71, 126, 19);
@@ -107,6 +108,7 @@ public class PrimePaneServer extends JFrame {
 		textFieldHostname.setColumns(10);
 		
 		textFieldPort = new JTextField();
+		textFieldPort.setText("5432");
 		textFieldPort.setForeground(Color.BLACK);
 		textFieldPort.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldPort.setBounds(145, 100, 126, 19);
@@ -130,6 +132,11 @@ public class PrimePaneServer extends JFrame {
 		contentPane.add(btnStart);
 		
 		JButton btnExit = new JButton("X");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnExit.setBackground(Color.RED);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnExit.setBounds(212, 129, 59, 21);

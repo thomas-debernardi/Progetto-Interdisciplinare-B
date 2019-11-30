@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class Registration {
 
@@ -55,47 +57,59 @@ public class Registration {
 		if (InsubriaLoginController.forServer) {
 			InsubriaLoginController.setReg(this);
 		} else {
-			Controller.setRegistration(this);
+			MainPane.setRegistration(this);
 		}
 
 		frame = new JFrame("Registration");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 304, 375);
+		frame.setLocationRelativeTo(null);
+		frame.setBounds(100, 100, 297, 332);
 		frame.setVisible(true);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblRegistration = new JLabel("REGISTRATION");
-		lblRegistration.setBounds(67, 17, 161, 13);
-		contentPane.add(lblRegistration);
-
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(22, 40, 46, 13);
+		lblName.setForeground(Color.WHITE);
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblName.setBounds(34, 40, 46, 13);
 		contentPane.add(lblName);
 
 		JLabel lblSurname = new JLabel("Surname");
-		lblSurname.setBounds(191, 40, 83, 13);
+		lblSurname.setForeground(Color.WHITE);
+		lblSurname.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSurname.setBounds(147, 40, 83, 13);
 		contentPane.add(lblSurname);
 
 		JLabel lblNickname = new JLabel("Nickname");
-		lblNickname.setBounds(22, 107, 46, 13);
+		lblNickname.setForeground(Color.WHITE);
+		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNickname.setBounds(34, 107, 83, 13);
 		contentPane.add(lblNickname);
 
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(184, 107, 46, 13);
+		lblEmail.setForeground(Color.WHITE);
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblEmail.setBounds(147, 107, 46, 13);
 		contentPane.add(lblEmail);
 
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(22, 184, 46, 13);
+		lblPassword.setForeground(Color.WHITE);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPassword.setBounds(34, 172, 70, 13);
 		contentPane.add(lblPassword);
 
-		JLabel lblRepeatPassword = new JLabel("Repeat Password");
-		lblRepeatPassword.setBounds(182, 195, 145, 13);
+		JLabel lblRepeatPassword = new JLabel("Repeat");
+		lblRepeatPassword.setForeground(Color.WHITE);
+		lblRepeatPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblRepeatPassword.setBounds(147, 172, 145, 13);
 		contentPane.add(lblRepeatPassword);
 
 		JButton btnRegister = new JButton("REGISTER");
+		btnRegister.setBackground(Color.GREEN);
+		btnRegister.setForeground(Color.WHITE);
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -105,35 +119,47 @@ public class Registration {
 				}
 			}
 		});
-		btnRegister.setBounds(109, 275, 85, 21);
+		btnRegister.setBounds(34, 245, 209, 21);
 		contentPane.add(btnRegister);
 
 		textFieldName = new JTextField();
-		textFieldName.setBounds(9, 63, 96, 19);
+		textFieldName.setForeground(Color.BLACK);
+		textFieldName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldName.setBounds(34, 63, 96, 19);
 		contentPane.add(textFieldName);
 		textFieldName.setColumns(10);
 
 		textFieldSurname = new JTextField();
+		textFieldSurname.setForeground(Color.BLACK);
+		textFieldSurname.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldSurname.setColumns(10);
-		textFieldSurname.setBounds(181, 63, 96, 19);
+		textFieldSurname.setBounds(147, 63, 96, 19);
 		contentPane.add(textFieldSurname);
 
 		textFieldNickname = new JTextField();
+		textFieldNickname.setForeground(Color.BLACK);
+		textFieldNickname.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldNickname.setColumns(10);
-		textFieldNickname.setBounds(9, 130, 96, 19);
+		textFieldNickname.setBounds(34, 130, 96, 19);
 		contentPane.add(textFieldNickname);
 
 		textFieldEmail = new JTextField();
+		textFieldEmail.setForeground(Color.BLACK);
+		textFieldEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldEmail.setColumns(10);
-		textFieldEmail.setBounds(181, 130, 96, 19);
+		textFieldEmail.setBounds(147, 130, 96, 19);
 		contentPane.add(textFieldEmail);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(9, 218, 96, 21);
+		passwordField.setForeground(Color.BLACK);
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		passwordField.setBounds(34, 195, 96, 21);
 		contentPane.add(passwordField);
 
 		passwordFieldRepeat = new JPasswordField();
-		passwordFieldRepeat.setBounds(178, 218, 96, 21);
+		passwordFieldRepeat.setForeground(Color.BLACK);
+		passwordFieldRepeat.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		passwordFieldRepeat.setBounds(147, 195, 96, 21);
 		contentPane.add(passwordFieldRepeat);
 
 	}
@@ -162,7 +188,7 @@ public class Registration {
 				// AGGIUNGERE TRY CATCH CON EMAIL NON ESISTENTE ECC
 				otp = server.signUp(user, client, admin);
 				OTPRegistrationController otpPane = new OTPRegistrationController();
-
+				frame.dispose();
 			}
 		} else {
 			Notification.notify("Registration Notification", "Errore:\nTutti i campi sono obbligatori", true);

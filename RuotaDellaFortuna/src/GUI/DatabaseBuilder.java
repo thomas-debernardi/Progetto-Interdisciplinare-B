@@ -22,6 +22,8 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Color;
+import java.awt.Font;
 
 public class DatabaseBuilder {
 
@@ -63,48 +65,67 @@ public class DatabaseBuilder {
 	 * Create the frame.
 	 */
 	public void initialize() {
+		frame = new JFrame("DATABASE BUILDER");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 507, 353);
+		frame.setBounds(100, 100, 310, 231);
+		frame.setBackground(Color.GRAY);
+		frame.setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.GRAY);
+		contentPane.setForeground(Color.WHITE);
 		frame.setVisible(true);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		textFieldHost = new JTextField();
+		textFieldHost.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldHost.setText("localhost");
 		textFieldHost.setBounds(28, 45, 96, 19);
 		contentPane.add(textFieldHost);
 		textFieldHost.setColumns(10);
 
-		JLabel lblDbHostName = new JLabel("DB Host Name");
-		lblDbHostName.setBounds(28, 22, 96, 13);
+		JLabel lblDbHostName = new JLabel("DB Host");
+		lblDbHostName.setForeground(Color.WHITE);
+		lblDbHostName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblDbHostName.setBounds(28, 22, 135, 13);
 		contentPane.add(lblDbHostName);
 
 		textFieldPort = new JTextField();
+		textFieldPort.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldPort.setText("5432");
-		textFieldPort.setBounds(134, 45, 96, 19);
+		textFieldPort.setBounds(173, 45, 96, 19);
 		contentPane.add(textFieldPort);
 		textFieldPort.setColumns(10);
 
 		JLabel lblPort = new JLabel("PORT");
-		lblPort.setBounds(134, 22, 80, 13);
+		lblPort.setForeground(Color.WHITE);
+		lblPort.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPort.setBounds(173, 22, 80, 13);
 		contentPane.add(lblPort);
 
 		textFieldUsername = new JTextField();
+		textFieldUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldUsername.setBounds(28, 117, 96, 19);
 		contentPane.add(textFieldUsername);
 		textFieldUsername.setColumns(10);
 
 		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setForeground(Color.WHITE);
+		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblUsername.setBounds(28, 94, 80, 13);
 		contentPane.add(lblUsername);
 
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(134, 94, 46, 13);
+		lblPassword.setForeground(Color.WHITE);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPassword.setBounds(173, 94, 135, 13);
 		contentPane.add(lblPassword);
 
 		JButton btnCreate = new JButton("CREATE");
+		btnCreate.setForeground(Color.WHITE);
+		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnCreate.setBackground(Color.GREEN);
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				host = textFieldHost.getText();
@@ -113,11 +134,12 @@ public class DatabaseBuilder {
 				createTable(host, port, user, textFieldPassword.getText());
 			}
 		});
-		btnCreate.setBounds(77, 156, 85, 21);
+		btnCreate.setBounds(28, 163, 241, 21);
 		contentPane.add(btnCreate);
 
 		textFieldPassword = new JPasswordField();
-		textFieldPassword.setBounds(134, 117, 96, 19);
+		textFieldPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldPassword.setBounds(173, 117, 96, 19);
 		contentPane.add(textFieldPassword);
 
 	}

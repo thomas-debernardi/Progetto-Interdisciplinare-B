@@ -27,18 +27,21 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class WelcomePane extends JFrame {
+public class WelcomePane {
 
 	private JPanel contentPane;
 	private JTextField tfHostName;
     private Registry registry;    
     private static Server server;
     private static Client client;
+    private JFrame frame;
 
 	
-	
 	public WelcomePane() {
-		JFrame frame = new JFrame();
+		initialize();
+	}
+	public void initialize() {
+		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,8 +85,8 @@ public class WelcomePane extends JFrame {
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
 			server = (Server) registry.lookup("SERVER");
-			//FACCIO PARTIRE LA MAIN PANEL
-			
+			MainPane mp = new MainPane();
+			frame.dispose();
 		} catch (RemoteException e) {
             Notification.notify("Connection Notification", "Connessione non riuscita \n riprovare", true);
 		} catch (NotBoundException e) {
