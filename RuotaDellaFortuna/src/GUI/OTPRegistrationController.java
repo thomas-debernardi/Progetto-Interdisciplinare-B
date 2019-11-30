@@ -28,6 +28,12 @@ public class OTPRegistrationController {
     private Client client;
     private OTPHelper otp;
     private JFrame frame;
+    private JLabel lblTimer;
+    
+	static int milliseconds;
+	static int seconds;
+	static int minutes;
+	static boolean state = true;
     
     public OTPRegistrationController() {
     	initialize();
@@ -75,7 +81,7 @@ public class OTPRegistrationController {
 		});
 		btnSend.setBounds(261, 114, 85, 21);
 		contentPane.add(btnSend);
-		JLabel lblTimer = new JLabel("TIMER");
+		lblTimer = new JLabel("TIMER");
 		lblTimer.setBounds(154, 194, 46, 13);
 		contentPane.add(lblTimer);
 	}
@@ -95,8 +101,7 @@ public class OTPRegistrationController {
         } else {
            LoginPlayer login = new LoginPlayer(); 
            //CHIUDERE APPLICAZIONE
-           frame.setVisible(false);
-           
+           frame.dispose();
         }
     }
 	
@@ -117,45 +122,40 @@ public class OTPRegistrationController {
 	    }
 	
 	    public void runCountdown() {
-	        timeLabel.setText(String.valueOf(timeMinutes) + ":0" + String.valueOf(timeSeconds));
-	        timeline = new Timeline();
-	        timeline.setCycleCount(Animation.INDEFINITE);
-	        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-
-	                if (timeSeconds == 0) {
-	                    timeMinutes--;
-	                    timeSeconds = 60;
-	                }
-	                timeSeconds--;
-	                if (timeSeconds < 10) {
-	                    timeLabel.setText(String.valueOf(timeMinutes) + ":0" + String.valueOf(timeSeconds));
-	                } else {
-	                    timeLabel.setText(String.valueOf(timeMinutes) + ":" + String.valueOf(timeSeconds));
-	                }
-	                if (timeSeconds <= 0 && timeMinutes <= 0) {
-	                    timeline.stop();
-	                    Notification.notify("OTP Notification", "Tempo esaurito \nripeti la procedura di registrazione", true);
-
-	                    Parent root = null;
-	                    try {
-	                        root = FXMLLoader.load(getClass().getClassLoader().getResource("main_pane.fxml"));
-	                    } catch (IOException e) {
-	                        e.printStackTrace();
-	                    }
-	                    Scene scene = new Scene(root);
-	                    Stage primaryStage = new Stage();
-	                    primaryStage.setTitle(FrameTitle.main);
-	                    primaryStage.setScene(scene);
-	                    primaryStage.show();
-	                    ApplicationCloser.setCloser(primaryStage);
-	                    Stage thisStage = (Stage) confirmButton.getScene().getWindow();
-	                    thisStage.close();
-	                }
-	            }
-	        }));
-	        timeline.playFromStart();
+	    	lblTimer.setText(String.valueOf(timeMinutes) + ":0" + String.valueOf(timeSeconds));
+	    	Thread t = new Thread() {
+	    		public void run() {
+	    			for(;;) {
+	    				if(state == true) {
+	    					try {
+	    						sleep(1);
+	    						if(milliseconds > 1000) {
+	    							milliseconds = 0;
+	    							seconds++;
+	    						}
+	    						if(seconds > 60) {
+	    							milliseconds = 0;
+	    							seconds = 0;
+	    							minutes++;
+	    						}
+	    						if(minutes > 10) {
+	    							milliseconds = 0;
+	    							seconds = 0;
+	    							minutes = 10;
+	    							Notification.notify("TEMPO SCADUTO", "sono passati dieci minuti per linserimento f^del codice di verifica", false);
+	    							state = false;
+	    							break;
+	    						}
+	    						lblTimer.setText("" + minutes + ":" + seconds + ":" + milliseconds);
+	    						milliseconds++;
+	    					} catch (Exception e) {
+	    						
+	    					}
+		    			}
+	    			}
+	    		}
+	    	};
+	    	t.start();
 	    }
 	
 	
