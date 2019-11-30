@@ -101,6 +101,7 @@ public class OTPRegistrationController {
         if (!check) {
             Notification.notify("OTP Notification", "CodiceOTP non valido\n", true);
         } else {
+        	Notification.notify("SUCCESSO", "CODICE ACCETTATO", true);
            LoginPlayer login = new LoginPlayer(); 
            //CHIUDERE APPLICAZIONE
            frame.dispose();
