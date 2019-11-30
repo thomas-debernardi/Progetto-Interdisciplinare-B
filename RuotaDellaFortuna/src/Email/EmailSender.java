@@ -27,25 +27,26 @@ public class EmailSender {
   public static void sendUninsubriaEmail(String usr, String pwd, String to, String subject, String body) throws AddressException, MessagingException {
 	String password = pwd;
 	String username = usr;
+    String from = username; 
+    
+ // host per la mail dell'universita'
     String host = "smtp.office365.com";
-    String from = username;
-
+    // setto le proprieta' smtp
     Properties props = System.getProperties();
     props.put("mail.smtp.host", host);
     props.put("mail.smtp.starttls.enable", "true");
+    // porta per la mail di outlook 587
     props.put("mail.smtp.port", 587);
-    
     props.put("mail.smtp.ssl.trust", host);
- 
+    // creo la sessione con le proprieta'
     Session session = Session.getInstance(props);
-    
+    // creo il messaggio
     Message msg = new MimeMessage(session);
     msg.setFrom(new InternetAddress(from));
     msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
     msg.setSubject(subject);
     msg.setText(body);
-
+    // invio la mail
     Transport.send(msg, from, password);
-    System.out.println("\nMail was sent successfully.");   
   }
 }

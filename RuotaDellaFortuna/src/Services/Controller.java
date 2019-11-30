@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.text.PasswordView;
 
+import GUI.InsubriaLoginController;
 import GUI.Registration;
 import GUI.WelcomePane;
 import Server.Server;

@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
@@ -38,7 +37,7 @@ public class InsubriaLoginController {
     private static Client client;
     public static boolean forServer = false;
     private JFrame frame;
-	
+   	
     public InsubriaLoginController() {
 		initialize();
 	}
@@ -105,7 +104,7 @@ public class InsubriaLoginController {
 	            	MainPane mp = new MainPane();
 	            	frame.dispose();
 	            } else {
-	            	Registration reg = new Registration(server, true);
+	            	Registration reg = new Registration(server, client, true);
 	                frame.dispose();
 	            }
 	        } else {
