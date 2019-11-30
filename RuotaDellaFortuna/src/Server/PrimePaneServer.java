@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class PrimePaneServer extends JFrame {
 
@@ -50,49 +52,70 @@ public class PrimePaneServer extends JFrame {
 	 * Create the frame.
 	 */
 	public PrimePaneServer() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 240, 207);
+		setBounds(100, 100, 295, 190);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblUser = new JLabel("User");
-		lblUser.setBounds(10, 10, 46, 13);
+		lblUser.setForeground(Color.WHITE);
+		lblUser.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblUser.setBounds(10, 17, 108, 13);
 		contentPane.add(lblUser);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(10, 33, 46, 13);
+		lblPassword.setForeground(Color.WHITE);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPassword.setBounds(10, 46, 108, 13);
 		contentPane.add(lblPassword);
 		
 		JLabel lblHostname = new JLabel("Hostname");
-		lblHostname.setBounds(10, 56, 46, 13);
+		lblHostname.setForeground(Color.WHITE);
+		lblHostname.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblHostname.setBounds(10, 75, 108, 13);
 		contentPane.add(lblHostname);
 		
-		JLabel lblPort = new JLabel("PORT");
-		lblPort.setBounds(10, 79, 46, 13);
+		JLabel lblPort = new JLabel("Port");
+		lblPort.setForeground(Color.WHITE);
+		lblPort.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPort.setBounds(10, 104, 108, 13);
 		contentPane.add(lblPort);
 		
 		textFieldUser = new JTextField();
-		textFieldUser.setBounds(98, 7, 96, 19);
+		textFieldUser.setForeground(Color.BLACK);
+		textFieldUser.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldUser.setBounds(145, 13, 126, 19);
 		contentPane.add(textFieldUser);
 		textFieldUser.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(98, 30, 96, 19);
+		passwordField.setForeground(Color.BLACK);
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		passwordField.setBounds(145, 42, 126, 19);
 		contentPane.add(passwordField);
 		
 		textFieldHostname = new JTextField();
-		textFieldHostname.setBounds(98, 53, 96, 19);
+		textFieldHostname.setForeground(Color.BLACK);
+		textFieldHostname.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldHostname.setBounds(145, 71, 126, 19);
 		contentPane.add(textFieldHostname);
 		textFieldHostname.setColumns(10);
 		
 		textFieldPort = new JTextField();
-		textFieldPort.setBounds(98, 76, 96, 19);
+		textFieldPort.setForeground(Color.BLACK);
+		textFieldPort.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldPort.setBounds(145, 100, 126, 19);
 		contentPane.add(textFieldPort);
 		textFieldPort.setColumns(10);
 		
 		JButton btnStart = new JButton("START");
+		btnStart.setBackground(Color.GREEN);
+		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -103,8 +126,14 @@ public class PrimePaneServer extends JFrame {
 				
 			}
 		});
-		btnStart.setBounds(69, 139, 85, 21);
+		btnStart.setBounds(10, 129, 192, 21);
 		contentPane.add(btnStart);
+		
+		JButton btnExit = new JButton("X");
+		btnExit.setBackground(Color.RED);
+		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnExit.setBounds(212, 129, 59, 21);
+		contentPane.add(btnExit);
 	}
 	
     public void login() throws IOException {
@@ -125,6 +154,4 @@ public class PrimePaneServer extends JFrame {
         }
 
     }
-
-	
 }

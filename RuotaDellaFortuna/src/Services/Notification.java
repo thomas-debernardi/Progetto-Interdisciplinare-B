@@ -1,6 +1,7 @@
 package Services;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -11,22 +12,25 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
 
 public class Notification extends JFrame {
-
-	private JPanel contentPane;
+	public Notification() {
+		
+	}
 	
 	public static void notify(String title, String msg, boolean error) {
 		String message = msg;
 		String header = title;
 		JFrame frame = new JFrame();
+		frame.setResizable(false);
+		frame.setUndecorated(true);
 		frame.setSize(300,125);
-		frame.setLayout(new GridBagLayout());
+		frame.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
@@ -37,7 +41,7 @@ public class Notification extends JFrame {
 		JLabel headingLabel = new JLabel(header);
 		//headingLabel .setIcon(headingIcon); // --- use image icon you want to be as heading image.
 		headingLabel.setOpaque(false);
-		frame.add(headingLabel, constraints);
+		frame.getContentPane().add(headingLabel, constraints);
 		constraints.gridx++;
 		constraints.weightx = 0f;
 		constraints.weighty = 0f;
@@ -49,9 +53,10 @@ public class Notification extends JFrame {
 	               frame.dispose();
 	        }
 	});
+		cloesButton.setBackground(Color.RED);
 		cloesButton.setMargin(new Insets(1, 4, 1, 4));
 		cloesButton.setFocusable(false);
-		frame.add(cloesButton, constraints);
+		frame.getContentPane().add(cloesButton, constraints);
 		constraints.gridx = 0;
 		constraints.gridy++;
 		constraints.weightx = 1.0f;
@@ -59,7 +64,7 @@ public class Notification extends JFrame {
 		constraints.insets = new Insets(5, 5, 5, 5);
 		constraints.fill = GridBagConstraints.BOTH;
 		JLabel messageLabel = new JLabel("<HtMl>"+message);
-		frame.add(messageLabel, constraints);
+		frame.getContentPane().add(messageLabel, constraints);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();// size of the screen
@@ -70,7 +75,7 @@ public class Notification extends JFrame {
 		      @Override
 		      public void run() {
 		           try {
-		                  Thread.sleep(5000); // time after which pop up will be disappeared.
+		                  Thread.sleep(3000); // time after which pop up will be disappeared.
 		                  frame.dispose();
 		           } catch (InterruptedException e) {
 		                  e.printStackTrace();
