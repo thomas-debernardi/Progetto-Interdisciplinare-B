@@ -41,15 +41,7 @@ public class OTPRegistrationController {
 	/**
 	 * Create the frame.
 	 */
-	public void initialize() {
-		 Registration.setOTP(this);
-	        runCountdown();
-	        try {
-	            client.setOtpPane(this);
-	        } catch (RemoteException e) {
-	            e.printStackTrace();
-	        }
-	        
+	public void initialize() {	        
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
@@ -68,6 +60,11 @@ public class OTPRegistrationController {
 		lblInsertYourCode.setBounds(112, 65, 172, 13);
 		contentPane.add(lblInsertYourCode);
 		
+		
+		lblTimer = new JLabel("TIMER");
+		lblTimer.setBounds(154, 194, 46, 13);
+		contentPane.add(lblTimer);
+		
 		JButton btnSend = new JButton("SEND");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,9 +78,14 @@ public class OTPRegistrationController {
 		});
 		btnSend.setBounds(261, 114, 85, 21);
 		contentPane.add(btnSend);
-		lblTimer = new JLabel("TIMER");
-		lblTimer.setBounds(154, 194, 46, 13);
-		contentPane.add(lblTimer);
+		
+		Registration.setOTP(this);
+        runCountdown();
+        try {
+            client.setOtpPane(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public void enter() throws IOException {
