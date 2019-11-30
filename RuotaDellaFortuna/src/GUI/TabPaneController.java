@@ -107,7 +107,7 @@ public class TabPaneController {
      * Inizializza il controller caricando automaticamente le partite disponibili, le statistiche di utilizzo della piattaforma e le informazioni del proprio profilo
      */
     public void initialize(URL location, ResourceBundle resources) {
-        Controller.setArgs(this);
+        MainPane.setArgs(this);
         creator = true;
 
         if (isAdmin) {

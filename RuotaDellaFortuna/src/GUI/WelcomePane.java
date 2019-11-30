@@ -91,9 +91,9 @@ public class WelcomePane extends JFrame {
 		}
 	}
 	
- 	   public static void setController(Controller c) {
-	        c.setServer(server);
-	        c.setAdmin(AdminChecker.isIsAdmin());
+ 	   public static void setController(MainPane mainPane) {
+	        mainPane.setServer(server);
+	        mainPane.setAdmin(AdminChecker.isIsAdmin());
 	    }
 	
 }

@@ -46,6 +46,8 @@ public class InsubriaLoginController {
 	 * Create the frame.
 	 */
 	public void initialize() {
+		
+		
 		frame = new JFrame("INSUBRIA LOGIN CONTROLLER");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
@@ -131,11 +133,11 @@ public class InsubriaLoginController {
         r.setClient(client);
     }
 
-    public static void setController(Controller ctr) {
-        ctr.setClient(client);
-        ctr.setServer(server);
-        ctr.setAdmin(true);
-        ctr.setIsServer(true);
+    public static void setController(MainPane mp) {
+    	mp.setClient(client);
+    	mp.setServer(server);
+    	mp.setAdmin(true);
+    	mp.setIsServer(true);
     }
 
     public static void setHost(HostView host) {
