@@ -26,6 +26,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.CardLayout;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class TabPaneController {
 
@@ -49,39 +56,271 @@ public class TabPaneController {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setUndecorated(true);
+		frame.setResizable(false);
+		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBounds(100, 100, 1050, 683);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setVisible(true);
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 1034, 594);
-		frame.getContentPane().add(tabbedPane);
 		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("New tab", null, panel, null);
+		JPanel panelMenu = new JPanel();
+		panelMenu.setBackground(Color.DARK_GRAY);
+		panelMenu.setBounds(0, 0, 284, 683);
+		frame.getContentPane().add(panelMenu);
+		panelMenu.setLayout(new GridLayout(6, 1, 0, 20));
+		
+		JButton btnGames = new JButton("GAMES");
+		btnGames.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnGames.setBackground(Color.DARK_GRAY);
+		btnGames.setForeground(Color.WHITE);
+		panelMenu.add(btnGames);
+		
+		JButton btnUserStatistics = new JButton("USER STATISTICS");
+		btnUserStatistics.setBackground(Color.DARK_GRAY);
+		btnUserStatistics.setForeground(Color.WHITE);
+		btnUserStatistics.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		panelMenu.add(btnUserStatistics);
+		
+		JButton btnGlobalStatistics = new JButton("GLOBAL STATISTICS");
+		btnGlobalStatistics.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnGlobalStatistics.setBackground(Color.DARK_GRAY);
+		btnGlobalStatistics.setForeground(Color.WHITE);
+		panelMenu.add(btnGlobalStatistics);
+		
+		JButton btnAddPhrases = new JButton("ADD PHRASES");
+		btnAddPhrases.setBackground(Color.DARK_GRAY);
+		btnAddPhrases.setForeground(Color.WHITE);
+		btnAddPhrases.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		panelMenu.add(btnAddPhrases);
+		
+		JButton btnProfile = new JButton("PROFILE");
+		btnProfile.setForeground(Color.WHITE);
+		btnProfile.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnProfile.setBackground(Color.DARK_GRAY);
+		panelMenu.add(btnProfile);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		panel_1.setBackground(Color.DARK_GRAY);
+		panelMenu.add(panel_1);
+		panel_1.setLayout(new GridLayout(1, 2, 0, 0));
 		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_2, null);
-		
-		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_3, null);
-		
-		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_4, null);
-		
-		JPanel panel_5 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_5, null);
+		JButton btnNewMatch = new JButton("NEW \r\nMATCH");
+		btnNewMatch.setBackground(Color.DARK_GRAY);
+		btnNewMatch.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnNewMatch.setForeground(Color.WHITE);
+		panel_1.add(btnNewMatch);
 		
 		JButton btnRefresh = new JButton("REFRESH");
-		btnRefresh.setBounds(333, 604, 85, 21);
-		frame.getContentPane().add(btnRefresh);
+		btnRefresh.setBackground(Color.DARK_GRAY);
+		btnRefresh.setForeground(Color.WHITE);
+		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		panel_1.add(btnRefresh);
 		
-		JButton btnCreateMatch = new JButton("CREATE MATCH");
-		btnCreateMatch.setBounds(24, 604, 133, 21);
-		frame.getContentPane().add(btnCreateMatch);
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.GRAY);
+		panel.setBounds(282, 0, 754, 683);
+		frame.getContentPane().add(panel);
+		panel.setLayout(new CardLayout(0, 0));
+		
+		JPanel panelGames = new JPanel();
+		panelGames.setBackground(Color.GRAY);
+		panel.add(panelGames, "name_861668335796200");
+		
+		JPanel panelUsersStatistics = new JPanel();
+		panelUsersStatistics.setBackground(Color.GRAY);
+		panel.add(panelUsersStatistics, "name_861713845535800");
+		panelUsersStatistics.setLayout(null);
+		
+		JLabel lblVictory = new JLabel("Victory");
+		lblVictory.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVictory.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblVictory.setForeground(Color.WHITE);
+		lblVictory.setBounds(10, 95, 772, 25);
+		panelUsersStatistics.add(lblVictory);
+		
+		JLabel lblVictoryGames = new JLabel("Games...........................");
+		lblVictoryGames.setForeground(Color.WHITE);
+		lblVictoryGames.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblVictoryGames.setBounds(195, 130, 270, 22);
+		panelUsersStatistics.add(lblVictoryGames);
+		
+		JLabel lblVictoryGamesValue = new JLabel("0");
+		lblVictoryGamesValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVictoryGamesValue.setForeground(Color.WHITE);
+		lblVictoryGamesValue.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblVictoryGamesValue.setBounds(411, 130, 180, 25);
+		panelUsersStatistics.add(lblVictoryGamesValue);
+		
+		JLabel lblVictoryManches = new JLabel("Manches...........................");
+		lblVictoryManches.setForeground(Color.WHITE);
+		lblVictoryManches.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblVictoryManches.setBounds(195, 168, 270, 25);
+		panelUsersStatistics.add(lblVictoryManches);
+		
+		JLabel lblVictoryManchesValue = new JLabel("0");
+		lblVictoryManchesValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVictoryManchesValue.setForeground(Color.WHITE);
+		lblVictoryManchesValue.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblVictoryManchesValue.setBounds(411, 174, 180, 19);
+		panelUsersStatistics.add(lblVictoryManchesValue);
+		
+		JLabel lblGames = new JLabel("Games");
+		lblGames.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGames.setForeground(Color.WHITE);
+		lblGames.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblGames.setBounds(69, 266, 270, 25);
+		panelUsersStatistics.add(lblGames);
+		
+		JLabel lblGamesPlayed = new JLabel("Played...........................");
+		lblGamesPlayed.setForeground(Color.WHITE);
+		lblGamesPlayed.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGamesPlayed.setBounds(79, 301, 187, 13);
+		panelUsersStatistics.add(lblGamesPlayed);
+		
+		JLabel lblGamesOsserved = new JLabel("Osserved...........................");
+		lblGamesOsserved.setForeground(Color.WHITE);
+		lblGamesOsserved.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGamesOsserved.setBounds(79, 324, 187, 13);
+		panelUsersStatistics.add(lblGamesOsserved);
+		
+		JLabel lblGamesPlayedValue = new JLabel("0");
+		lblGamesPlayedValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGamesPlayedValue.setForeground(Color.WHITE);
+		lblGamesPlayedValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGamesPlayedValue.setBounds(276, 301, 63, 13);
+		panelUsersStatistics.add(lblGamesPlayedValue);
+		
+		JLabel lblGamesOsservedValue = new JLabel("0");
+		lblGamesOsservedValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGamesOsservedValue.setForeground(Color.WHITE);
+		lblGamesOsservedValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGamesOsservedValue.setBounds(276, 324, 63, 13);
+		panelUsersStatistics.add(lblGamesOsservedValue);
+		
+		JLabel lblManches = new JLabel("Manches");
+		lblManches.setHorizontalAlignment(SwingConstants.CENTER);
+		lblManches.setForeground(Color.WHITE);
+		lblManches.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblManches.setBounds(442, 266, 270, 25);
+		panelUsersStatistics.add(lblManches);
+		
+		JLabel lblManchesPlayed = new JLabel("Played...........................");
+		lblManchesPlayed.setForeground(Color.WHITE);
+		lblManchesPlayed.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblManchesPlayed.setBounds(452, 301, 187, 13);
+		panelUsersStatistics.add(lblManchesPlayed);
+		
+		JLabel lblManchesOsserved = new JLabel("Osserved...........................");
+		lblManchesOsserved.setForeground(Color.WHITE);
+		lblManchesOsserved.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblManchesOsserved.setBounds(452, 324, 187, 13);
+		panelUsersStatistics.add(lblManchesOsserved);
+		
+		JLabel lblManchesPlayedValue = new JLabel("0");
+		lblManchesPlayedValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblManchesPlayedValue.setForeground(Color.WHITE);
+		lblManchesPlayedValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblManchesPlayedValue.setBounds(649, 301, 63, 13);
+		panelUsersStatistics.add(lblManchesPlayedValue);
+		
+		JLabel lblManchesOsservedValue = new JLabel("0");
+		lblManchesOsservedValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblManchesOsservedValue.setForeground(Color.WHITE);
+		lblManchesOsservedValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblManchesOsservedValue.setBounds(649, 324, 63, 13);
+		panelUsersStatistics.add(lblManchesOsservedValue);
+		
+		JLabel lblAverageSoldShifts = new JLabel("Average sold shifts");
+		lblAverageSoldShifts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAverageSoldShifts.setForeground(Color.WHITE);
+		lblAverageSoldShifts.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAverageSoldShifts.setBounds(69, 395, 270, 25);
+		panelUsersStatistics.add(lblAverageSoldShifts);
+		
+		JLabel lblAverageShiftsGames = new JLabel("Games...........................");
+		lblAverageShiftsGames.setForeground(Color.WHITE);
+		lblAverageShiftsGames.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAverageShiftsGames.setBounds(79, 430, 187, 13);
+		panelUsersStatistics.add(lblAverageShiftsGames);
+		
+		JLabel lblAverageShiftsManches = new JLabel("Manches...........................");
+		lblAverageShiftsManches.setForeground(Color.WHITE);
+		lblAverageShiftsManches.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAverageShiftsManches.setBounds(79, 453, 187, 13);
+		panelUsersStatistics.add(lblAverageShiftsManches);
+		
+		JLabel lblAverageShiftsGamesValue = new JLabel("0");
+		lblAverageShiftsGamesValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAverageShiftsGamesValue.setForeground(Color.WHITE);
+		lblAverageShiftsGamesValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblAverageShiftsGamesValue.setBounds(276, 430, 63, 13);
+		panelUsersStatistics.add(lblAverageShiftsGamesValue);
+		
+		JLabel lblAverageShiftsManchesValue = new JLabel("0");
+		lblAverageShiftsManchesValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAverageShiftsManchesValue.setForeground(Color.WHITE);
+		lblAverageShiftsManchesValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblAverageShiftsManchesValue.setBounds(276, 453, 63, 13);
+		panelUsersStatistics.add(lblAverageShiftsManchesValue);
+		
+		JLabel lblAverageLostEverything = new JLabel("Average lost everything");
+		lblAverageLostEverything.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAverageLostEverything.setForeground(Color.WHITE);
+		lblAverageLostEverything.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAverageLostEverything.setBounds(442, 395, 270, 25);
+		panelUsersStatistics.add(lblAverageLostEverything);
+		
+		JLabel lblAverageLostEverythingGames = new JLabel("Games...........................");
+		lblAverageLostEverythingGames.setForeground(Color.WHITE);
+		lblAverageLostEverythingGames.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAverageLostEverythingGames.setBounds(452, 430, 187, 13);
+		panelUsersStatistics.add(lblAverageLostEverythingGames);
+		
+		JLabel lblAverageLostEverythingManches = new JLabel("Manches...........................");
+		lblAverageLostEverythingManches.setForeground(Color.WHITE);
+		lblAverageLostEverythingManches.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAverageLostEverythingManches.setBounds(452, 453, 187, 13);
+		panelUsersStatistics.add(lblAverageLostEverythingManches);
+		
+		JLabel lblAverageLostEverythingGamesValue = new JLabel("0");
+		lblAverageLostEverythingGamesValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAverageLostEverythingGamesValue.setForeground(Color.WHITE);
+		lblAverageLostEverythingGamesValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblAverageLostEverythingGamesValue.setBounds(649, 430, 63, 13);
+		panelUsersStatistics.add(lblAverageLostEverythingGamesValue);
+		
+		JLabel lblAverageLostEverythingManchesValue = new JLabel("0");
+		lblAverageLostEverythingManchesValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAverageLostEverythingManchesValue.setForeground(Color.WHITE);
+		lblAverageLostEverythingManchesValue.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblAverageLostEverythingManchesValue.setBounds(649, 453, 63, 13);
+		panelUsersStatistics.add(lblAverageLostEverythingManchesValue);
+		
+		JLabel lblAveragePointsWon = new JLabel("Average points won");
+		lblAveragePointsWon.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAveragePointsWon.setForeground(Color.WHITE);
+		lblAveragePointsWon.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblAveragePointsWon.setBounds(10, 523, 772, 25);
+		panelUsersStatistics.add(lblAveragePointsWon);
+		
+		JLabel label = new JLabel("0");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Tahoma", Font.BOLD, 15));
+		label.setBounds(370, 558, 63, 13);
+		panelUsersStatistics.add(label);
+		
+		JPanel panelGlobalStatistics = new JPanel();
+		panel.add(panelGlobalStatistics, "name_863833183078700");
+		panelGlobalStatistics.setBackground(Color.GRAY);
+		
+		JPanel panelAddPhrases = new JPanel();
+		panel.add(panelAddPhrases, "name_861757544902700");
+		
+		JPanel panelProfile = new JPanel();
+		panelProfile.setBackground(Color.GRAY);
+		panel.add(panelProfile, "name_861780154478200");
+		frame.setVisible(true);
 	}
 	
 	/**

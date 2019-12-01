@@ -111,7 +111,6 @@ public class AdminRdf {
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
 			server = (Server) registry.lookup("SERVER");
-			System.out.println(server);
 			MainPane mp = new MainPane();
 			Notification.notify("SUCCESS", "Connected to the host", true);
 			frame.dispose();

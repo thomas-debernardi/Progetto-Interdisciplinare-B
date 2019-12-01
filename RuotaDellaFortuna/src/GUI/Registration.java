@@ -63,7 +63,7 @@ public class Registration {
 		frame = new JFrame("Registration");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		frame.setBounds(100, 100, 297, 332);
+		frame.setBounds(100, 100, 292, 350);
 		frame.setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
@@ -161,6 +161,19 @@ public class Registration {
 		passwordFieldRepeat.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordFieldRepeat.setBounds(147, 195, 96, 21);
 		contentPane.add(passwordFieldRepeat);
+		
+		JButton btnBack = new JButton("<");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				MainPane.visible();
+			}
+		});
+		btnBack.setBackground(Color.RED);
+		btnBack.setForeground(Color.WHITE);
+		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnBack.setBounds(34, 276, 58, 21);
+		contentPane.add(btnBack);
 
 	}
 

@@ -28,7 +28,7 @@ import java.awt.Color;
 
 public class MainPane implements MouseListener {
 
-	private JFrame frame;
+	private static JFrame frame;
 	private JTextField textFieldEmail;
 	private JPasswordField passwordField;
 
@@ -199,7 +199,11 @@ public class MainPane implements MouseListener {
 	public void register() throws IOException {
 		InsubriaLoginController.forServer = false;
 		Registration r = new Registration(server, client, admin);
-		frame.dispose();
+		frame.setVisible(false);
+	}
+	
+	public static void visible() {
+		frame.setVisible(true);
 	}
 
 	public static void setRegistration(Registration registration) {
