@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -24,6 +26,7 @@ public class ServerMainPane extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textFieldHostname;
 	private JTextField textFieldPort;
+	int posX = 0, posY = 0;
 	
     private DBManager manager;
 	/**
@@ -97,6 +100,20 @@ public class ServerMainPane extends JFrame {
 		});
 		btnStart.setBounds(10, 136, 140, 44);
 		contentPane.add(btnStart);
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 		
 	}
 	

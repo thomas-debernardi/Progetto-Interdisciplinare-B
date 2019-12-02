@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -41,6 +43,7 @@ public class DatabaseBuilder {
 	private String user;
 	private boolean dbCreated = false;
 	private JPasswordField textFieldPassword;
+	int posX=0, posY=0;
 
 	/**
 	 * Launch the application.
@@ -66,8 +69,9 @@ public class DatabaseBuilder {
 	 */
 	public void initialize() {
 		frame = new JFrame("DATABASE BUILDER");
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 310, 231);
+		frame.setBounds(100, 100, 310, 249);
 		frame.setBackground(Color.GRAY);
 		frame.setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -141,6 +145,20 @@ public class DatabaseBuilder {
 		textFieldPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldPassword.setBounds(173, 117, 96, 19);
 		contentPane.add(textFieldPassword);
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 
 	}
 

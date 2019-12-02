@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
@@ -37,6 +39,8 @@ public class OTPRegistrationController {
 	static int seconds;
 	static int minutes;
 	static boolean state = true;
+	
+	int posX = 0, posY = 0;
 
 	public OTPRegistrationController() {
 		initialize();
@@ -101,6 +105,20 @@ public class OTPRegistrationController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 	}
 
 	public void enter() throws IOException {

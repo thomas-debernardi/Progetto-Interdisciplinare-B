@@ -37,6 +37,7 @@ public class MainPane implements MouseListener {
 	private static Client client;
 	private static boolean admin;
 	private static boolean isServer = false;
+	int posX = 0, posY = 0;
 
 	/**
 	 * Create the application.
@@ -162,6 +163,20 @@ public class MainPane implements MouseListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+		});
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
 

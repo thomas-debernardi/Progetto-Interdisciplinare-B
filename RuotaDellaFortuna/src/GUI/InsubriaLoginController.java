@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -40,6 +42,8 @@ public class InsubriaLoginController {
     public static boolean forServer = false;
     private JFrame frame;
     private JButton btnExit;
+    
+    int posX = 0, posY = 0;
    	
     public InsubriaLoginController() {
 		initialize();
@@ -116,6 +120,21 @@ public class InsubriaLoginController {
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnExit.setBounds(196, 143, 47, 21);
 		contentPane.add(btnExit);
+		
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 		
 	}
 	

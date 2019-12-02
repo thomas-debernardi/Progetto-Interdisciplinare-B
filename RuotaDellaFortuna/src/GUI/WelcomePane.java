@@ -27,6 +27,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionEvent;
 
 public class WelcomePane {
@@ -36,11 +39,12 @@ public class WelcomePane {
 	private Registry registry;
 	private static Server server;
 	private static Client client;
+	int posX = 0, posY = 0;
 
-	
 	public WelcomePane() {
 		initialize();
 	}
+
 	public void initialize() {
 		frame = new JFrame("Player RDF");
 		frame.getContentPane().setBackground(Color.GRAY);
@@ -86,9 +90,23 @@ public class WelcomePane {
 		frame.getContentPane().add(btnExit);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 	}
-	
-	public void startGameView() {		
+
+	public void startGameView() {
 		String host = textFieldHostName.getText();
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
@@ -96,15 +114,15 @@ public class WelcomePane {
 			MainPane mp = new MainPane();
 			frame.dispose();
 		} catch (RemoteException e) {
-            Notification.notify("Connection Notification", "Connessione non riuscita \n riprovare", true);
+			Notification.notify("Connection Notification", "Connessione non riuscita \n riprovare", true);
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
- 	   public static void setController(MainPane mainPane) {
-	        mainPane.setServer(server);
-	        mainPane.setAdmin(AdminChecker.isIsAdmin());
-	    }
-	
+
+	public static void setController(MainPane mainPane) {
+		mainPane.setServer(server);
+		mainPane.setAdmin(AdminChecker.isIsAdmin());
+	}
+
 }

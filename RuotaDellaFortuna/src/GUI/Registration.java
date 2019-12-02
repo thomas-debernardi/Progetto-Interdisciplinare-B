@@ -20,6 +20,8 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
@@ -40,6 +42,7 @@ public class Registration {
 	private static boolean isServer;
 	private static OTPHelper otp;
     private boolean admin;
+    int posX = 0, posY = 0;
 
 	private JFrame frame;
 
@@ -175,6 +178,20 @@ public class Registration {
 		btnBack.setBounds(34, 276, 58, 21);
 		contentPane.add(btnBack);
 
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 	}
 
 	public void confirm() throws IOException {

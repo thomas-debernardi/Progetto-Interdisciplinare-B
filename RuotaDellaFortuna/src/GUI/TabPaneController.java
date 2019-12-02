@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -49,7 +51,6 @@ public class TabPaneController {
 	private static RemoteMatch match;
 	private static MatchData matchData;
 	private boolean isAdmin;
-	
 	public static boolean creator = true;
 	private JPasswordField passwordField;
 	private JLabel lblVictoryManchesValue;
@@ -74,6 +75,7 @@ public class TabPaneController {
 	private JLabel lblBestCalledConsonant2;
 	private JLabel lblBestCalledConsonant3;
 	private JTextField textFieldAddPhrase;
+	int posX = 0, posY = 0;
 
 	/**
 	 * Create the application.
@@ -658,8 +660,22 @@ public class TabPaneController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
 
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 	}
+
 
 	public void addMatch() throws RemoteException {
 		try {

@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,8 @@ public class PrimePaneServer extends JFrame {
 	private JTextField textFieldPort;
     private DBManager manager;
 	static PrimePaneServer frame = new PrimePaneServer();
+	int posX = 0, posY = 0;
+
 
 
 	/**
@@ -141,6 +145,20 @@ public class PrimePaneServer extends JFrame {
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnExit.setBounds(212, 129, 59, 21);
 		contentPane.add(btnExit);
+		
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 	}
 	
     public void login() throws IOException {

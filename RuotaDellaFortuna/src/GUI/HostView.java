@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class HostView {
@@ -31,6 +33,7 @@ public class HostView {
 	private Server server;
 	private JLabel lblHost;
 	private JButton btnExit;
+	int posX = 0, posY = 0;
 	
 	public HostView() {
 		initialize();
@@ -74,6 +77,20 @@ public class HostView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
 		
 	}
 			
