@@ -13,6 +13,7 @@ import Services.Controller;
 import Services.Login;
 import Services.Notification;
 import GUI.TabPaneController;
+import PlayerRDF.PlayerRdf;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -49,7 +50,7 @@ public class MainPane implements MouseListener {
 	 */
 	private void initialize() {
 		if (!InsubriaLoginController.forServer) {
-			AdminRdf.setController(this);
+			WelcomePane.setController(this);
 			if (server == null) {
 				InsubriaLoginController.setController(this);
 			}
@@ -178,7 +179,6 @@ public class MainPane implements MouseListener {
 		if (!(email.equals("") || password.equals(""))) {
 			Login login = new Login(email, password);
 			int result = server.signIn(login, client, admin);
-			System.out.println(result);
 			if (result < 0) {
 				Notification.notify("Mail Notification", "E-mail o password errati \nriprova!", true);
 			} else if (result == 0) {

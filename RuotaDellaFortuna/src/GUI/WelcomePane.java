@@ -29,59 +29,65 @@ import java.awt.event.ActionEvent;
 
 public class WelcomePane {
 
-	private JPanel contentPane;
-	private JTextField tfHostName;
-    private Registry registry;    
-    private static Server server;
-    private static Client client;
-    private JFrame frame;
+	private JFrame frame;
+	private JTextField textFieldHostName;
+	private Registry registry;
+	private static Server server;
+	private static Client client;
 
 	
 	public WelcomePane() {
 		initialize();
 	}
 	public void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setVisible(true);
+		frame = new JFrame("Player RDF");
+		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 405, 143);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frame.setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel title = new JLabel("The Wheel Of Fortune");
-		title.setBounds(35, 10, 330, 33);
-		title.setForeground(Color.BLUE);
-		title.setFont(new Font("Snap ITC", Font.BOLD | Font.ITALIC, 25));
-		title.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(title);
-		
+		frame.setUndecorated(true);
+		frame.setBounds(100, 100, 387, 193);
+		frame.getContentPane().setLayout(null);
+
 		JLabel lblHostName = new JLabel("Host Name");
-		lblHostName.setBounds(61, 52, 74, 19);
+		lblHostName.setForeground(Color.WHITE);
 		lblHostName.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		contentPane.add(lblHostName);
-		
-		tfHostName = new JTextField();
-		tfHostName.setBounds(140, 52, 96, 19);
-		tfHostName.setToolTipText("Host name");
-		tfHostName.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(tfHostName);
-		tfHostName.setColumns(10);
-		JButton btnConfirm = new JButton("CONFIRM");
-		btnConfirm.setBounds(241, 48, 99, 27);
-		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		contentPane.add(btnConfirm);
-		btnConfirm.addActionListener(new ActionListener() {
+		lblHostName.setBounds(39, 70, 74, 13);
+		frame.getContentPane().add(lblHostName);
+
+		textFieldHostName = new JTextField();
+		textFieldHostName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldHostName.setColumns(10);
+		textFieldHostName.setBounds(136, 69, 196, 19);
+		frame.getContentPane().add(textFieldHostName);
+
+		JButton btnConnect = new JButton("CONNECT");
+		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startGameView();
 			}
 		});
+		btnConnect.setForeground(Color.WHITE);
+		btnConnect.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnConnect.setBackground(Color.GREEN);
+		btnConnect.setBounds(39, 100, 196, 21);
+		frame.getContentPane().add(btnConnect);
+
+		JButton btnExit = new JButton("EXIT");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnExit.setForeground(Color.WHITE);
+		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnExit.setBackground(Color.RED);
+		btnExit.setBounds(245, 100, 87, 21);
+		frame.getContentPane().add(btnExit);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 	}
 	
 	public void startGameView() {		
-		String host = tfHostName.getText();
+		String host = textFieldHostName.getText();
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
 			server = (Server) registry.lookup("SERVER");

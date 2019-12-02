@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
 import Database.DBManager;
 import Database.PhrasesDTO;
 
@@ -40,8 +43,9 @@ public class PhraseManager {
      * @param file il file da leggere
      * @return <code>true</code> se l'inserimento avviene con successo, <code>false</code> altrimenti
      * @throws IOException in caso di errori nella lettura del file
+     * @throws CsvValidationException 
      */
-    public boolean addPhrases(File file) throws IOException {
+    public boolean addPhrases(File file) throws IOException, CsvValidationException {
         CSVReader reader = new CSVReader(new FileReader(file));
         ArrayList<PhrasesDTO> phrases = new ArrayList<>();
         String[] nextLine;

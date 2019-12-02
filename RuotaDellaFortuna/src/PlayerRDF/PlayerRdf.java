@@ -1,15 +1,14 @@
-package AdminRDF;
+package PlayerRDF;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import GUI.MainPane;
 import GUI.WelcomePane;
 import Server.Server;
 import Services.AdminChecker;
 import Services.Client;
 import java.rmi.registry.Registry;
 
-public class AdminRdf {
+public class PlayerRdf {
 
 	private JFrame frame;
 	private JTextField textFieldHostName;
@@ -21,7 +20,8 @@ public class AdminRdf {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		AdminChecker.setIsAdmin(true);
+		AdminChecker.setIsAdmin(false);
 		WelcomePane wp = new WelcomePane();
 	}
+
 }

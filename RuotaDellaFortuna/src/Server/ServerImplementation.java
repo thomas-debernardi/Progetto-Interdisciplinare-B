@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 import Database.DBManager;
 import Email.EmailManager;
 import Game.MatchManager;
@@ -106,7 +108,7 @@ public class ServerImplementation extends UnicastRemoteObject implements Server 
     public boolean addPhrases(File file) throws RemoteException {
         try {
             return phraseManager.addPhrases(file);
-        }catch (IOException e){
+        }catch (IOException | CsvValidationException e){
             return false;
         }
     }
