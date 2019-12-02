@@ -107,6 +107,7 @@ public class ServerImplementation extends UnicastRemoteObject implements Server 
     @Override
     public boolean addPhrases(File file) throws RemoteException {
         try {
+        	System.out.println("CIAO");
             return phraseManager.addPhrases(file);
         }catch (IOException | CsvValidationException e){
             return false;

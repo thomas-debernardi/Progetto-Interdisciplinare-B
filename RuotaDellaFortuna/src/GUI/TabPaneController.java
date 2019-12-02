@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -48,6 +49,7 @@ public class TabPaneController {
 	private static RemoteMatch match;
 	private static MatchData matchData;
 	private boolean isAdmin;
+	
 	public static boolean creator = true;
 	private JPasswordField passwordField;
 	private JLabel lblVictoryManchesValue;
@@ -774,29 +776,34 @@ public class TabPaneController {
 
 	public void enterFilePhrase() {
 		String phrases = textFieldAddPhrase.getText();
-		String phrasesTrim = phrases.trim();
-		File filePhrases = new File(phrasesTrim);
-		System.out.print(filePhrases.toString());
-		try {
-			boolean bool = server.addPhrases(filePhrases);
-			if (bool) {
-				Thread t = new Thread() {
-					public void run() {
-						Notification.notify("Successo", "Le frasi sono state aggiunte con successo", false);
-					}
-				};
-			} else {
-				Thread t = new Thread() {
-					public void run() {
-						Notification.notify("Successo", "Non è stato possibile aggiungere le nuove frasi\\n Riprova",
-								false);
-					}
-				};
+		if(phrases.equals(""))
+			Notification.notify("ERROR", "INSERT A VALID CSV", false);
+		else {
+			String phrasesTrim = phrases.trim();
+			File filePhrases = new File(phrasesTrim);
+			try {
+				boolean bool = server.addPhrases(filePhrases);
+				if (bool) {
+					Thread t = new Thread() {
+						public void run() {
+							Notification.notify("Successo", "Le frasi sono state aggiunte con successo", false);
+						}
+					};
+				} else {
+					Thread t = new Thread() {
+						public void run() {
+							Notification.notify("Successo", "Non è stato possibile aggiungere le nuove frasi\\n Riprova",
+									false);
+						}
+					};
+				}
+			} catch (RemoteException e) {
+				System.out.println(e.toString());
+				Notification.notify("Errore", "Server offline", true);
 			}
-		} catch (RemoteException e) {
-			System.out.println(e.toString());
-			Notification.notify("Errore", "Server offline", true);
 		}
+			
+
 	}
 
 	public void changePassword() {

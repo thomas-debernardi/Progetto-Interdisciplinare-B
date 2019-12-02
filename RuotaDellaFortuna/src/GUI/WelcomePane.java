@@ -15,9 +15,11 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObject;
 import java.awt.Color;
 import java.awt.EventQueue;
 
