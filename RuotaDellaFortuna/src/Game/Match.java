@@ -33,7 +33,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
     private boolean firstTurn;
     private LocalDateTime creationTime;
     private DBManager dbManager;
-    private ErrorManager emailmng;
+    private EmailManager emailmng;
     //nell'array non sono considerati gli spazi o i caratteri speciali.
     private boolean[] phraseStatus;
     private MoveTimer timer = null;
@@ -624,7 +624,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
             String idPlayer2 = players.get(1).getIdPlayer();
             String idPlayer3 = players.get(2).getIdPlayer();
 
-            List<> phrases = dbManager.get5Phrases(idPlayer1, idPlayer2, idPlayer3);
+            List<PhrasesDTO> phrases = dbManager.get5Phrases(idPlayer1, idPlayer2, idPlayer3);
 
             if (phrases == null || phrases.size() < 5) {
                 try {

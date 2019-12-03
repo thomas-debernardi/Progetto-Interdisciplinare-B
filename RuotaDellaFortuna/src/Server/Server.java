@@ -7,6 +7,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 import Game.RemoteMatch;
 import Services.Client;
 import Services.Login;
@@ -102,7 +104,7 @@ public interface Server extends Remote {
      * @return //todo
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
-    public boolean addPhrases(File file) throws RemoteException;
+    public boolean addPhrases(File file) throws RemoteException, CsvValidationException;
 
     /**
      * Questo metodo permette ad un utente di cambiare il proprio nome

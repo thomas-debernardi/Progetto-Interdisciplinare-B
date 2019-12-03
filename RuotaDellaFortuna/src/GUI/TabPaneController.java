@@ -38,6 +38,9 @@ import java.awt.GridLayout;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.JPasswordField;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
@@ -168,6 +171,11 @@ public class TabPaneController {
 		}
 
 		JButton btnRefresh = new JButton("REFRESH");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refresh();
+			}
+		});
 		btnRefresh.setBackground(Color.DARK_GRAY);
 		btnRefresh.setForeground(Color.WHITE);
 		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -526,7 +534,12 @@ public class TabPaneController {
 		JButton btnSend = new JButton("SEND");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				enterFilePhrase();
+				try {
+					enterFilePhrase();
+				} catch (CsvValidationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnSend.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -588,6 +601,11 @@ public class TabPaneController {
 		panelProfile.add(passwordField);
 
 		JButton btnReset = new JButton("RESET");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				changePassword();	
+			}
+		});
 		btnReset.setBackground(Color.RED);
 		btnReset.setForeground(Color.WHITE);
 		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -790,7 +808,7 @@ public class TabPaneController {
 		}
 	}
 
-	public void enterFilePhrase() {
+	public void enterFilePhrase() throws CsvValidationException {
 		String phrases = textFieldAddPhrase.getText();
 		if(phrases.equals(""))
 			Notification.notify("ERROR", "INSERT A VALID CSV", false);
@@ -804,17 +822,16 @@ public class TabPaneController {
 						public void run() {
 							Notification.notify("Successo", "Le frasi sono state aggiunte con successo", false);
 						}
-					};
+					}; t.start();
 				} else {
 					Thread t = new Thread() {
 						public void run() {
-							Notification.notify("Successo", "Non è stato possibile aggiungere le nuove frasi\\n Riprova",
+							Notification.notify("ERROR", "Non è stato possibile aggiungere le nuove frasi\\n Riprova",
 									false);
 						}
-					};
+					};t.start();
 				}
 			} catch (RemoteException e) {
-				System.out.println(e.toString());
 				Notification.notify("Errore", "Server offline", true);
 			}
 		}

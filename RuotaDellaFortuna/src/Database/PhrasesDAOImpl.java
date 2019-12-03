@@ -43,7 +43,7 @@ public class PhrasesDAOImpl implements PhrasesDAO {
            try {
                stmt.executeUpdate(queryAdd);
            }catch (SQLException e){
-                System.err.println("Frase non aggiunta");
+                System.err.println("Phrases not added, maybe it's just in the database");
            }finally {
                queryAdd = "";
            }
