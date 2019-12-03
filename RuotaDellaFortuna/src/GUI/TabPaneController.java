@@ -12,6 +12,7 @@ import java.net.URL;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -45,16 +46,19 @@ import javax.swing.JPasswordField;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 
 public class TabPaneController {
 
 	private JFrame frame;
-	private static Client client;
+    private Observable gameObservableList = new Observable();
+    private static Client client;
 	private static Server server;
 	private static RemoteMatch match;
 	private static MatchData matchData;
 	private boolean isAdmin;
 	public static boolean creator = true;
+	
 	private JPasswordField passwordField;
 	private JLabel lblVictoryManchesValue;
 	private JLabel lblVictoryGamesValue;
@@ -79,6 +83,7 @@ public class TabPaneController {
 	private JLabel lblBestCalledConsonant3;
 	private JTextField textFieldAddPhrase;
 	int posX = 0, posY = 0;
+	private JList gameList;
 
 	/**
 	 * Create the application.
@@ -191,7 +196,7 @@ public class TabPaneController {
 		panelGames.setBackground(Color.GRAY);
 		panel.add(panelGames, "name_861668335796200");
 
-		JList gameList = new JList();
+		gameList = new JList();
 		panelGames.add(gameList);
 
 		JPanel panelUsersStatistics = new JPanel();
@@ -707,18 +712,35 @@ public class TabPaneController {
 	}
 
 	public void initializer() {
-		ArrayList<MatchData> list = new ArrayList<>();
-		try {
-			list = server.visualizeMatch(client);
-			gameObservableList.addAll(list);
-			gameList.setItems(gameObservableList);
-		} catch (RemoteException e) {
-			Notification.notify("Errore", "Server offline", true);
-		}
-		for (MatchData matchData : list) {
-			gameList.setCellFactory(e -> new GameViewController(server, client, matchData));
-		}
-		disableTab();
+
+        gameList.setItems(gameObservableList);
+        ArrayList<MatchData> list = new ArrayList<>();
+        try {
+            list = server.visualizeMatch(client);
+            gameObservableList.addAll(list);
+            gameList.setItems(gameObservableList);
+        } catch (RemoteException e) {
+            Notification.notify("Errore", "Server offline", true);
+        }
+        for (MatchData matchData : list) {
+            gameList.setCellFactory(e -> new GameViewController(server, client, matchData));
+        }
+        disableTab();
+        try {
+            setUserStat();
+            setGlobalStats();
+        } catch (RemoteException e) {
+            Notification.notify("Errore", "Statistiche non caricate", true);
+        }
+
+        try {
+            nicknameLabel.setText(client.getNickname());
+            nameLabel.setText(client.getName());
+            surnameLabel.setText(client.getSurname());
+            emailLabel.setText(client.getEmail());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 	}
 
