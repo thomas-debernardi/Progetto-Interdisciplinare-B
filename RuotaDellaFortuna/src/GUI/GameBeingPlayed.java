@@ -51,8 +51,6 @@ public class GameBeingPlayed {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		MatchData item;
-		this.matchData = item;
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.GRAY);
@@ -86,125 +84,60 @@ public class GameBeingPlayed {
 		frame.getContentPane().add(btnJoin);
 
 		btnObserve = new JButton("OBSERVE");
-		btnObserve.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player = false;
-				try {
-					match = server.observeMatch(client, item.getIdMatch());
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-				if (match == null) {
-					Notification.notify("Notifica Partita", "Partita inesistente", true);
-				} else {
-					TabPaneController.creator = false;
-					//APRIRE NUOVA FINESTRA
-					FXMLLoader loader = new FXMLLoader(
-							getClass().getClassLoader().getResource("game_player_pane.fxml"));
-					Parent root = null;
-					try {
-						root = loader.load();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					Stage primaryStage = new Stage();
-					Scene scene = new Scene(root);
-					primaryStage.setScene(scene);
-					primaryStage.show();
-					ApplicationCloser.setCloser(primaryStage);
-					Stage oldStage = (Stage) observeButton.getScene().getWindow();
-					oldStage.close();
-				}
-			}
-			}
-		});
 		btnObserve.setBackground(Color.CYAN);
 		btnObserve.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		frame.getContentPane().add(btnObserve);
-		
+
+	}
+
+	protected void updateItem(MatchData item, boolean empty) {
 		if (AdminChecker.isIsAdmin())
-			btnJoin.setVisible(false);
+			btnJoin.setEnabled(false);
 
 		lblPlayer.setText(item.getPlayer1());
 		lblPlayer_1.setText(item.getPlayer2());
 		lblPlayer_2.setText(item.getPlayer3());
-
 		btnJoin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					player = true;
 					match = server.joinMatch(client, item.getIdMatch());
-				} catch (RemoteException e) {
-					e.printStackTrace();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
 				}
 				if (match == null) {
 					Notification.notify("Notifica Partita", "Partita inesistente", true);
 				} else {
 					TabPaneController.creator = false;
-					//APRIRE SCHERMATA PARTITA
-					FXMLLoader loader = new FXMLLoader(
-							getClass().getClassLoader().getResource("game_player_pane.fxml"));
-					Parent root = null;
-					
-					Stage primaryStage = new Stage();
-					Scene scene = new Scene(root);
-					primaryStage.setScene(scene);
-					primaryStage.show();
-					//SETTARE NELLA SCHERMATA APERTA IL TASTO ESCI
-					primaryStage.setOnCloseRequest((WindowEvent event1) -> {
-						try {
-							match.leaveMatchAsPlayer(client);
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-						System.exit(0);
-					});
+					Game game = new Game(match, client);
+					TabPaneController.setInvisible();
 
-					Stage oldStage = (Stage) joinButton.getScene().getWindow();
-					oldStage.close();
 				}
 			}
 		});
-	}
 
-	});}
-
-	protected void updateItem(MatchData item, boolean empty) {
-		
-//            setAviableLabel(!item.isOnGoing());
-
-		observeButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-			@Override
-			public void handle(javafx.event.ActionEvent event) {
+		btnObserve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				player = false;
 				try {
 					match = server.observeMatch(client, item.getIdMatch());
-				} catch (RemoteException e) {
-					e.printStackTrace();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
 				}
 				if (match == null) {
 					Notification.notify("Notifica Partita", "Partita inesistente", true);
 				} else {
 					TabPaneController.creator = false;
-					FXMLLoader loader = new FXMLLoader(
-							getClass().getClassLoader().getResource("game_player_pane.fxml"));
-					Parent root = null;
-					try {
-						root = loader.load();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					Stage primaryStage = new Stage();
-					Scene scene = new Scene(root);
-					primaryStage.setScene(scene);
-					primaryStage.show();
-					ApplicationCloser.setCloser(primaryStage);
-					Stage oldStage = (Stage) observeButton.getScene().getWindow();
-					oldStage.close();
+					Game game = new Game(match, client);
+					TabPaneController.setInvisible();
 				}
 			}
 		});
-
 	}
-
+	
+    public static void setGameControllerObserver(Game gpc) {
+        gpc.setClient(client);
+        gpc.setMatch(match);
+        gpc.setObserver(!GameBeingPlayed.player);
+    }
 }

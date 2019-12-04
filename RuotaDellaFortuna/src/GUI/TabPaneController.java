@@ -963,4 +963,8 @@ public class TabPaneController {
 	public static void setVisible() {
 		frame.setVisible(true);
 	}
+	public static void setInvisible() {
+		frame.setVisible(false);
+
+	}
 }
