@@ -29,6 +29,14 @@
 	<classpathentry kind="lib" path="commons-lang3-3.7.jar"/>
 	<classpathentry kind="lib" path="commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="commons-text-1.3.jar"/>
+	<classpathentry kind="lib" path="javafx-swt.jar"/>
+	<classpathentry kind="lib" path="javafx.base.jar"/>
+	<classpathentry kind="lib" path="javafx.controls.jar"/>
+	<classpathentry kind="lib" path="javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="javafx.media.jar"/>
+	<classpathentry kind="lib" path="javafx.swing.jar"/>
+	<classpathentry kind="lib" path="javafx.web.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

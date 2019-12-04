@@ -50,7 +50,7 @@ import javax.swing.JScrollPane;
 
 public class TabPaneController {
 
-	private JFrame frame;
+	private static JFrame frame;
     private Observable gameObservableList = new Observable();
     private static Client client;
 	private static Server server;
@@ -957,5 +957,9 @@ public class TabPaneController {
 			}
 		};
 		t.start();
+	}
+	
+	public static void setVisible() {
+		frame.setVisible(true);
 	}
 }
