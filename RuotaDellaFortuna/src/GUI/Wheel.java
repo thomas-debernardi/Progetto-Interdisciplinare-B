@@ -22,12 +22,16 @@ import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Component;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.CardLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 public class Wheel extends JPanel{
 
 	private JFrame frame;
 	private int posX = 0, posY = 0;
-	private JLabel lblWheel;
 
 	/**
 	 * Launch the application.
@@ -49,23 +53,12 @@ public class Wheel extends JPanel{
 	 * Create the application.
 	 */
 	public Wheel() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 520, 556);
+		frame.setBounds(100, 100, 488, 527);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.1f)); // RENDE LO SFONDO TRASPARENTE
 		frame.setVisible(true);
-		lblWheel = new JLabel("");
-		lblWheel.setAlignmentX(0.5f);
-		lblWheel.setIcon(new ImageIcon(Wheel.class.getResource("/img/wheel.png")));
-		frame.getContentPane().add(lblWheel, BorderLayout.CENTER);
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
@@ -79,17 +72,18 @@ public class Wheel extends JPanel{
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
-		frame.setLocationRelativeTo(null);		
+		frame.setLocationRelativeTo(null);
+		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
-		Icon ico = lblWheel.getIcon();
-		BufferedImage bimg = new BufferedImage(ico.getIconWidth(), ico.getIconHeight(),
-                BufferedImage.TYPE_INT_RGB);
-		Graphics g = bimg.createGraphics();
-		ico.paintIcon(null, g, 0, 0);
-		g.dispose();
-
-
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(Wheel.class.getResource("/img/wheel.png")));
+		frame.getContentPane().add(label);
 	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+
 
 
 	public static BufferedImage rotate(BufferedImage image, double angle) {

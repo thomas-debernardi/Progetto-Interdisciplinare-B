@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import GUI.GamePlayerController;
+import GUI.Game;
 import GUI.OTPRegistrationController;
 import GUI.TabPaneController;
 
@@ -13,7 +13,7 @@ public class ClientImplementation extends UnicastRemoteObject implements Client,
 
     public static final long serialVersionUID = 1L;
 
-    private GamePlayerController game;
+    private Game game;
     private OTPRegistrationController otpRegistrationPane;
     private TabPaneController tab;
     private String id;
@@ -25,7 +25,7 @@ public class ClientImplementation extends UnicastRemoteObject implements Client,
     public ClientImplementation() throws RemoteException {
     }
 
-    public void setGame(GamePlayerController e) throws RemoteException {
+    public void setGame(Game e) throws RemoteException {
         game = e;
     }
 
@@ -161,7 +161,7 @@ run();
 
     @Override
     public void updatePhrase(boolean[] phrase) throws RemoteException {
-        game.updatePhrase(phrase);
+       game.updatePhrase(phrase);
     }
 
     @Override
@@ -189,7 +189,7 @@ run();
         game.notifyPlayerError(name);
     }
 
-    public void setGameController(GamePlayerController game) {
+    public void setGameController(Game game) {
         this.game = game;
     }
 
@@ -223,18 +223,15 @@ run();
         otpRegistrationPane = otp;
     }
 
-    @Override
     public void updateTimer(int num) throws RemoteException {
         game.updateTimer(num);
     }
 
-	@Override
 	public String getid() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String setNickname() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;

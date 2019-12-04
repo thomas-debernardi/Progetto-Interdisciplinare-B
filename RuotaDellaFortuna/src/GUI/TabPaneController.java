@@ -26,6 +26,7 @@ import Services.Controller;
 import Services.CryptPassword;
 import Services.MatchData;
 import Services.Notification;
+import javafx.collections.FXCollections;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -704,7 +705,7 @@ public class TabPaneController {
 		try {
 			match = server.createMatch(client);
 			// ON CLOSE LASCIARE LA PARTITA NELLA FINESTRA CREATA
-			GameWheel gw = new GameWheel(match, client);
+			Game g = new Game(match, client);
 			frame.setVisible(false);
 		} catch (RemoteException e) {
 			client.notifyServerError();
@@ -897,7 +898,7 @@ public class TabPaneController {
 	 *
 	 * @param gpc il riferimento al controller {@link GamePlayerController}
 	 */
-	public static void setGameControlle(GamePlayerController gpc) {
+	public static void setGameControlle(Game gpc) {
 		gpc.setClient(client);
 		gpc.setMatch(match);
 		gpc.setObserver(false);

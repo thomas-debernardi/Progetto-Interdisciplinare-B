@@ -6,7 +6,7 @@ package Services;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import GUI.GamePlayerController;
+import GUI.Game;
 import GUI.OTPRegistrationController;
 
 /**
@@ -51,7 +51,7 @@ public interface Client extends Remote {
 
     public void setEmail(String email) throws RemoteException;
 
-    public void setGame(GamePlayerController e) throws RemoteException;
+    public void setGame(Game e) throws RemoteException;
     
     public void setOtpPane(OTPRegistrationController otp) throws RemoteException;
 
