@@ -337,10 +337,10 @@ public class Game {
 		if (TabPaneController.creator) {
             TabPaneController.setGameControlle(this);
         } else {
-            //GameViewController.setGameControllerObserver(this);
-            //if (!GameViewController.player) {
-             //   hideAll();
-           // }
+            GameBeingPlayed.setGameControllerObserver(this);
+            if (!GameBeingPlayed.player) {
+                hideAll();
+            }
         }
 
         try {

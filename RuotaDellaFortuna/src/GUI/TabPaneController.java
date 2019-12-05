@@ -27,8 +27,10 @@ import Services.CryptPassword;
 import Services.MatchData;
 import Services.Notification;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -47,19 +49,20 @@ import javax.swing.JPasswordField;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 
 public class TabPaneController {
 
 	private static JFrame frame;
-    private Observable gameObservableList = new Observable();
-    private static Client client;
+	private static Client client;
 	private static Server server;
 	private static RemoteMatch match;
 	private static MatchData matchData;
 	private boolean isAdmin;
 	public static boolean creator = true;
-	
+
 	private JPasswordField passwordField;
 	private JLabel lblVictoryManchesValue;
 	private JLabel lblVictoryGamesValue;
@@ -84,7 +87,9 @@ public class TabPaneController {
 	private JLabel lblBestCalledConsonant3;
 	private JTextField textFieldAddPhrase;
 	int posX = 0, posY = 0;
-	private JList gameList;
+	private JPanel panelGames;
+
+	private DefaultListModel<GameBeingPlayed> listModel = new DefaultListModel();
 
 	/**
 	 * Create the application.
@@ -193,12 +198,10 @@ public class TabPaneController {
 		frame.getContentPane().add(panel);
 		panel.setLayout(new CardLayout(0, 0));
 
-		JPanel panelGames = new JPanel();
+		panelGames = new JPanel();
 		panelGames.setBackground(Color.GRAY);
 		panel.add(panelGames, "name_861668335796200");
-
-		gameList = new JList();
-		panelGames.add(gameList);
+		panelGames.setLayout(new GridLayout(15, 1, 0, 0));
 
 		JPanel panelUsersStatistics = new JPanel();
 		panelUsersStatistics.setBackground(Color.GRAY);
@@ -609,7 +612,7 @@ public class TabPaneController {
 		JButton btnReset = new JButton("RESET");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				changePassword();	
+				changePassword();
 			}
 		});
 		btnReset.setBackground(Color.RED);
@@ -669,10 +672,12 @@ public class TabPaneController {
 			}
 		});
 
+		uploadGameInProgress();
 		try {
 			setUserStat();
 			setGlobalStats();
 		} catch (RemoteException e) {
+
 			Notification.notify("Errore", "Statistiche non caricate", true);
 		}
 
@@ -684,7 +689,7 @@ public class TabPaneController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
@@ -698,51 +703,37 @@ public class TabPaneController {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
+
+
 	}
 
+	public void uploadGameInProgress() {
+		// listScroller.setPreferredSize(new Dimension(250, 80));
+		// listModel.clear();
+		ArrayList<MatchData> list2 = new ArrayList<>();
+		try {
+			list2 = server.visualizeMatch(client);
+		} catch (RemoteException e) {
+			Notification.notify("ERROR", "The server is offline", true);
+		}
+		if (list2.size() > 0) {
+			for (MatchData matchData : list2) {
+				// panelGames.add(new GameBeingPlayed(server, client, matchData));
+				panelGames.add(new GameBeingPlayed(server, client, matchData));
+			}
+		}
+
+	}
 
 	public void addMatch() throws RemoteException {
 		try {
 			match = server.createMatch(client);
 			// ON CLOSE LASCIARE LA PARTITA NELLA FINESTRA CREATA
 			Game g = new Game(match, client);
-			frame.setVisible(false);
+			// frame.setVisible(false);
 		} catch (RemoteException e) {
 			client.notifyServerError();
 		}
-	}
-
-	public void initializer() {
-
-        gameList.setItems(gameObservableList);
-        ArrayList<MatchData> list = new ArrayList<>();
-        try {
-            list = server.visualizeMatch(client);
-            gameObservableList.addAll(list);
-            gameList.setItems(gameObservableList);
-        } catch (RemoteException e) {
-            Notification.notify("Errore", "Server offline", true);
-        }
-        for (MatchData matchData : list) {
-            gameList.setCellFactory(e -> new GameViewController(server, client, matchData));
-        }
-        disableTab();
-        try {
-            setUserStat();
-            setGlobalStats();
-        } catch (RemoteException e) {
-            Notification.notify("Errore", "Statistiche non caricate", true);
-        }
-
-        try {
-            nicknameLabel.setText(client.getNickname());
-            nameLabel.setText(client.getName());
-            surnameLabel.setText(client.getSurname());
-            emailLabel.setText(client.getEmail());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
 	}
 
 	public void setUserStat() throws RemoteException {
@@ -758,6 +749,7 @@ public class TabPaneController {
 			String numMatchObserved = stasts.nextToken();
 			lblGamesOsservedValue.setText(numMatchObserved);
 			// numberMatchesObservedLabel1.setText(numMatchObserved);SECONDA SCHERMATA
+
 			// STATISTICHE UTENTE
 			lblVictoryManchesValue.setText(stasts.nextToken());
 			lblVictoryGamesValue.setText(stasts.nextToken());
@@ -816,24 +808,13 @@ public class TabPaneController {
 	 * Ricarica la lista delle partite disponibili aggiornata
 	 */
 	public void refresh() {
-		gameObservableList = FXCollections.observableArrayList();
-		gameList.setItems(gameObservableList);
-		ArrayList<MatchData> list = new ArrayList<>();
-		try {
-			list = server.visualizeMatch(client);
-			gameObservableList.addAll(list);
-			gameList.setItems(gameObservableList);
-		} catch (RemoteException e) {
-			Notification.notify("Errore", "Non è stato possibile aggiornare la lista dei match\n Riprova", true);
-		}
-		for (MatchData matchData : list) {
-			gameList.setCellFactory(e -> new GameViewController(server, client, matchData));
-		}
+		panelGames.removeAll();
+		uploadGameInProgress();
 	}
 
 	public void enterFilePhrase() throws CsvValidationException {
 		String phrases = textFieldAddPhrase.getText();
-		if(phrases.equals(""))
+		if (phrases.equals(""))
 			Notification.notify("ERROR", "INSERT A VALID CSV", false);
 		else {
 			String phrasesTrim = phrases.trim();
@@ -845,20 +826,21 @@ public class TabPaneController {
 						public void run() {
 							Notification.notify("Successo", "Le frasi sono state aggiunte con successo", false);
 						}
-					}; t.start();
+					};
+					t.start();
 				} else {
 					Thread t = new Thread() {
 						public void run() {
 							Notification.notify("ERROR", "Non è stato possibile aggiungere le nuove frasi\\n Riprova",
 									false);
 						}
-					};t.start();
+					};
+					t.start();
 				}
 			} catch (RemoteException e) {
 				Notification.notify("Errore", "Server offline", true);
 			}
 		}
-			
 
 	}
 
@@ -959,12 +941,14 @@ public class TabPaneController {
 		};
 		t.start();
 	}
-	
+
 	public static void setVisible() {
 		frame.setVisible(true);
 	}
+
 	public static void setInvisible() {
 		frame.setVisible(false);
 
 	}
+
 }

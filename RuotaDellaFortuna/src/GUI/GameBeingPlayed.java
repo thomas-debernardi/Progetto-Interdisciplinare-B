@@ -5,7 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
@@ -15,16 +21,18 @@ import Services.AdminChecker;
 import Services.Client;
 import Services.MatchData;
 import Services.Notification;
+import javafx.scene.control.ListCell;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.awt.event.ActionEvent;
 
-public class GameBeingPlayed {
+public class GameBeingPlayed extends JDesktopPane{
 
-	private JFrame frame;
+	private JPanel frame;
 	private JLabel lblPlayer;
 	private JLabel lblPlayer_1;
 	private JLabel lblPlayer_2;
@@ -51,42 +59,87 @@ public class GameBeingPlayed {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.getContentPane().setBackground(Color.GRAY);
-		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 564, 115);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(1, 5, 0, 0));
+		frame = new JPanel();
+		frame.setBackground(Color.GRAY);
+		frame.setVisible(true);
+		frame.setBounds(100, 100, 564, 42);
+		frame.setLayout(new GridLayout(0, 5, 0, 0));
+		
 
 		lblPlayer = new JLabel("Player1");
 		lblPlayer.setForeground(Color.WHITE);
 		lblPlayer.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPlayer.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		frame.getContentPane().add(lblPlayer);
+		frame.add(lblPlayer);
 
 		lblPlayer_1 = new JLabel("Player 2");
 		lblPlayer_1.setForeground(Color.WHITE);
 		lblPlayer_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPlayer_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		frame.getContentPane().add(lblPlayer_1);
+		frame.add(lblPlayer_1);
 
 		lblPlayer_2 = new JLabel("Player3");
 		lblPlayer_2.setForeground(Color.WHITE);
 		lblPlayer_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPlayer_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		frame.getContentPane().add(lblPlayer_2);
+		frame.add(lblPlayer_2);
 
 		btnJoin = new JButton("JOIN");
 		btnJoin.setForeground(Color.WHITE);
 		btnJoin.setBackground(Color.GREEN);
 		btnJoin.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.getContentPane().add(btnJoin);
+		frame.add(btnJoin);
 
 		btnObserve = new JButton("OBSERVE");
 		btnObserve.setBackground(Color.CYAN);
 		btnObserve.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.getContentPane().add(btnObserve);
+		frame.add(btnObserve);
+		
+		
+		
+		if (AdminChecker.isIsAdmin())
+			btnJoin.setEnabled(false);
+
+		lblPlayer.setText(matchData.getPlayer1());
+		lblPlayer_1.setText(matchData.getPlayer2());
+		lblPlayer_2.setText(matchData.getPlayer3());
+		btnJoin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					player = true;
+					match = server.joinMatch(client, matchData.getIdMatch());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+				if (match == null) {
+					Notification.notify("Notifica Partita", "Partita inesistente", true);
+				} else {
+					TabPaneController.creator = false;
+					Game game = new Game(match, client);
+					TabPaneController.setInvisible();
+
+				}
+			}
+		});
+
+		btnObserve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				player = false;
+				try {
+					match = server.observeMatch(client, matchData.getIdMatch());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+				if (match == null) {
+					Notification.notify("Notifica Partita", "Partita inesistente", true);
+				} else {
+					TabPaneController.creator = false;
+					Game game = new Game(match, client);
+					TabPaneController.setInvisible();
+				}
+			}
+		});
+		
 
 	}
 
@@ -134,6 +187,14 @@ public class GameBeingPlayed {
 			}
 		});
 	}
+	
+	 private void setAviableLabel(boolean aviable) {
+	        if (aviable) {
+	            btnJoin.setEnabled(true);
+	        } else {
+	            btnJoin.setEnabled(false);
+	        }
+	    }
 	
     public static void setGameControllerObserver(Game gpc) {
         gpc.setClient(client);
