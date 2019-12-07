@@ -26,6 +26,7 @@ import Services.Controller;
 import Services.CryptPassword;
 import Services.MatchData;
 import Services.Notification;
+import TEST.JListCustomRendererExample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -201,7 +202,12 @@ public class TabPaneController {
 		panelGames = new JPanel();
 		panelGames.setBackground(Color.GRAY);
 		panel.add(panelGames, "name_861668335796200");
-		panelGames.setLayout(new GridLayout(15, 1, 0, 0));
+		panelGames.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		
+		
+		
+		
 
 		JPanel panelUsersStatistics = new JPanel();
 		panelUsersStatistics.setBackground(Color.GRAY);
@@ -708,9 +714,8 @@ public class TabPaneController {
 	}
 
 	public void uploadGameInProgress() {
-		// listScroller.setPreferredSize(new Dimension(250, 80));
-		// listModel.clear();
 		ArrayList<MatchData> list2 = new ArrayList<>();
+		list2.clear();
 		try {
 			list2 = server.visualizeMatch(client);
 		} catch (RemoteException e) {
@@ -718,8 +723,7 @@ public class TabPaneController {
 		}
 		if (list2.size() > 0) {
 			for (MatchData matchData : list2) {
-				// panelGames.add(new GameBeingPlayed(server, client, matchData));
-				panelGames.add(new GameBeingPlayed(server, client, matchData));
+				new JListCustomRendererExample(list2, client, server);
 			}
 		}
 
@@ -808,7 +812,6 @@ public class TabPaneController {
 	 * Ricarica la lista delle partite disponibili aggiornata
 	 */
 	public void refresh() {
-		panelGames.removeAll();
 		uploadGameInProgress();
 	}
 

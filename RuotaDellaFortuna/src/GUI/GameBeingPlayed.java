@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 
 public class GameBeingPlayed extends JDesktopPane{
 
-	private JPanel frame;
+	private JFrame frame;
 	private JLabel lblPlayer;
 	private JLabel lblPlayer_1;
 	private JLabel lblPlayer_2;
@@ -44,6 +44,7 @@ public class GameBeingPlayed extends JDesktopPane{
 	private MatchData matchData;
 	private static RemoteMatch match;
 	public static boolean player;
+	private JButton btnExit;
 
 	/**
 	 * Create the application.
@@ -59,41 +60,42 @@ public class GameBeingPlayed extends JDesktopPane{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JPanel();
+		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.GRAY);
 		frame.setVisible(true);
-		frame.setBounds(100, 100, 564, 42);
-		frame.setLayout(new GridLayout(0, 5, 0, 0));
+		frame.setBounds(100, 100, 564, 98);
+		frame.getContentPane().setLayout(new GridLayout(0, 6, 0, 0));
 		
 
 		lblPlayer = new JLabel("Player1");
 		lblPlayer.setForeground(Color.WHITE);
 		lblPlayer.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPlayer.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		frame.add(lblPlayer);
+		frame.getContentPane().add(lblPlayer);
 
 		lblPlayer_1 = new JLabel("Player 2");
 		lblPlayer_1.setForeground(Color.WHITE);
 		lblPlayer_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPlayer_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		frame.add(lblPlayer_1);
+		frame.getContentPane().add(lblPlayer_1);
 
 		lblPlayer_2 = new JLabel("Player3");
 		lblPlayer_2.setForeground(Color.WHITE);
 		lblPlayer_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPlayer_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		frame.add(lblPlayer_2);
+		frame.getContentPane().add(lblPlayer_2);
 
 		btnJoin = new JButton("JOIN");
 		btnJoin.setForeground(Color.WHITE);
 		btnJoin.setBackground(Color.GREEN);
 		btnJoin.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.add(btnJoin);
+		frame.getContentPane().add(btnJoin);
 
 		btnObserve = new JButton("OBSERVE");
 		btnObserve.setBackground(Color.CYAN);
 		btnObserve.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		frame.add(btnObserve);
+		frame.getContentPane().add(btnObserve);
 		
 		
 		
@@ -103,6 +105,16 @@ public class GameBeingPlayed extends JDesktopPane{
 		lblPlayer.setText(matchData.getPlayer1());
 		lblPlayer_1.setText(matchData.getPlayer2());
 		lblPlayer_2.setText(matchData.getPlayer3());
+		
+		btnExit = new JButton("CLOSE");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnExit.setBackground(Color.RED);
+		frame.getContentPane().add(btnExit);
 		btnJoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
