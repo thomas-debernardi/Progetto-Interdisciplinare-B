@@ -26,6 +26,8 @@ import Services.Controller;
 import Services.CryptPassword;
 import Services.MatchData;
 import Services.Notification;
+import TEST.CountryRender;
+import TEST.GameBeingPlayed2;
 import TEST.JListCustomRendererExample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,6 +55,7 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import java.awt.Rectangle;
 
 public class TabPaneController {
 
@@ -89,8 +92,9 @@ public class TabPaneController {
 	private JTextField textFieldAddPhrase;
 	int posX = 0, posY = 0;
 	private JPanel panelGames;
-
-	private DefaultListModel<GameBeingPlayed> listModel = new DefaultListModel();
+	ArrayList<MatchData> list2;
+	private DefaultListModel<GameBeingPlayed2> listModel;
+	JList<GameBeingPlayed2> countryList2;
 
 	/**
 	 * Create the application.
@@ -200,15 +204,29 @@ public class TabPaneController {
 		panel.setLayout(new CardLayout(0, 0));
 
 		panelGames = new JPanel();
+		panelGames.setAutoscrolls(true);
 		panelGames.setBackground(Color.GRAY);
 		panel.add(panelGames, "name_861668335796200");
-		panelGames.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		
-		
-		
-		
 
+		
+		
+		
+		listModel = new DefaultListModel<>();
+		// create the list
+		list2 = new ArrayList<>();
+		countryList2 = new JList<GameBeingPlayed2>(listModel);
+		countryList2.setForeground(Color.WHITE);
+		countryList2.setFont(new Font("Tahoma", Font.BOLD, 18));
+		countryList2.setBackground(Color.GRAY);
+		countryList2.setBounds(new Rectangle(151, 0, 416, 683));
+		uploadGameInProgress();
+		panelGames.setLayout(null);
+		countryList2.setCellRenderer(new CountryRender());
+		//frame.getContentPane().add(new JScrollPane(countryList2));
+		panelGames.add(countryList2);
+
+		
+		
 		JPanel panelUsersStatistics = new JPanel();
 		panelUsersStatistics.setBackground(Color.GRAY);
 		panel.add(panelUsersStatistics, "name_861713845535800");
@@ -678,7 +696,6 @@ public class TabPaneController {
 			}
 		});
 
-		uploadGameInProgress();
 		try {
 			setUserStat();
 			setGlobalStats();
@@ -710,12 +727,13 @@ public class TabPaneController {
 			}
 		});
 
-
 	}
 
 	public void uploadGameInProgress() {
-		ArrayList<MatchData> list2 = new ArrayList<>();
 		list2.clear();
+		CountryRender.setChosen(false);
+		countryList2.removeAll();
+		listModel.clear();
 		try {
 			list2 = server.visualizeMatch(client);
 		} catch (RemoteException e) {
@@ -723,7 +741,7 @@ public class TabPaneController {
 		}
 		if (list2.size() > 0) {
 			for (MatchData matchData : list2) {
-				new JListCustomRendererExample(list2, client, server);
+				listModel.addElement(new GameBeingPlayed2(server, client, matchData));
 			}
 		}
 

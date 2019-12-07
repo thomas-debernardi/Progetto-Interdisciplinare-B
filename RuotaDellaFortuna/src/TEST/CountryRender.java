@@ -1,5 +1,6 @@
 package TEST;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,7 +16,7 @@ import GUI.GameBeingPlayed;
  * @author wwww.codejava.net
  */
 public class CountryRender extends JLabel implements ListCellRenderer<GameBeingPlayed2> {
-	private boolean chosen = false;
+	private static boolean chosen2 = false;
 
 	/**
 	 * 
@@ -25,20 +26,21 @@ public class CountryRender extends JLabel implements ListCellRenderer<GameBeingP
 	@Override
 	public Component getListCellRendererComponent(JList<? extends GameBeingPlayed2> list, GameBeingPlayed2 country,
 			int index, boolean isSelected, boolean cellHasFocus) {
-
-		setText(country.getPlayer1() + "                    " + country.getPlayer2() + "                    " + country.getPlayer3());
-		if (chosen == false)
+		setText("                    " + country.getPlayer1() + "                    " + country.getPlayer2() + "                    " + country.getPlayer3());
+		if (chosen2 == false)
 			if (isSelected) {
 				setForeground(list.getSelectionForeground());
 				new GameBeingPlayed(list.getSelectedValue().getServer(), list.getSelectedValue().getClient(),
 						list.getSelectedValue().getMatchData());
-				chosen = true;
+				chosen2 = true;
 			} else {
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
-				chosen = false;
+				chosen2 = false;
 			}
 		return this;
+	}
+	
+	public static void setChosen(boolean chosen) {
+		chosen2 = chosen;
 	}
 
 }

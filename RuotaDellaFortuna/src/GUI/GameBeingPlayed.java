@@ -21,11 +21,14 @@ import Services.AdminChecker;
 import Services.Client;
 import Services.MatchData;
 import Services.Notification;
+import TEST.CountryRender;
 import javafx.scene.control.ListCell;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.awt.event.ActionEvent;
@@ -45,6 +48,7 @@ public class GameBeingPlayed extends JDesktopPane{
 	private static RemoteMatch match;
 	public static boolean player;
 	private JButton btnExit;
+	private int posX = 0, posY = 0;
 
 	/**
 	 * Create the application.
@@ -61,29 +65,31 @@ public class GameBeingPlayed extends JDesktopPane{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.GRAY);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
+		frame.getContentPane().setBackground(Color.BLACK);
 		frame.setBackground(Color.GRAY);
 		frame.setVisible(true);
-		frame.setBounds(100, 100, 564, 98);
+		frame.setBounds(100, 100, 704, 98);
 		frame.getContentPane().setLayout(new GridLayout(0, 6, 0, 0));
 		
 
 		lblPlayer = new JLabel("Player1");
 		lblPlayer.setForeground(Color.WHITE);
 		lblPlayer.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPlayer.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPlayer.setFont(new Font("Tahoma", Font.BOLD, 15));
 		frame.getContentPane().add(lblPlayer);
 
 		lblPlayer_1 = new JLabel("Player 2");
 		lblPlayer_1.setForeground(Color.WHITE);
 		lblPlayer_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPlayer_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPlayer_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		frame.getContentPane().add(lblPlayer_1);
 
 		lblPlayer_2 = new JLabel("Player3");
 		lblPlayer_2.setForeground(Color.WHITE);
 		lblPlayer_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPlayer_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPlayer_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		frame.getContentPane().add(lblPlayer_2);
 
 		btnJoin = new JButton("JOIN");
@@ -110,6 +116,7 @@ public class GameBeingPlayed extends JDesktopPane{
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
+				CountryRender.setChosen(false);
 			}
 		});
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -152,6 +159,21 @@ public class GameBeingPlayed extends JDesktopPane{
 			}
 		});
 		
+		
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		frame.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
+		frame.setLocationRelativeTo(null);
 
 	}
 
