@@ -23,11 +23,11 @@ import Game.RemoteMatch;
 import Server.Server;
 import Services.Client;
 import Services.Controller;
+import Services.CountryRender;
 import Services.CryptPassword;
+import Services.GameBeingPlayed2;
 import Services.MatchData;
 import Services.Notification;
-import TEST.CountryRender;
-import TEST.GameBeingPlayed2;
 import TEST.JListCustomRendererExample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -126,7 +126,7 @@ public class TabPaneController {
 		if (!isAdmin)
 			panelMenu.setLayout(new GridLayout(5, 1, 0, 20));
 		else
-			panelMenu.setLayout(new GridLayout(6, 1, 0, 20));
+			panelMenu.setLayout(new GridLayout(5, 1, 0, 20));
 
 		JButton btnGames = new JButton("GAMES");
 		btnGames.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -138,7 +138,10 @@ public class TabPaneController {
 		btnUserStatistics.setBackground(Color.DARK_GRAY);
 		btnUserStatistics.setForeground(Color.WHITE);
 		btnUserStatistics.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panelMenu.add(btnUserStatistics);
+		if (isAdmin)
+			btnUserStatistics.setVisible(false);
+		else
+			panelMenu.add(btnUserStatistics);
 
 		JButton btnGlobalStatistics = new JButton("GLOBAL STATISTICS");
 		btnGlobalStatistics.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -726,6 +729,25 @@ public class TabPaneController {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
+		
+		
+		countryList2.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		countryList2.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
+		
+		
+		
+		
 
 	}
 

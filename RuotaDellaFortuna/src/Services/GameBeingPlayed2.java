@@ -1,9 +1,7 @@
-package TEST;
+package Services;
 
 import Game.RemoteMatch;
 import Server.Server;
-import Services.Client;
-import Services.MatchData;
 
 public class GameBeingPlayed2 {
 	String player1;

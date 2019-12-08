@@ -163,6 +163,8 @@ run();
     public void updatePhrase(boolean[] phrase) throws RemoteException {
        game.updatePhrase(phrase);
     }
+    
+
 
     @Override
     public void updatePhrase(String letter) throws RemoteException {

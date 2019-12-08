@@ -71,12 +71,11 @@ public class Game {
 	private JLabel lblTotal3;
 	private JLabel lblTime;
 
-
 	/**
 	 * Create the application.
 	 */
 	public Game(RemoteMatch match, Client client) {
-		this.match= match;
+		this.match = match;
 		this.client = client;
 		initialize();
 	}
@@ -302,7 +301,7 @@ public class Game {
 		lblTurn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblTurn.setBounds(10, 810, 169, 13);
 		frame.getContentPane().add(lblTurn);
-		
+
 		lblTime = new JLabel("TIME");
 		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTime.setForeground(Color.WHITE);
@@ -333,36 +332,37 @@ public class Game {
 		// GraphicsDevice device = graphics.getDefaultScreenDevice();
 		// frame.setUndecorated(false);
 		// device.setFullScreenWindow(frame);
-		
-		if (TabPaneController.creator) {
-            TabPaneController.setGameControlle(this);
-        } else {
-            GameBeingPlayed.setGameControllerObserver(this);
-            if (!GameBeingPlayed.player) {
-                hideAll();
-            }
-        }
 
-        try {
-            client.setGame(this);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        createTableOfPhrase();
-        try {
-            match.askNotify(client);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        disableAll();
-        try {
-            if (GameBeingPlayed.player)
-                match.tryForStartMatch();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+		if (TabPaneController.creator) {
+			TabPaneController.setGameControlle(this);
+		} else {
+			GameBeingPlayed.setGameControllerObserver(this);
+			if (!GameBeingPlayed.player) {
+				hideAll();
+			}
+		}
+
+		try {
+			client.setGame(this);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		createTableOfPhrase();
+		try {
+			match.askNotify(client);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		disableAll();
+		try {
+			if (GameBeingPlayed.player)
+				match.tryForStartMatch();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 	}
+
 	public void createTableOfPhrase() {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 15; j++) {
@@ -374,8 +374,6 @@ public class Game {
 
 		}
 	}
-	
-
 
 	public void wheelSpin() {
 		Wheel wheel = new Wheel();
@@ -500,8 +498,10 @@ public class Game {
 		t.start();
 	}
 
+	private String phrase;
+
 	public void setNewPhrase(String theme2, String phrase2) {
-		final String phrase = phrase2.toUpperCase();
+		phrase = phrase2.toUpperCase();
 		String theme = theme2;
 		Thread t = new Thread() {
 			public void run() {
@@ -572,6 +572,43 @@ public class Game {
 			}
 		};
 		t.start();
+
+	}
+
+	public void updatePhrase(boolean[] phrase) {
+		Thread t = new Thread() {
+			public void run() {
+				int column = 0;
+				int row = 0;
+				int z = 0;
+				String c;
+				// TRASFORMO MATRICE IN UN ARRAY
+				JButton[] array = new JButton[letter.length * letter[0].length];
+				int k = 0;
+				for (int i = 0; i < letter.length; i++) {
+					for (int j = 0; j < letter[i].length; j++) {
+						if (letter[i][j].getText() == " ")
+							j--;
+						else
+							array[k++] = letter[i][j];
+					}
+				}
+				while (z < phrase.length) {
+					if (phrase[z] == true) {
+						c = array[z].getText();
+						for (int w = 0; w < 4; w++) {
+							for (int ww = 0; ww < 14; w++) {
+								if (letter[w][ww].getText() == c) {
+									letter[w][ww].setText(c);
+									letter[w][ww].setBackground(find);
+								}
+							}
+						}
+					}
+					z++;
+				}
+			}
+		};
 
 	}
 
@@ -668,165 +705,176 @@ public class Game {
 		Thread t = new Thread() {
 			public void run() {
 				String message = nickname + " ha giocato il jolly";
-                Notification.notify("Notifica di partita", message, false);
+				Notification.notify("Notifica di partita", message, false);
 			}
 		};
 		t.start();
 	}
-	
-	 public void callLetterNotify(String nickname, String letter) {
-	       Thread t = new Thread() {
-	            public void run() {
-	                String message = nickname + " ha scelto la lettera " + letter;
-	                Notification.notify("Notifica di partita", message, false);
 
-	            }
-	       }; t.start();
-	    }
-	 
+	public void callLetterNotify(String nickname, String letter) {
+		Thread t = new Thread() {
+			public void run() {
+				String message = nickname + " ha scelto la lettera " + letter;
+				Notification.notify("Notifica di partita", message, false);
 
-	    public void setMatch(RemoteMatch matc) {
-	        match = matc;
-	    }
+			}
+		};
+		t.start();
+	}
 
-	    public void setObserver(boolean observer) {
-	        isObserver = observer;
-	    }
+	public void setMatch(RemoteMatch matc) {
+		match = matc;
+	}
 
-	    public void setClient(Client client) {
-	        this.client = client;
-	    }
-	    
-	    public void notifyLeaver(String nickname) {
-	      Thread t = new Thread(){
-	            public void run() {
-	                String message = nickname + "\nha lasciato la partita";
-	                TabPaneController.notifyLeaver(message);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyMatchAbort(String reason) {
-	        Thread t = new Thread(){
-	            public void run() {
-	                TabPaneController.setVisible();
-					frame.dispose();
-					TabPaneController.notifyMatchAbort(reason);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyMatchStart() {
-	        Thread t = new Thread(){
-	            public void run() {
-	                String message = "Partita iniziata";
-	                Notification.notify("Notifica di partita", message, false);
-	            }
-	        };t.start();
-	    }
-	    
-	    public void notifyMancheVictory() {
-	      Thread t = new Thread() {
-	            public void run() {
-	                Notification.notify("Notifica di partita", "HAI VINTO LA MANCHE!!!", false);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyMancheResult(String winner) {
-	       Thread t = new Thread() {
-	            @Override
-	            public void run() {
-	                String message = winner + "\nha vinto la manche ";
-	                Notification.notify("Notifica di partita", message, false);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyNewManche(int numManche) {
-	       Thread t = new Thread() {
-	            public void run() {
-	                String message = "la manche numero " + numManche + "\nsta per cominciare";
-	                Notification.notify("Notifica di partita", message, false);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyYourTurn() {
-	       Thread t = new Thread() {
-	            public void run() {
-	                Notification.notify("Notifica di partita", "è il tuo turno", false);
-	            }
-	        }; t.start();
-	        yourTurn();
-	    }
-	    
-	    public void notifyEndMatch(String winner) {
-	        Thread t = new Thread() {
-	            @Override
-	            public void run() {
-	                String message = winner + "\nha vinto la partita ";
-	                match = null;
-	               TabPaneController.setVisible();
-	              frame.dispose();
-	                TabPaneController.notifyMatchEnd(message);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyMatchWin() {
-	        Thread t = new Thread() {
-	            public void run() {
-	                match = null;
-	                TabPaneController.setVisible();
-	                frame.dispose();
-	                TabPaneController.notifyMatchWin();
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyTimeOut() {
-	        Thread t = new Thread() {
-	            public void run() {
-	                Notification.notify("Notifica di partita", "Tempo scaduto", false);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void askForJolly() {
-	       Thread t = new Thread() {
-	            public void run() {
-	                Notification.notify("Notifica di partita", "Hai fatto un errore\nVuoi usare il jolly?", false);
-	            }
-	        }; t.start();
-	    }
-	    
-	    public void notifyPlayerError(String name) {
-	        Thread t = new Thread() {
-	            public void run() {
-	                String message = name + "\nha commesso un errore";
-	                Notification.notify("Notifica di partita", message, false);
-	            }
-	        }; t.start();
-	    }
+	public void setObserver(boolean observer) {
+		isObserver = observer;
+	}
 
-	   
-	    public void notifyNoMoreConsonant() {
-	       Thread t = new Thread() {
-	            public void run() {
-	                Notification.notify("Notifica di partita", "sono state chiamate tutte le consonanti", false);
-	            }
-	        }; t.start();
-	    }
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
-	    public void updateTimer(int time) {
-	        Thread t = new Thread() {
-	            public void run() {
-	                lblTime.setText("" + time);
-	            }
-	        }; t.start();
-	    }
-	    
+	public void notifyLeaver(String nickname) {
+		Thread t = new Thread() {
+			public void run() {
+				String message = nickname + "\nha lasciato la partita";
+				TabPaneController.notifyLeaver(message);
+			}
+		};
+		t.start();
+	}
 
-	
+	public void notifyMatchAbort(String reason) {
+		Thread t = new Thread() {
+			public void run() {
+				TabPaneController.setVisible();
+				frame.dispose();
+				TabPaneController.notifyMatchAbort(reason);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyMatchStart() {
+		Thread t = new Thread() {
+			public void run() {
+				String message = "Partita iniziata";
+				Notification.notify("Notifica di partita", message, false);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyMancheVictory() {
+		Thread t = new Thread() {
+			public void run() {
+				Notification.notify("Notifica di partita", "HAI VINTO LA MANCHE!!!", false);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyMancheResult(String winner) {
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				String message = winner + "\nha vinto la manche ";
+				Notification.notify("Notifica di partita", message, false);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyNewManche(int numManche) {
+		Thread t = new Thread() {
+			public void run() {
+				String message = "la manche numero " + numManche + "\nsta per cominciare";
+				Notification.notify("Notifica di partita", message, false);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyYourTurn() {
+		Thread t = new Thread() {
+			public void run() {
+				Notification.notify("Notifica di partita", "è il tuo turno", false);
+			}
+		};
+		t.start();
+		yourTurn();
+	}
+
+	public void notifyEndMatch(String winner) {
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				String message = winner + "\nha vinto la partita ";
+				match = null;
+				TabPaneController.setVisible();
+				frame.dispose();
+				TabPaneController.notifyMatchEnd(message);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyMatchWin() {
+		Thread t = new Thread() {
+			public void run() {
+				match = null;
+				TabPaneController.setVisible();
+				frame.dispose();
+				TabPaneController.notifyMatchWin();
+			}
+		};
+		t.start();
+	}
+
+	public void notifyTimeOut() {
+		Thread t = new Thread() {
+			public void run() {
+				Notification.notify("Notifica di partita", "Tempo scaduto", false);
+			}
+		};
+		t.start();
+	}
+
+	public void askForJolly() {
+		Thread t = new Thread() {
+			public void run() {
+				Notification.notify("Notifica di partita", "Hai fatto un errore\nVuoi usare il jolly?", false);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyPlayerError(String name) {
+		Thread t = new Thread() {
+			public void run() {
+				String message = name + "\nha commesso un errore";
+				Notification.notify("Notifica di partita", message, false);
+			}
+		};
+		t.start();
+	}
+
+	public void notifyNoMoreConsonant() {
+		Thread t = new Thread() {
+			public void run() {
+				Notification.notify("Notifica di partita", "sono state chiamate tutte le consonanti", false);
+			}
+		};
+		t.start();
+	}
+
+	public void updateTimer(int time) {
+		Thread t = new Thread() {
+			public void run() {
+				lblTime.setText("" + time);
+			}
+		};
+		t.start();
+	}
+
 }
