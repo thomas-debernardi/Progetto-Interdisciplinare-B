@@ -65,7 +65,7 @@ public class GameBeingPlayed extends JDesktopPane{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(Color.BLACK);
 		frame.setBackground(Color.GRAY);
@@ -136,6 +136,7 @@ public class GameBeingPlayed extends JDesktopPane{
 					TabPaneController.creator = false;
 					Game game = new Game(match, client);
 					TabPaneController.setInvisible();
+					frame.dispose();
 
 				}
 			}

@@ -55,7 +55,7 @@ public class InsubriaLoginController {
 	public void initialize() {
 		
 		
-		frame = new JFrame("INSUBRIA LOGIN CONTROLLER");
+		frame = new JFrame("RdF Server");
 		frame.setUndecorated(true);
 		frame.setBackground(Color.GRAY);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

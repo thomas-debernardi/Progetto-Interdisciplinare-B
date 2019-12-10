@@ -56,6 +56,7 @@ public class PrimePaneServer extends JFrame {
 	 * Create the frame.
 	 */
 	public PrimePaneServer() {
+		setTitle("RdF SERVER");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 295, 190);

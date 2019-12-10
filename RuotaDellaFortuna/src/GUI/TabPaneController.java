@@ -22,13 +22,11 @@ import javax.swing.JTabbedPane;
 import Game.RemoteMatch;
 import Server.Server;
 import Services.Client;
-import Services.Controller;
 import Services.CountryRender;
 import Services.CryptPassword;
 import Services.GameBeingPlayed2;
 import Services.MatchData;
 import Services.Notification;
-import TEST.JListCustomRendererExample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -42,6 +40,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -110,7 +109,11 @@ public class TabPaneController {
 		MainPane.setArgs(this);
 		creator = true;
 
-		frame = new JFrame();
+		try {
+			frame = new JFrame("Rdf: " + client.getNickname());
+		} catch (HeadlessException | RemoteException e2) {
+			e2.printStackTrace();
+		}
 		frame.setUndecorated(true);
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.GRAY);
@@ -175,6 +178,7 @@ public class TabPaneController {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						addMatch();
+						frame.setVisible(false);
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -210,6 +214,23 @@ public class TabPaneController {
 		panelGames.setAutoscrolls(true);
 		panelGames.setBackground(Color.GRAY);
 		panel.add(panelGames, "name_861668335796200");
+		
+		
+		panelGames.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				posX = e.getX();
+				posY = e.getY();
+			}
+		});
+
+		panelGames.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent evt) {
+				// sets frame position when mouse dragged
+				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+			}
+		});
+		
+		
 
 		
 		
@@ -221,12 +242,12 @@ public class TabPaneController {
 		countryList2.setForeground(Color.WHITE);
 		countryList2.setFont(new Font("Tahoma", Font.BOLD, 18));
 		countryList2.setBackground(Color.GRAY);
-		countryList2.setBounds(new Rectangle(151, 0, 416, 683));
 		uploadGameInProgress();
-		panelGames.setLayout(null);
+		panelGames.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		countryList2.setCellRenderer(new CountryRender());
 		//frame.getContentPane().add(new JScrollPane(countryList2));
 		panelGames.add(countryList2);
+		
 
 		
 		

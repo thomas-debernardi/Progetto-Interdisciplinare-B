@@ -28,6 +28,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -84,7 +86,15 @@ public class Game {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		String nickname = null;
+		try {
+			nickname = client.getNickname();
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		
+		frame = new JFrame("Rdf: " + nickname);
+
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.GRAY);
@@ -203,28 +213,26 @@ public class Game {
 		btnSpin.setBackground(Color.GREEN);
 		btnSpin.setForeground(Color.WHITE);
 
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setNewPhrase("Calcio", "Leo Messi ha vinto il pallone di oro");
-			}
-		});
-		btnNewButton.setBounds(610, 100, 85, 21);
-		panelAction.add(btnNewButton);
-
 		textFieldCharacter = new JTextField();
 		textFieldCharacter.setBounds(259, 101, 96, 19);
 		panelAction.add(textFieldCharacter);
 		textFieldCharacter.setColumns(10);
 
 		JButton btnCharacter = new JButton("SEND");
+		btnCharacter.setEnabled(false);
 		btnCharacter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (textFieldCharacter.getText().equals("") || textFieldCharacter.getText().length() > 1) {
 					Notification.notify("ATTENTION", "INSERT E CHARACTER", true);
 				} else {
-					updatePhrase(textFieldCharacter.getText().toUpperCase());
-					textFieldCharacter.setText("");
+					try {
+						onEnter();
+						// updatePhrase(textFieldCharacter.getText().toUpperCase());
+						textFieldCharacter.setText("");
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+
 				}
 
 			}
@@ -274,7 +282,6 @@ public class Game {
 				try {
 					giveVocal();
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -361,6 +368,8 @@ public class Game {
 			e.printStackTrace();
 		}
 
+		// notifyPlayerStats(0,client.getNickname(), 0, 0, 0);
+
 	}
 
 	public void createTableOfPhrase() {
@@ -376,15 +385,8 @@ public class Game {
 	}
 
 	public void wheelSpin() {
-		Wheel wheel = new Wheel();
 		Thread t = new Thread() {
 			public void run() {
-				try {
-					Thread.sleep(4 * 1000);
-					wheel.dispose();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				try {
 					wheelResult = match.wheelSpin();
 					wheelButtonPressed = true;
@@ -402,6 +404,7 @@ public class Game {
 				lblWheelResult.setText(result);
 			}
 		};
+		t.start();
 	}
 
 	public void onEnter() throws RemoteException {
@@ -500,6 +503,44 @@ public class Game {
 
 	private String phrase;
 
+	public void updatePhrase(boolean[] phrase) {
+		Thread t = new Thread() {
+			public void run() {
+				int column = 0;
+				int row = 0;
+				int z = 0;
+				String c;
+				// TRASFORMO MATRICE IN UN ARRAY
+				JButton[] array = new JButton[letter.length * letter[0].length];
+				int k = 0;
+				for (int i = 0; i < letter.length; i++) {
+					for (int j = 0; j < letter[i].length; j++) {
+						if (letter[i][j].getText() == " ")
+							j--;
+						else
+							array[k++] = letter[i][j];
+					}
+				}
+				while (z < phrase.length) {
+					if (phrase[z] == true) {
+						c = array[z].getText();
+						for (int w = 0; w < 4; w++) {
+							for (int ww = 0; ww < 14; w++) {
+								if (letter[w][ww].getText() == c) {
+									letter[w][ww].setText(c);
+									letter[w][ww].setBackground(find);
+								}
+							}
+						}
+					}
+					z++;
+				}
+			}
+		};
+		t.start();
+
+	}
+
 	public void setNewPhrase(String theme2, String phrase2) {
 		phrase = phrase2.toUpperCase();
 		String theme = theme2;
@@ -575,43 +616,6 @@ public class Game {
 
 	}
 
-	public void updatePhrase(boolean[] phrase) {
-		Thread t = new Thread() {
-			public void run() {
-				int column = 0;
-				int row = 0;
-				int z = 0;
-				String c;
-				// TRASFORMO MATRICE IN UN ARRAY
-				JButton[] array = new JButton[letter.length * letter[0].length];
-				int k = 0;
-				for (int i = 0; i < letter.length; i++) {
-					for (int j = 0; j < letter[i].length; j++) {
-						if (letter[i][j].getText() == " ")
-							j--;
-						else
-							array[k++] = letter[i][j];
-					}
-				}
-				while (z < phrase.length) {
-					if (phrase[z] == true) {
-						c = array[z].getText();
-						for (int w = 0; w < 4; w++) {
-							for (int ww = 0; ww < 14; w++) {
-								if (letter[w][ww].getText() == c) {
-									letter[w][ww].setText(c);
-									letter[w][ww].setBackground(find);
-								}
-							}
-						}
-					}
-					z++;
-				}
-			}
-		};
-
-	}
-
 	public void giveSolution() throws RemoteException {
 		match.askForSolution();
 		btnSendSolution.setEnabled(true);
@@ -664,15 +668,15 @@ public class Game {
 					break;
 				case 1:
 					lblPlayer2.setText(nickname);
-					lblPartial1.setText(String.valueOf(partial));
-					lblTotal1.setText(String.valueOf(total));
-					lblJolly1.setText(String.valueOf(numJolly));
+					lblPartial2.setText(String.valueOf(partial));
+					lblTotal2.setText(String.valueOf(total));
+					lblJolly2.setText(String.valueOf(numJolly));
 					break;
 				case 2:
 					lblPlayer3.setText(nickname);
-					lblPartial1.setText(String.valueOf(partial));
-					lblTotal1.setText(String.valueOf(total));
-					lblJolly1.setText(String.valueOf(numJolly));
+					lblPartial3.setText(String.valueOf(partial));
+					lblTotal3.setText(String.valueOf(total));
+					lblJolly3.setText(String.valueOf(numJolly));
 					break;
 				}
 			}

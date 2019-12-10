@@ -3,6 +3,7 @@ package Game;
 
 import java.rmi.RemoteException;
 
+import Server.ServerImplementation;
 import Services.Client;
 
 /**

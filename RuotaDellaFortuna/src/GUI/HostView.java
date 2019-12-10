@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.BoxLayout;
 
 public class HostView {
 
@@ -32,18 +33,20 @@ public class HostView {
 	private Registry r;
 	private Server server;
 	private JLabel lblHost;
-	private JButton btnExit;
 	int posX = 0, posY = 0;
-	
+	private JPanel panel;
+	private JButton button;
+	private JButton btnMinimize;
+
 	public HostView() {
 		initialize();
 	}
-	
+
 	/**
 	 * Create the frame.
 	 */
-	public void initialize() {	
-		JFrame frame = new JFrame();
+	public void initialize() {
+		JFrame frame = new JFrame("RdF SERVER");
 		frame.setUndecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 406, 229);
@@ -54,30 +57,45 @@ public class HostView {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		lblHost = new JLabel("HOST NAME");
 		lblHost.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHost.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblHost.setForeground(Color.WHITE);
 		contentPane.add(lblHost);
-		
-		btnExit = new JButton("EXIT");
-		btnExit.addActionListener(new ActionListener() {
+
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		button = new JButton("EXIT");
+		panel.add(button);
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		button.setBackground(Color.RED);
+		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		btnExit.setBackground(Color.RED);
-		btnExit.setForeground(Color.WHITE);
-		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		contentPane.add(btnExit, BorderLayout.SOUTH);
+
+		btnMinimize = new JButton("MINIMIZE");
+		btnMinimize.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnMinimize.setBackground(Color.CYAN);
+		panel.add(btnMinimize, BorderLayout.EAST);
+		btnMinimize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setState(JFrame.ICONIFIED);
+			}
+		});
+
 		InsubriaLoginController.setHost(this);
 		try {
 			takeAddress();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
@@ -91,37 +109,35 @@ public class HostView {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
-		
-	}
-			
-		public void takeAddress() throws Exception{
-			r = LocateRegistry.createRegistry(1099);
-			r.rebind("SERVER",server);
-			InetAddress address = null;
-			try {
-				address = InetAddress.getLocalHost();
-				lblHost.setText("Hostname: " + address.getHostName());
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		public Registry getR() {
-			return r;
-		}
 
-		public Server getServer() {
-			return server;
-		}
-
-		public void setR(Registry r) {
-			this.r = r;
-		}
-
-		public void setServer(Server server) {
-			this.server = server;
-		}
-		
-		
 	}
 
+	public void takeAddress() throws Exception {
+		r = LocateRegistry.createRegistry(1099);
+		r.rebind("SERVER", server);
+		InetAddress address = null;
+		try {
+			address = InetAddress.getLocalHost();
+			lblHost.setText("Hostname: " + address.getHostName());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Registry getR() {
+		return r;
+	}
+
+	public Server getServer() {
+		return server;
+	}
+
+	public void setR(Registry r) {
+		this.r = r;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
+	}
+
+}
