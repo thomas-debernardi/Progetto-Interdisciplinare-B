@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import Server.OTPHelper;
 import Server.Server;
 import Services.Client;
-import Services.Controller;
 import Services.Notification;
 import Services.User;
 
@@ -41,8 +40,8 @@ public class Registration {
 	private User user;
 	private static boolean isServer;
 	private static OTPHelper otp;
-    private boolean admin;
-    int posX = 0, posY = 0;
+	private boolean admin;
+	int posX = 0, posY = 0;
 
 	private JFrame frame;
 
@@ -57,8 +56,8 @@ public class Registration {
 	 * Create the frame.
 	 */
 	public void initialize() {
-		if (InsubriaLoginController.forServer) {
-			InsubriaLoginController.setReg(this);
+		if (InsubriaLogin.forServer) {
+			InsubriaLogin.setReg(this);
 		} else {
 			MainPane.setRegistration(this);
 		}
@@ -164,7 +163,7 @@ public class Registration {
 		passwordFieldRepeat.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordFieldRepeat.setBounds(147, 195, 96, 21);
 		contentPane.add(passwordFieldRepeat);
-		
+
 		JButton btnBack = new JButton("<");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -178,7 +177,6 @@ public class Registration {
 		btnBack.setBounds(34, 276, 58, 21);
 		contentPane.add(btnBack);
 
-		
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
@@ -188,7 +186,6 @@ public class Registration {
 
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent evt) {
-				// sets frame position when mouse dragged
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
@@ -196,32 +193,31 @@ public class Registration {
 
 	public void confirm() throws IOException {
 		if (!(passwordFieldRepeat.getText().equals(passwordField.getText())))
-			Notification.notify("ERRORE", "Le due password non coincidono", false);
+			Notification.notify("ERROR", "password", false);
 
-		// se la mail non esiste visualizza notifica
 		else if (!(textFieldName.getText().equals("") || textFieldSurname.getText().equals("")
 				|| textFieldNickname.getText().equals("") || textFieldEmail.getText().equals("")
 				|| passwordField.getText().equals("") || passwordFieldRepeat.getText().equals(""))) {
 			if (!server.checkEMail(textFieldEmail.getText())) {
-				Notification.notify("Mail Notification", "E-mail già presente \nimmettere nuova mail", true);
-				// se esiste nickName visualizza notifica
+				Notification.notify("ERROR", "email already registered", true);
+
 			} else if (!server.checkNickname(textFieldNickname.getText())) {
-				Notification.notify("Mail Notification", "Nickname già presente \nimmettere un nuovo nickname", true);
+				Notification.notify("ERROR", "nickname already exist", true);
 			} else {
 				String nameStr = textFieldName.getText();
 				String surnameStr = textFieldSurname.getText();
 				String nickStr = textFieldNickname.getText();
 				String mailStr = textFieldEmail.getText();
 				String passwordStr = passwordField.getText();
-				user = new User(mailStr,passwordStr, nameStr, surnameStr, nickStr);
+				user = new User(mailStr, passwordStr, nameStr, surnameStr, nickStr);
 				System.out.println(user.getEmail());
 				// AGGIUNGERE TRY CATCH CON EMAIL NON ESISTENTE ECC
 				otp = server.signUp(user, client, admin);
-				OTPRegistrationController otpPane = new OTPRegistrationController();
+				OTPRegistration otpPane = new OTPRegistration();
 				frame.dispose();
 			}
 		} else {
-			Notification.notify("Registration Notification", "Errore:\nTutti i campi sono obbligatori", true);
+			Notification.notify("ERROR", "compile all field", true);
 		}
 	}
 
@@ -229,7 +225,7 @@ public class Registration {
 		if (!isServer) {
 			WelcomePane wp = new WelcomePane();
 		} else {
-			InsubriaLoginController ilc = new InsubriaLoginController();
+			InsubriaLogin ilc = new InsubriaLogin();
 		}
 	}
 
@@ -249,23 +245,13 @@ public class Registration {
 		this.admin = admin;
 	}
 
-	/**
-	 * Metodo utilizzato per passare le informazioni del client a
-	 * {@link OTPRegistrationController}
-	 *
-	 * @param otpp il riferimento al controller {@link OTPRegistrationController}
-	 */
-	public static void setOTP(OTPRegistrationController otpp) {
+	public static void setOTP(OTPRegistration otpp) {
 		otpp.setClient(client);
 		otpp.setServer(server);
 		otpp.setOtp(otp);
 	}
 
-	/**
-	 * Notifica che non e' stato possibile inviare la mail all'indirizzo email
-	 * specificato al momento della registrazione per problemi di connessione o
-	 * perche' non esistente
-	 */
+
 	public void notifyIllegalEmailAddress() {
 		Notification.notify("Errore", "L'indirizzo email inserito non\nè disponibile o non esiste.", true);
 	}

@@ -2,9 +2,7 @@ package Database;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * La classe dei Data Transfer Objects relativi alle tuple della tabella "Matches". I suoi metodi permettono la costruzione e l'ottenimento dei campi dell'oggetto
- */
+
 public class MatchesDTO {
     private String id;
     private String date;

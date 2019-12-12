@@ -3,9 +3,6 @@ package Services;
 
 import java.io.Serializable;
 
-/**
- * E' una classe di supporto utilizzata dal client e da {@link server.MatchVisualizer} per l'invio delle informazioni dei match senza dover passare al client gli oggetti remoti
- */
 public class MatchData implements Serializable {
     public static final long serialVersionUID = 1L;
 

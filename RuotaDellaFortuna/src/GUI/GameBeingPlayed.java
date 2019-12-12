@@ -131,11 +131,11 @@ public class GameBeingPlayed extends JDesktopPane{
 					e1.printStackTrace();
 				}
 				if (match == null) {
-					Notification.notify("Notifica Partita", "Partita inesistente", true);
+					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
 				} else {
-					TabPaneController.creator = false;
+					TabPane.creator = false;
 					Game game = new Game(match, client);
-					TabPaneController.setInvisible();
+					TabPane.setInvisible();
 					frame.dispose();
 
 				}
@@ -151,11 +151,11 @@ public class GameBeingPlayed extends JDesktopPane{
 					e1.printStackTrace();
 				}
 				if (match == null) {
-					Notification.notify("Notifica Partita", "Partita inesistente", true);
+					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
 				} else {
-					TabPaneController.creator = false;
+					TabPane.creator = false;
 					Game game = new Game(match, client);
-					TabPaneController.setInvisible();
+					TabPane.setInvisible();
 				}
 			}
 		});
@@ -170,7 +170,6 @@ public class GameBeingPlayed extends JDesktopPane{
 
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent evt) {
-				// sets frame position when mouse dragged
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
@@ -194,11 +193,11 @@ public class GameBeingPlayed extends JDesktopPane{
 					e1.printStackTrace();
 				}
 				if (match == null) {
-					Notification.notify("Notifica Partita", "Partita inesistente", true);
+					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
 				} else {
-					TabPaneController.creator = false;
+					TabPane.creator = false;
 					Game game = new Game(match, client);
-					TabPaneController.setInvisible();
+					TabPane.setInvisible();
 
 				}
 			}
@@ -213,11 +212,11 @@ public class GameBeingPlayed extends JDesktopPane{
 					e1.printStackTrace();
 				}
 				if (match == null) {
-					Notification.notify("Notifica Partita", "Partita inesistente", true);
+					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
 				} else {
-					TabPaneController.creator = false;
+					TabPane.creator = false;
 					Game game = new Game(match, client);
-					TabPaneController.setInvisible();
+					TabPane.setInvisible();
 				}
 			}
 		});

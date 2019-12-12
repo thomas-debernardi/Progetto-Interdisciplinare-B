@@ -11,9 +11,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import Database.DBManager;
 import Database.PhrasesDTO;
 
-/**
- * Questa classe gestisce l'aggiunta di nuove frasi all'interno del database
- */
 public class PhraseManager {
 	private DBManager dbManager;
 	private static PhraseManager phraseManager = null;
@@ -22,10 +19,6 @@ public class PhraseManager {
 		this.dbManager = dbManager;
 	}
 
-	/**
-	 * @param dbmng il riferimento a {@link DBManager}
-	 * @return Il riferimento al singleton di {@link PhraseManager}
-	 */
 	public static PhraseManager createPhraseManager(DBManager dbmng) {
 		if (phraseManager == null) {
 			phraseManager = new PhraseManager(dbmng);
@@ -35,16 +28,6 @@ public class PhraseManager {
 		}
 	}
 
-	/**
-	 * Questo metodo aggiunge al database le frasi ottenute attraverso un file di
-	 * tipo .csv
-	 *
-	 * @param file il file da leggere
-	 * @return <code>true</code> se l'inserimento avviene con successo,
-	 *         <code>false</code> altrimenti
-	 * @throws IOException            in caso di errori nella lettura del file
-	 * @throws CsvValidationException
-	 */
 	public boolean addPhrases(File file) throws IOException, CsvValidationException {
 		CSVReader reader = new CSVReader(new FileReader(file));
 		ArrayList<PhrasesDTO> phrases = new ArrayList<>();

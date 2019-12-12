@@ -6,9 +6,7 @@ import java.rmi.RemoteException;
 import Server.ServerImplementation;
 import Services.Client;
 
-/**
- * Questa classe gestisce il timer per le mosse. Se il tempo finisce viene segnalato l'errore
- */
+
 public class MoveTimer extends Thread {
     private int time;
     private Match match;
@@ -36,9 +34,7 @@ public class MoveTimer extends Thread {
         return isThisForVocal;
     }
 
-    /**
-     * Aspetta per un tempo stabilito. Se non riceve l'interrupt segnala il tempo scaduto e quindi l'errore
-     */
+
     public void run(){
         try{
             int seconds = time/1000;
@@ -65,7 +61,7 @@ public class MoveTimer extends Thread {
                         }
                     }
                 }
-                sleep(1000);
+                sleep(10000); //deve essere 5000
             }
 //            sleep(time);
             if(!match.isMatchEnded()) {

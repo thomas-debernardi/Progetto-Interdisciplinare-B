@@ -5,10 +5,7 @@ import java.rmi.RemoteException;
 
 import Services.Client;
 
-/**
- * Classe di supporto per tenere traccia dei giocatori di una partita. Contiene informazioni utili come l'oggetto remoto Client per le notifiche, l'id
- * e nickname del giocatore e i punteggi parziali e totali. I metodi permetto di ottenere e modificare tali informazioni
- */
+
 public class Player {
 
     private Client client;

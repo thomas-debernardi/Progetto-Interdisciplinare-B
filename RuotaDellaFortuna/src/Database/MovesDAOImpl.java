@@ -7,9 +7,7 @@ import java.sql.Statement;
 
 import Game.Move;
 
-/**
- * Implementazione dell'interfaccia {@link MovesDAO}
- */
+
 public class MovesDAOImpl implements MovesDAO {
     private Connection con;
 
@@ -17,7 +15,6 @@ public class MovesDAOImpl implements MovesDAO {
         con = c;
     }
 
-    @Override
     public boolean addMove(Move move) throws SQLException{
         String queryAdd = "INSERT INTO " + MovesTable + "(" + MovesIdPlayerAttribute + "," + MovesMoveTypeAttribute + "," + MovesOutcomeAttribute + "," + MovesIdMatchAttribute + "," + MovesMancheNumberAttribute + ","+MovesMoveIdAttribute+") " +
                             "VALUES ('" + move.getPlayer() + "','" + move.getMoveType() + "'," + move.getOutCome() + ",'" + move.getIdMatch() + "'," + move.getNumManche() + ",'"+ move.getMoveId()+"')";
@@ -25,7 +22,6 @@ public class MovesDAOImpl implements MovesDAO {
         return stmt.executeUpdate(queryAdd) > 0;
     }
 
-    @Override
     public MovesDTO getBestMove() throws SQLException{
         String queryGet = "SELECT * FROM "+UsersDAO.UserTable+" M JOIN "+MovesTable+" U ON M.id = U.id JOIN "+ManchesDAO.ManchesTable+" MT ON U.idmanche = MT.id AND U.number = MT.number "+
                 "JOIN "+PhrasesDAO.PhraseTable+" PT ON MT.phrase = PT.phrase WHERE U.outcome = (SELECT MAX("+MovesOutcomeAttribute+") FROM "+MovesTable+");";
@@ -45,7 +41,6 @@ public class MovesDAOImpl implements MovesDAO {
             return null;
     }
 
-    @Override
     public int getAverageMovesPerManche(int numManche) throws SQLException{
         if(numManche == 0) {
             return 0;
@@ -63,7 +58,6 @@ public class MovesDAOImpl implements MovesDAO {
         }
     }
 
-    @Override
     public int getAllPassedTurnByUser(String id) throws SQLException {
         String queryGet ="SELECT COUNT(*) AS count FROM "+MovesTable+ " WHERE "+MovesIdPlayerAttribute +" = '"+id+"' AND "+MovesOutcomeAttribute+" = 0;";
         Statement stmt = con.createStatement();
@@ -74,7 +68,6 @@ public class MovesDAOImpl implements MovesDAO {
             return 0;
     }
 
-    @Override
     public int getAllLossesByUser(String id) throws SQLException {
         String queryGet ="SELECT COUNT(*) AS count FROM "+MovesTable+ " WHERE "+MovesIdPlayerAttribute +" = '"+id+"' AND "+MovesMoveTypeAttribute+" = 'perde';";
         Statement stmt = con.createStatement();

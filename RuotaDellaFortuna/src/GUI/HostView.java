@@ -80,6 +80,7 @@ public class HostView {
 		});
 
 		btnMinimize = new JButton("MINIMIZE");
+		btnMinimize.setForeground(Color.WHITE);
 		btnMinimize.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnMinimize.setBackground(Color.CYAN);
 		panel.add(btnMinimize, BorderLayout.EAST);
@@ -89,7 +90,7 @@ public class HostView {
 			}
 		});
 
-		InsubriaLoginController.setHost(this);
+		InsubriaLogin.setHost(this);
 		try {
 			takeAddress();
 		} catch (Exception e) {
@@ -105,7 +106,6 @@ public class HostView {
 
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent evt) {
-				// sets frame position when mouse dragged
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});

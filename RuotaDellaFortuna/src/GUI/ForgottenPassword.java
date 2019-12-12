@@ -145,9 +145,9 @@ public class ForgottenPassword {
 	        String mail = textField.getText();
 	        boolean bool = server.resetPassword(client, mail);
 	        if (!bool) {
-	            Notification.notify("Mail Notification", "L'indirizzo email non esiste.\nriprova", true);
+	            Notification.notify("ERROR", "Email doesn't exist", true);
 	        } else {
-	            Notification.notify("Successo", "Ѐ stata inviata una mail contenente la nuova password", false);
+	            Notification.notify("OK", "Email with new password sended", false);
 	            frame.dispose();
 	        }
 	    }

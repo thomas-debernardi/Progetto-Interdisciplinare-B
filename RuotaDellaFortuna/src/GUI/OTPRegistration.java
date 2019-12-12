@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class OTPRegistrationController {
+public class OTPRegistration {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -42,7 +42,7 @@ public class OTPRegistrationController {
 	
 	int posX = 0, posY = 0;
 
-	public OTPRegistrationController() {
+	public OTPRegistration() {
 		initialize();
 	}
 
@@ -123,7 +123,7 @@ public class OTPRegistrationController {
 
 	public void enter() throws IOException {
 		if (textField.getText().equals(""))
-			Notification.notify("OTP Notification", "Nessun codice OTP inserito", false);
+			Notification.notify("ERROR", "NO OTP CODE", false);
 		String otpStr = textField.getText();
 		boolean check = false;
 		try {
@@ -132,9 +132,9 @@ public class OTPRegistrationController {
 			e.printStackTrace();
 		}
 		if (!check) {
-			Notification.notify("OTP Notification", "CodiceOTP non valido\n", true);
+			Notification.notify("ERRROR", "INVALID OTP", true);
 		} else {
-			Notification.notify("SUCCESSO", "CODICE ACCETTATO", true);
+			Notification.notify("OK", "CODE ACCEPTED", true);
 			MainPane mp = new MainPane();
 			// CHIUDERE APPLICAZIONE
 			frame.dispose();
@@ -142,7 +142,7 @@ public class OTPRegistrationController {
 	}
 
 	public void notifyWrongOTP() {
-		Notification.notify("OTP Notification", "OTP inserito errato \nriprova", true);
+		Notification.notify("ERRROR", "INVALID OTP", true);
 	}
 
 	public void setServer(Server server) {
@@ -178,8 +178,8 @@ public class OTPRegistrationController {
 								milliseconds = 0;
 								seconds = 0;
 								minutes = 10;
-								Notification.notify("TEMPO SCADUTO",
-										"sono passati dieci minuti per linserimento f^del codice di verifica", false);
+								Notification.notify("ERROR",
+										"TIME OUT", false);
 								state = false;
 								break;
 							}

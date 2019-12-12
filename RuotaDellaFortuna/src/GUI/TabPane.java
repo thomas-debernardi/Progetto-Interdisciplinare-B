@@ -56,7 +56,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import java.awt.Rectangle;
 
-public class TabPaneController {
+public class TabPane {
 
 	private static JFrame frame;
 	private static Client client;
@@ -98,7 +98,7 @@ public class TabPaneController {
 	/**
 	 * Create the application.
 	 */
-	public TabPaneController() {
+	public TabPane() {
 		initialize();
 	}
 
@@ -206,7 +206,7 @@ public class TabPaneController {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.GRAY);
-		panel.setBounds(282, 0, 754, 683);
+		panel.setBounds(282, 0, 758, 641);
 		frame.getContentPane().add(panel);
 		panel.setLayout(new CardLayout(0, 0));
 
@@ -214,8 +214,7 @@ public class TabPaneController {
 		panelGames.setAutoscrolls(true);
 		panelGames.setBackground(Color.GRAY);
 		panel.add(panelGames, "name_861668335796200");
-		
-		
+
 		panelGames.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
@@ -229,12 +228,7 @@ public class TabPaneController {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
-		
-		
 
-		
-		
-		
 		listModel = new DefaultListModel<>();
 		// create the list
 		list2 = new ArrayList<>();
@@ -245,12 +239,9 @@ public class TabPaneController {
 		uploadGameInProgress();
 		panelGames.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		countryList2.setCellRenderer(new CountryRender());
-		//frame.getContentPane().add(new JScrollPane(countryList2));
+		// frame.getContentPane().add(new JScrollPane(countryList2));
 		panelGames.add(countryList2);
-		
 
-		
-		
 		JPanel panelUsersStatistics = new JPanel();
 		panelUsersStatistics.setBackground(Color.GRAY);
 		panel.add(panelUsersStatistics, "name_861713845535800");
@@ -484,7 +475,7 @@ public class TabPaneController {
 		lblMoreManchesValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMoreManchesValue.setForeground(Color.WHITE);
 		lblMoreManchesValue.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblMoreManchesValue.setBounds(205, 209, 63, 13);
+		lblMoreManchesValue.setBounds(145, 209, 187, 13);
 		panelGlobalStatistics.add(lblMoreManchesValue);
 
 		JLabel lblAveragePointsManche = new JLabel("Average points for manche");
@@ -498,7 +489,7 @@ public class TabPaneController {
 		lblAveragePointMancheValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAveragePointMancheValue.setForeground(Color.WHITE);
 		lblAveragePointMancheValue.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblAveragePointMancheValue.setBounds(485, 209, 63, 13);
+		lblAveragePointMancheValue.setBounds(393, 209, 260, 13);
 		panelGlobalStatistics.add(lblAveragePointMancheValue);
 
 		JLabel lblGiveUpTheTurn = new JLabel("More times gived up the shift");
@@ -512,7 +503,7 @@ public class TabPaneController {
 		lblGivedShiftValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGivedShiftValue.setForeground(Color.WHITE);
 		lblGivedShiftValue.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblGivedShiftValue.setBounds(205, 326, 63, 13);
+		lblGivedShiftValue.setBounds(103, 326, 270, 13);
 		panelGlobalStatistics.add(lblGivedShiftValue);
 
 		JLabel lblLostEverything = new JLabel("Lost Everything");
@@ -526,7 +517,7 @@ public class TabPaneController {
 		lblLostEverythingValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLostEverythingValue.setForeground(Color.WHITE);
 		lblLostEverythingValue.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblLostEverythingValue.setBounds(485, 326, 63, 13);
+		lblLostEverythingValue.setBounds(446, 326, 158, 13);
 		panelGlobalStatistics.add(lblLostEverythingValue);
 
 		JLabel lblBestCalledConsonant = new JLabel("Best called consonant");
@@ -540,7 +531,7 @@ public class TabPaneController {
 		lblBestCalledConsonant1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBestCalledConsonant1.setForeground(Color.WHITE);
 		lblBestCalledConsonant1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblBestCalledConsonant1.setBounds(342, 428, 63, 13);
+		lblBestCalledConsonant1.setBounds(240, 428, 260, 13);
 		panelGlobalStatistics.add(lblBestCalledConsonant1);
 
 		lblBestCalledConsonant2 = new JLabel("name");
@@ -554,7 +545,7 @@ public class TabPaneController {
 		lblBestCalledConsonant3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBestCalledConsonant3.setForeground(Color.WHITE);
 		lblBestCalledConsonant3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblBestCalledConsonant3.setBounds(342, 475, 63, 13);
+		lblBestCalledConsonant3.setBounds(189, 475, 365, 13);
 		panelGlobalStatistics.add(lblBestCalledConsonant3);
 
 		JLabel lblAverageMovesSolution = new JLabel("Average moves for solution");
@@ -618,7 +609,8 @@ public class TabPaneController {
 		panelProfile.add(lblName);
 
 		JButton button = new JButton("");
-		button.setIcon(new ImageIcon(TabPaneController.class.getResource("/img/icons8-user-96.png")));
+		// button.setIcon(new
+		// ImageIcon(TabPaneController.class.getResource("/img/icons8-user-96.png")));
 		button.setBackground(Color.GRAY);
 		button.setBounds(61, 80, 217, 203);
 		panelProfile.add(button);
@@ -725,7 +717,7 @@ public class TabPaneController {
 			setGlobalStats();
 		} catch (RemoteException e) {
 
-			Notification.notify("Errore", "Statistiche non caricate", true);
+			Notification.notify("ERROR", "Statistics not uploaded", true);
 		}
 
 		try {
@@ -733,6 +725,17 @@ public class TabPaneController {
 			lblName.setText(client.getName());
 			lblSurname.setText(client.getSurname());
 			lblEmail.setText(client.getEmail());
+
+			JButton btnExit = new JButton("EXIT");
+			btnExit.setBackground(Color.RED);
+			btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			btnExit.setBounds(955, 651, 85, 21);
+			frame.getContentPane().add(btnExit);
+			btnExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -750,8 +753,7 @@ public class TabPaneController {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
-		
-		
+
 		countryList2.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
@@ -765,10 +767,6 @@ public class TabPaneController {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
-		
-		
-		
-		
 
 	}
 
@@ -776,6 +774,7 @@ public class TabPaneController {
 		list2.clear();
 		CountryRender.setChosen(false);
 		countryList2.removeAll();
+		countryList2.clearSelection();
 		listModel.clear();
 		try {
 			list2 = server.visualizeMatch(client);
@@ -855,10 +854,6 @@ public class TabPaneController {
 		}
 	}
 
-	/**
-	 * Notifica che la partita alla quale si ha provato a partecipare come giocatore
-	 * e' piena
-	 */
 	public void notifyTooManyPlayers() {
 
 		Thread t = new Thread() {
@@ -869,11 +864,14 @@ public class TabPaneController {
 		t.start();
 	}
 
-	/**
-	 * Ricarica la lista delle partite disponibili aggiornata
-	 */
 	public void refresh() {
 		uploadGameInProgress();
+		try {
+			setUserStat();
+			setGlobalStats();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void enterFilePhrase() throws CsvValidationException {
@@ -888,21 +886,20 @@ public class TabPaneController {
 				if (bool) {
 					Thread t = new Thread() {
 						public void run() {
-							Notification.notify("Successo", "Le frasi sono state aggiunte con successo", false);
+							Notification.notify("OK", "Phrases added", false);
 						}
 					};
 					t.start();
 				} else {
 					Thread t = new Thread() {
 						public void run() {
-							Notification.notify("ERROR", "Non è stato possibile aggiungere le nuove frasi\\n Riprova",
-									false);
+							Notification.notify("ERROR", "Retry", false);
 						}
 					};
 					t.start();
 				}
 			} catch (RemoteException e) {
-				Notification.notify("Errore", "Server offline", true);
+				Notification.notify("ERROR", "Server offline", true);
 			}
 		}
 
@@ -916,12 +913,12 @@ public class TabPaneController {
 			try {
 				bool = server.changePassword(password, client);
 			} catch (RemoteException e) {
-				Notification.notify("Errore", "Server offline", true);
+				Notification.notify("ERROR", "Server offline", true);
 			}
 			if (bool) {
-				Notification.notify("Successo", "La password è stata modificata con successo", false);
+				Notification.notify("OK", "Password changed", false);
 			} else {
-				Notification.notify("Errore", "Non è stato possibile modificare la password", true);
+				Notification.notify("ERROR", "RETRY", true);
 			}
 		}
 	}
@@ -938,65 +935,39 @@ public class TabPaneController {
 		isAdmin = admin;
 	}
 
-	/**
-	 * Metodo utilizzato per passare le informazioni del client a
-	 * {@link GamePlayerController}
-	 *
-	 * @param gpc il riferimento al controller {@link GamePlayerController}
-	 */
 	public static void setGameControlle(Game gpc) {
 		gpc.setClient(client);
 		gpc.setMatch(match);
 		gpc.setObserver(false);
 	}
 
-	/**
-	 * Notifica che una partita e' stata annullata a causa di un problema
-	 *
-	 * @param reason il motivo per cui la partita e' stata annullata (ad esempio
-	 *               perche' non e' stato possibile scegliere le cinque frasi)
-	 */
 	public static void notifyMatchAbort(String reason) {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", reason, false);
+				Notification.notify("GAME", reason, false);
 			}
 		};
 		t.start();
 	}
 
-	/**
-	 * Notifica che la partita si e' conclusa
-	 *
-	 * @param message un messaggio contenente il vincitore della partita, o nessuno
-	 *                in caso in cui la partita si sia interrotta a meta'
-	 */
 	public static void notifyMatchEnd(String message) {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", message, false);
+				Notification.notify("GAME", message, false);
 			}
 		};
 		t.start();
 	}
 
-	/**
-	 * Notifica che il client corrente e' il vincitore della partita
-	 */
 	public static void notifyMatchWin() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", "YOU WON!", false);
+				Notification.notify("GAME", "YOU WON!", false);
 			}
 		};
 		t.start();
 	}
 
-	/**
-	 * Notifica che un utente ha abbandonato la partita
-	 *
-	 * @param message il messaggio contenente il nickname di chi ha abbandonato
-	 */
 	public static void notifyLeaver(String message) {
 		Thread t = new Thread() {
 			public void run() {
@@ -1014,5 +985,4 @@ public class TabPaneController {
 		frame.setVisible(false);
 
 	}
-
 }

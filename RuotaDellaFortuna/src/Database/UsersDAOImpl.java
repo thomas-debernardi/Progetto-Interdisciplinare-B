@@ -6,15 +6,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Implementazione dell'interfaccia {@link UsersDAO}
- */
+
 public class UsersDAOImpl implements UsersDAO {
     private Connection con;
     UsersDAOImpl(Connection c){
         this.con=c;
     }
-    @Override
     public boolean addUser(UsersDTO user) throws SQLException {
         String queryAdd = "INSERT INTO "+UserTable+" ("+UserIdAttribute+","+UserTipoAttribute+","+UserNameAttribute+","+
                 UserSurnameAttribute+","+UserNicknameAttribute+","+UserEmailAttribute+","+UserPasswordAttribute+") " +
@@ -26,7 +23,6 @@ public class UsersDAOImpl implements UsersDAO {
         return res;
     }
 
-    @Override
     public UsersDTO getUserByEmail(String email) throws SQLException {
         String querySearch = "SELECT * FROM "+UserTable+" WHERE "+UserEmailAttribute+" = '"+email+"';";
         Statement stmt = con.createStatement();
@@ -42,7 +38,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getUserByNickname(String nickname) throws SQLException {
         String querySearch = "SELECT * FROM "+UserTable+" WHERE "+UserNicknameAttribute+" = '"+nickname+"';";
         Statement stmt = con.createStatement();
@@ -57,7 +52,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getUserById(String id) throws SQLException {
         String querySearch = "SELECT * FROM "+UserTable+" WHERE "+UserIdAttribute+" = '"+id+"';";
         Statement stmt = con.createStatement();
@@ -71,14 +65,12 @@ public class UsersDAOImpl implements UsersDAO {
                 resultSet.getString(UserEmailAttribute), resultSet.getString(UserPasswordAttribute));
     }
 
-    @Override
     public boolean deleteUser(String id) throws SQLException {
         String queryDelete = "DELETE FROM "+UserTable+" WHERE "+UserIdAttribute+" = '"+id+"';";
         Statement stmt = con.createStatement();
         return stmt.executeUpdate(queryDelete) > 0;
     }
 
-    @Override
     public List<UsersDTO> getAllAdmin() throws SQLException {
         List<UsersDTO> list = new ArrayList<>();
         String queryGet = "SELECT * FROM "+ UserTable + " WHERE "+UserTipoAttribute + " = 1;";
@@ -97,7 +89,6 @@ public class UsersDAOImpl implements UsersDAO {
         }
     }
 
-    @Override
     public boolean updateUser(UsersDTO user) throws SQLException {
         String queryUpdate = "UPDATE "+UserTable+" SET "+UserNameAttribute+" = '"+user.getName()+"', "+UserSurnameAttribute+" = '"+user.getSurname()+"', "+
                 UserNicknameAttribute+" = '"+user.getNickname()+"', "+UserPasswordAttribute+" = '"+user.getPassword()+"' WHERE "+UserIdAttribute+" = '"+user.getId()+"';";
@@ -106,7 +97,6 @@ public class UsersDAOImpl implements UsersDAO {
         return bool;
     }
 
-    @Override
     public UsersDTO getBestPlayerByManche() throws SQLException {
         String queryBest = "SELECT * FROM " + UserTable + " U JOIN "+MancheWinnersDAO.manchesWinnersTable +" MW ON U.id = MW.idPlayer WHERE "+MancheWinnersDAO.manchesWinnersAmountAttribute+" =" +
                 " (SELECT MAX(amount) FROM "+MancheWinnersDAO.manchesWinnersTable+");";
@@ -124,7 +114,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getBestPlayerByMatch() throws SQLException {
         String queryBest = "SELECT * FROM " + UserTable + " U JOIN "+MatchWinnersDAO.matchWinnersTable +" MW ON U.id = MW.idPlayer WHERE "+MatchWinnersDAO.matchWinnersAmountAttribute+" =" +
                 " (SELECT MAX(amount) FROM "+MatchWinnersDAO.matchWinnersTable+");";
@@ -142,7 +131,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getUserForMoreManchesPlayed() throws SQLException {
         String queryBest = "SELECT "+UserNicknameAttribute+", COUNT(U."+UserIdAttribute+") AS count FROM " +UserTable+" U JOIN "+MancheJoinersDAO.mancheJoinersTable+" MJ ON U.id = MJ.idPlayer GROUP BY " +
                 "U."+UserIdAttribute+" ORDER BY count desc";
@@ -159,7 +147,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getUserForBestMancheAverage() throws SQLException {
         String queryBest = "SELECT U."+UserNicknameAttribute+", AVG(MW."+MancheWinnersDAO.manchesWinnersAmountAttribute+") AS avg FROM " +UserTable+" U JOIN "+MancheWinnersDAO.manchesWinnersTable+" MW ON U.id = MW.idPlayer GROUP BY " +
                 "U."+UserIdAttribute+" ORDER BY avg desc";
@@ -173,7 +160,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getUserForMostLostTurn() throws SQLException{
         String queryBest = "SELECT "+UserNicknameAttribute+", COUNT(U."+UserIdAttribute+") AS count FROM " +UserTable+" U " +
                 "JOIN "+MancheJoinersDAO.mancheJoinersTable+" MW ON U.id = MW.idplayer " +
@@ -191,7 +177,6 @@ public class UsersDAOImpl implements UsersDAO {
             return null;
     }
 
-    @Override
     public UsersDTO getUserForMostLosses() throws SQLException{
         String queryBest = "SELECT "+UserNicknameAttribute+", COUNT(U."+UserIdAttribute+") AS count FROM " +UserTable+" U " +
                 "JOIN "+MancheJoinersDAO.mancheJoinersTable+" MW ON U.id = MW.idplayer " +

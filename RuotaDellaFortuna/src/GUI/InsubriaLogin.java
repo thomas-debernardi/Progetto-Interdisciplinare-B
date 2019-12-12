@@ -14,7 +14,6 @@ import Server.Server;
 import Server.ServerImplementation;
 import Services.Client;
 import Services.ClientImplementation;
-import Services.Controller;
 import Services.Notification;
 
 import javax.swing.JLabel;
@@ -28,8 +27,9 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JTextPane;
 
-public class InsubriaLoginController {
+public class InsubriaLogin {
 
 	private JPanel contentPane;
 	private JTextField textFieldEmail;
@@ -45,7 +45,7 @@ public class InsubriaLoginController {
     
     int posX = 0, posY = 0;
    	
-    public InsubriaLoginController() {
+    public InsubriaLogin() {
 		initialize();
 	}
     
@@ -121,6 +121,15 @@ public class InsubriaLoginController {
 		btnExit.setBounds(196, 143, 47, 21);
 		contentPane.add(btnExit);
 		
+		JTextPane lbl = new JTextPane();
+		lbl.setForeground(Color.WHITE);
+		lbl.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lbl.setEditable(false);
+		lbl.setBackground(Color.GRAY);
+		lbl.setText("Insert your uninsubria email, this email will be used to automatically send messages to users.");
+		lbl.setBounds(10, 10, 243, 36);
+		contentPane.add(lbl);
+		
 		
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -131,7 +140,6 @@ public class InsubriaLoginController {
 
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent evt) {
-				// sets frame position when mouse dragged
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
@@ -156,7 +164,7 @@ public class InsubriaLoginController {
 	                frame.dispose();
 	            }
 	        } else {
-	            Notification.notify("Mail Notification", "E-mail o password errati \nimmettere nuova mail", true);
+	            Notification.notify("ERROR", "Incorrect email or password", true);
 	        }
 	    }
 	

@@ -184,18 +184,18 @@ public class DatabaseBuilder {
 					}
 					String s = sb.toString();
 					statement.executeUpdate(s);
-					Notification.notify("Successo", "Il database è stato creato con successo.", false);
+					Notification.notify("OK", "Database created", false);
 					dbCreated = true;
 					conn.close();
 				} else {
-					Notification.notify("Database già creato", "Il database è già stato creato", true);
+					Notification.notify("DATABASE ALREADY EXIST", "", true);
 				}
 			}
 		} catch (SQLException ex) {
-			Notification.notify("Errore", "Non è stato possibile eseguire l'accesso.", true);
+			Notification.notify("ERROR", "Acces error", true);
 			ex.printStackTrace();
 		} catch (FileNotFoundException ex) {
-			Notification.notify("Errore", "Non ho trovato il file per la creazione del database", true);
+			Notification.notify("ERORR", "FILE SQL NOT FOUND", true);
 			ex.printStackTrace();
 		}
 	}

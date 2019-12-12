@@ -1,248 +1,205 @@
 package Services;
 
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import GUI.Game;
-import GUI.OTPRegistrationController;
-import GUI.TabPaneController;
+import GUI.OTPRegistration;
+import GUI.TabPane;
 
 public class ClientImplementation extends UnicastRemoteObject implements Client, Serializable, Runnable {
 
-    public static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
-    private Game game;
-    private OTPRegistrationController otpRegistrationPane;
-    private TabPaneController tab;
-    private String id;
-    private String nickname;
-    private String name;
-    private String surname;
-    private String email;
+	private Game game;
+	private OTPRegistration otpRegistrationPane;
+	private TabPane tab;
+	private String id;
+	private String nickname;
+	private String name;
+	private String surname;
+	private String email;
 
-    public ClientImplementation() throws RemoteException {
-    }
+	public ClientImplementation() throws RemoteException {
+	}
 
-    public void setGame(Game e) throws RemoteException {
-        game = e;
-    }
+	public void setGame(Game e) throws RemoteException {
+		game = e;
+	}
 
-    @Override
-    public String getNickname() throws RemoteException {
-        return nickname;
-    }
+	public String getNickname() throws RemoteException {
+		return nickname;
+	}
 
-    @Override
-    public String getId() throws RemoteException {
-        return id;
-    }
+	public String getId() throws RemoteException {
+		return id;
+	}
 
-    @Override
-    public void setNickname(String nickname) throws RemoteException {
-        this.nickname = nickname;
-    }
+	public void setNickname(String nickname) throws RemoteException {
+		this.nickname = nickname;
+	}
 
-    @Override
-    public void setId(String id) throws RemoteException {
-        this.id = id;
-    }
+	public void setId(String id) throws RemoteException {
+		this.id = id;
+	}
 
-    @Override
-    public void setName(String name) throws RemoteException {
-        this.name = name;
-    }
+	public void setName(String name) throws RemoteException {
+		this.name = name;
+	}
 
-    @Override
-    public void setSurname(String surname) throws RemoteException {
-        this.surname = surname;
-    }
+	public void setSurname(String surname) throws RemoteException {
+		this.surname = surname;
+	}
 
-    @Override
-    public void setEmail(String email) throws RemoteException {
-        this.email = email;
-    }
+	public void setEmail(String email) throws RemoteException {
+		this.email = email;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String getSurname() {
-        return surname;
-    }
+	public String getSurname() {
+		return surname;
+	}
 
-    @Override
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    @Override
-    public void notifyServerError() throws RemoteException {
-run();
-    
-    }
+	public void notifyServerError() throws RemoteException {
+		run();
 
-    @Override
-    public void notifyRegistrationResult(boolean success) throws RemoteException {
-    }
+	}
 
-    @Override
-    public void notifyWrongOTP() throws RemoteException {
-        otpRegistrationPane.notifyWrongOTP();
-    }
+	public void notifyRegistrationResult(boolean success) throws RemoteException {
+	}
 
-    @Override
-    public void notifyTooManyPlayers() throws RemoteException {
-        tab.notifyTooManyPlayers();
-    }
+	public void notifyWrongOTP() throws RemoteException {
+		otpRegistrationPane.notifyWrongOTP();
+	}
 
-    @Override
-    public void notifyLeaver(String nickname) throws RemoteException {
-        game.notifyLeaver(nickname);
-    }
+	public void notifyTooManyPlayers() throws RemoteException {
+		tab.notifyTooManyPlayers();
+	}
 
-    @Override
-    public void notifyMatchAbort(String reason) throws RemoteException {
-        game.notifyMatchAbort(reason);
-    }
+	public void notifyLeaver(String nickname) throws RemoteException {
+		game.notifyLeaver(nickname);
+	}
 
-    @Override
-    public void notifyMatchStart() throws RemoteException {
-        game.notifyMatchStart();
-    }
+	public void notifyMatchAbort(String reason) throws RemoteException {
+		game.notifyMatchAbort(reason);
+	}
 
-    @Override
-    public void notifyMancheVictory() throws RemoteException {
-        game.notifyMancheVictory();
-    }
+	public void notifyMatchStart() throws RemoteException {
+		game.notifyMatchStart();
+	}
 
-    @Override
-    public void notifyMancheResult(String winner) throws RemoteException {
-        game.notifyMancheResult(winner);
-    }
+	public void notifyMancheVictory() throws RemoteException {
+		game.notifyMancheVictory();
+	}
 
-    @Override
-    public void notifyNewManche(int numManche) throws RemoteException {
-        game.notifyNewManche(numManche);
-    }
+	public void notifyMancheResult(String winner) throws RemoteException {
+		game.notifyMancheResult(winner);
+	}
 
-    @Override
-    public void setNewPhrase(String theme, String phrase) throws RemoteException {
-        game.setNewPhrase(theme, phrase);
-    }
+	public void notifyNewManche(int numManche) throws RemoteException {
+		game.notifyNewManche(numManche);
+	}
 
-    @Override
-    public void notifyNewTurn(String player) throws RemoteException {
-        game.setTurn(player);
-    }
+	public void setNewPhrase(String theme, String phrase) throws RemoteException {
+		game.setNewPhrase(theme, phrase);
+	}
 
-    @Override
-    public void notifyYourTurn() throws RemoteException {
-        game.notifyYourTurn();
-    }
+	public void notifyNewTurn(String player) throws RemoteException {
+		game.setTurn(player);
+	}
 
-    @Override
-    public void notifyEndMatch(String winner) throws RemoteException {
-        game.notifyEndMatch(winner);
-    }
+	public void notifyYourTurn() throws RemoteException {
+		game.notifyYourTurn();
+	}
 
-    @Override
-    public void notifyMatchWin() throws RemoteException {
-        game.notifyMatchWin();
-    }
+	public void notifyEndMatch(String winner) throws RemoteException {
+		game.notifyEndMatch(winner);
+	}
 
-    @Override
-    public void notifyPlayerStats(int position, String name, int partialPoints, int points, int numJolly) throws RemoteException {
-        game.notifyPlayerStats(position, name, partialPoints, points, numJolly);
-    }
+	public void notifyMatchWin() throws RemoteException {
+		game.notifyMatchWin();
+	}
 
-    @Override
-    public void updatePhrase(boolean[] phrase) throws RemoteException {
-       game.updatePhrase(phrase);
-    }
-    
+	public void notifyPlayerStats(int position, String name, int partialPoints, int points, int numJolly)
+			throws RemoteException {
+		game.notifyPlayerStats(position, name, partialPoints, points, numJolly);
+	}
 
+	public void updatePhrase(boolean[] phrase) throws RemoteException {
+		game.updatePhrase(phrase);
+	}
 
-    @Override
-    public void updatePhrase(String letter) throws RemoteException {
-        game.updatePhrase(letter);
-    }
+	public void updatePhrase(String letter) throws RemoteException {
+		game.updatePhrase(letter);
+	}
 
-    @Override
-    public void notifyTimeOut() throws RemoteException {
-        game.notifyTimeOut();
-    }
+	public void notifyTimeOut() throws RemoteException {
+		game.notifyTimeOut();
+	}
 
-    @Override
-    public void notifyWheelResult(String risultato) throws RemoteException {
-        game.wheelResult(risultato);
-    }
+	public void notifyWheelResult(String risultato) throws RemoteException {
+		game.wheelResult(risultato);
+	}
 
-    @Override
-    public void askForJolly() throws RemoteException {
-        game.askForJolly();
-    }
+	public void askForJolly() throws RemoteException {
+		game.askForJolly();
+	}
 
-    @Override
-    public void notifyPlayerError(String name) throws RemoteException {
-        game.notifyPlayerError(name);
-    }
+	public void notifyPlayerError(String name) throws RemoteException {
+		game.notifyPlayerError(name);
+	}
 
-    public void setGameController(Game game) {
-        this.game = game;
-    }
+	public void setGameController(Game game) {
+		this.game = game;
+	}
 
-    @Override
-    public void notifyTryForSolution(String name) throws RemoteException {
-        game.callSolutionNotify(name);
-    }
+	public void notifyTryForSolution(String name) throws RemoteException {
+		game.callSolutionNotify(name);
+	}
 
-    @Override
-    public void notifyTryVocal(String name) throws RemoteException {
-        game.vocalCallNotify(name);
-    }
+	public void notifyTryVocal(String name) throws RemoteException {
+		game.vocalCallNotify(name);
+	}
 
-    @Override
-    public void notifyJollyUsed(String name) throws RemoteException {
-        game.jollyNotify(name);
-    }
+	public void notifyJollyUsed(String name) throws RemoteException {
+		game.jollyNotify(name);
+	}
 
-    @Override
-    public void notifyLetterCall(String name, String letter) throws RemoteException {
-        game.callLetterNotify(name, letter);
-    }
+	public void notifyLetterCall(String name, String letter) throws RemoteException {
+		game.callLetterNotify(name, letter);
+	}
 
-    @Override
-    public void notifyNoMoreConsonant() throws RemoteException {
-        game.notifyNoMoreConsonant();
-    }
+	public void notifyNoMoreConsonant() throws RemoteException {
+		game.notifyNoMoreConsonant();
+	}
 
-    @Override
-    public void setOtpPane(OTPRegistrationController otp) throws RemoteException {
-        otpRegistrationPane = otp;
-    }
+	public void setOtpPane(OTPRegistration otp) throws RemoteException {
+		otpRegistrationPane = otp;
+	}
 
-    public void updateTimer(int num) throws RemoteException {
-        game.updateTimer(num);
-    }
+	public void updateTimer(int num) throws RemoteException {
+		game.updateTimer(num);
+	}
 
 	public String getid() throws RemoteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String setNickname() throws RemoteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-        Notification.notify("Errore", "Errore di connessione al server", true);
+		Notification.notify("ERROR", "Connection", true);
 
 	}
 }

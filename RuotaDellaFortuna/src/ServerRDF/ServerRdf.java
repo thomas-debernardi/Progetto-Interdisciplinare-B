@@ -1,4 +1,4 @@
-package Server;
+package ServerRDF;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Database.DBManager;
-import GUI.InsubriaLoginController;
+import GUI.InsubriaLogin;
 import Services.Notification;
 
 import javax.swing.JLabel;
@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
 
-public class PrimePaneServer extends JFrame {
+public class ServerRdf extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldUser;
@@ -32,7 +32,7 @@ public class PrimePaneServer extends JFrame {
 	private JTextField textFieldHostname;
 	private JTextField textFieldPort;
     private DBManager manager;
-	static PrimePaneServer frame = new PrimePaneServer();
+	static ServerRdf frame = new ServerRdf();
 	int posX = 0, posY = 0;
 
 
@@ -55,7 +55,7 @@ public class PrimePaneServer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PrimePaneServer() {
+	public ServerRdf() {
 		setTitle("RdF SERVER");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,13 +170,13 @@ public class PrimePaneServer extends JFrame {
         try {
             String url = hostname + ":" + port;
             manager = DBManager.createDBManager(url, user, password);
-            InsubriaLoginController.setDbManager(manager);
-            InsubriaLoginController ilc = new InsubriaLoginController();     
-            Notification.notify("ACCESSO ESEGUITO", "", false);
+            InsubriaLogin.setDbManager(manager);
+            InsubriaLogin ilc = new InsubriaLogin();     
+            Notification.notify("OK", "", false);
             frame.dispose();
         } catch (SQLException e) {
         	System.out.println(e);
-            Notification.notify("Connection Notification", e.toString(), true);
+            Notification.notify("ERROR", e.toString(), true);
         }
 
     }

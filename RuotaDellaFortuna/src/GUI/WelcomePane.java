@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 import Services.AdminChecker;
 import Services.Client;
-import Services.Controller;
 import Services.Notification;
 
 import javax.swing.JLabel;
@@ -114,7 +113,7 @@ public class WelcomePane {
 			MainPane mp = new MainPane();
 			frame.dispose();
 		} catch (RemoteException e) {
-			Notification.notify("Connection Notification", "Connessione non riuscita \n riprovare", true);
+			Notification.notify("ERROR", "Connection lost", true);
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}

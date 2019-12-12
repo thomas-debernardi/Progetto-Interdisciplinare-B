@@ -12,11 +12,7 @@ import Server.ServerImplementation;
 import Services.Client;
 
 
-/**
- * Questa e' la classe che si occupa della gestione delle partita in attesa di giocatori e in corso.
- * <p>
- * Permette la creazione e la partecipazione alle partite, le quali sono contenute in una tabella hash accessibile tramite l'apposito getter.
- */
+
 public class MatchManager {
     private static HashMap<String, Match> matches;
     private static MatchManager matchManager = null;
@@ -30,11 +26,7 @@ public class MatchManager {
     }
 
 
-    /**
-     * @param dbmng il riferimento all'oggetto {@link DBManager}
-     * @param email il riferimento all'oggetto {@link EmailManager}
-     * @return il singleton di tipo {@link MatchManager}
-     */
+
     public static MatchManager createMatchManager(DBManager dbmng, EmailManager email) {
         if (matchManager == null) {
             matchManager = new MatchManager(dbmng, email);
@@ -44,12 +36,7 @@ public class MatchManager {
     }
 
 
-    /**
-     * Il client richiamera' questo metodo per creare una partita e ricevera' il riferemento all'oggetto che si occupera' della gestione del singolo Match
-     *
-     * @param c il riferimento del Client che sara' fornito all'oggetto remoto {@link Match} in modo da poter inviargli le notifiche (Observers design pattern)
-     * @return match un riferimento all'oggetto remoto {@link RemoteMatch} della partita appena creata.
-     */
+
     public synchronized RemoteMatch createMatch(Client c) {
         String id = UUID.randomUUID().toString();
         LocalDateTime currentTime = LocalDateTime.now();
@@ -75,11 +62,6 @@ public class MatchManager {
         }
     }
 
-    /**
-     * @param c       il riferimento del Client che sara' fornito all'oggetto remoto {@link Match} in modo da poter inviargli le notifiche (Observer design pattern)
-     * @param idMatch il nome del match al quale si vuole partecipare
-     * @return un riferimento all'oggetto remoto {@link RemoteMatch} della partita a cui si ha appena partecipato, o null nel caso in cui la partita sia piena o ci siano stati problemi con la connessione al server
-     */
     public RemoteMatch joinMatch(Client c, String idMatch) {
         Match match = matches.get(idMatch);
         if(match == null)
@@ -114,11 +96,6 @@ public class MatchManager {
     }
 
 
-    /**
-     * @param c       il riferimento del Client che sara' fornito all'oggetto remoto {@link Match} in modo da poter inviargli le notifiche (Observer design pattern)
-     * @param idMatch il nome del match al quale si vuole partecipare
-     * @return match un riferimento all'oggetto remoto {@link RemoteMatch} della partita a cui si ha appena partecipato come osservatore, o null nel caso in cui ci siano stati problemi con la connessione al server
-     */
     public RemoteMatch observeMatch(Client c, String idMatch) {
         Match match = matches.get(idMatch);
         if(match == null)

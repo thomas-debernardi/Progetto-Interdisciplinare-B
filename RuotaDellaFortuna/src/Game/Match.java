@@ -19,9 +19,6 @@ import Services.Client;
 import Services.MatchData;
 
 
-/**
- * Oggetto remoto che implementa l'interfaccia {@link RemoteMatch}
- */
 public class Match extends UnicastRemoteObject implements RemoteMatch {
 
     private List<Player> players;
@@ -34,12 +31,13 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
     private LocalDateTime creationTime;
     private DBManager dbManager;
     private EmailManager emailmng;
-    //nell'array non sono considerati gli spazi o i caratteri speciali.
     private boolean[] phraseStatus;
     private MoveTimer timer = null;
     private boolean spinnedWheel = false;
     private boolean noConsonantLeft = false;
     private boolean matchEnded = false;
+    private int time = 10000; // DA SETTARE POI A 5k
+
 
     public Match() throws RemoteException {
 
@@ -59,10 +57,8 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         creationTime = localDateTime;
     }
 
-    @Override
     public int wheelSpin() throws RemoteException {
         Player activePlayer = players.get(turn);
-
         if (timer.isThisForJolly() || timer.isThisForSolution() || timer.isThisForVocal() || noConsonantLeft || spinnedWheel) {
             timer.interrupt();
             errorInTurn(false, false);
@@ -74,17 +70,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
             spinnedWheel = true;
             Random rnd = new Random();
             int result = rnd.nextInt(24);
-        /*
-        0 = passa
-        1 = jolly
-        2 - 6 = 400
-        7 - 8 = perde
-        9 - 12 = 500
-        13 - 18 = 300
-        19 - 21 = 600
-        22 = 1000
-        23 = 700
-         */
             switch (result) {
                 case 0:
                     wheelResult("PASSA");
@@ -119,7 +104,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 case 5:
                 case 6:
                     wheelResult("400");
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                     return 400;
                 case 7:
                 case 8:
@@ -146,7 +131,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 case 11:
                 case 12:
                     wheelResult("500");
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                     return 500;
                 case 13:
                 case 14:
@@ -155,21 +140,21 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 case 17:
                 case 18:
                     wheelResult("300");
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                     return 300;
                 case 19:
                 case 20:
                 case 21:
                     wheelResult("600");
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                     return 600;
                 case 22:
                     wheelResult("1000");
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                     return 1000;
                 case 23:
                     wheelResult("700");
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                     return 700;
                 default:
                     return 0;
@@ -194,11 +179,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * Metodo che notifica a tutti che il giocatore ha commesso un errore
-     *
-     * @throws RemoteException
-     */
     private void notifyError() throws RemoteException {
         Player activePlayer = players.get(turn);
         for (Client c : observers) {
@@ -217,7 +197,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    @Override
     public void giveConsonant(String letter, int amount) throws RemoteException {
         Player activePlayer = players.get(turn);
         char vocal;
@@ -336,7 +315,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
     }
 
 
-    @Override
     public void askForVocal() throws RemoteException {
         Player activePlayer = players.get(turn);
         if (firstTurn || timer.isThisForJolly() || activePlayer.getPartialPoints() < 1000 || timer.isThisForSolution() || timer.isThisForVocal()) {
@@ -385,7 +363,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    @Override
     public void giveVocal(String letter) throws RemoteException {
         Player activePlayer = players.get(turn);
         char vocal;
@@ -445,7 +422,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
 
     }
 
-    @Override
     public void jolly() throws RemoteException {
         Player activePlayer = players.get(turn);
         if (!timer.isThisForJolly() || timer.isThisForSolution() || timer.isThisForVocal()) {
@@ -482,12 +458,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * indica che e' stato commesso un errore e permette l'inizio di un nuovo turno o la giocata del jolly
-     *
-     * @param canJollyBeUsed <code>true</code> se il jolly può essere utilizzato, <code>false</code> altrimenti
-     * @param moveDone       <code>true</code> se e' stata eseguita una mossa, <code>false</code> altrimenti
-     */
     void errorInTurn(boolean canJollyBeUsed, boolean moveDone) {
         Player activePlayer = players.get(turn);
         try {
@@ -495,7 +465,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 notifyError();
                 if (players.get(turn).getNumJolly() > 0) {
                     players.get(turn).getClient().askForJolly();
-                    startTimer(5000, true, false, false);
+                    startTimer(time, true, false, false);
                 } else {
                     if (moveDone)
                         manche.getTurns().getLastMove().setOutCome(0);
@@ -515,11 +485,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * Questo metodo permette di passare al turno successivo
-     *
-     * @throws RemoteException
-     */
+
     public void nextTurn() throws RemoteException {
         if (turn == 2)
             turn = 0;
@@ -550,7 +516,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 if (p.equals(activePlayer)) {
                     p.getClient().notifyNewTurn(p.getNickname());
                     p.getClient().notifyYourTurn();
-                    startTimer(5000, false, false, false);
+                    startTimer(time, false, false, false);
                 } else {
                     p.getClient().notifyNewTurn(activePlayer.getNickname());
                 }
@@ -560,7 +526,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    @Override
     public void askForSolution() throws RemoteException {
         if (firstTurn || timer.isThisForJolly() || timer.isThisForVocal() || timer.isThisForSolution()) {
             timer.interrupt();
@@ -593,7 +558,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    @Override
     public void giveSolution(String solution) throws RemoteException {
         Player activePlayer = players.get(turn);
         if (firstTurn || timer.isThisForJolly() || !timer.isThisForSolution() || timer.isThisForVocal()) {
@@ -612,11 +576,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * Questo metodo permette l'inizio della partita
-     *
-     * @throws RemoteException
-     */
+
     public void startMatch() throws RemoteException {
         Random rnd = new Random();
         try {
@@ -630,14 +590,14 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 try {
                     for (Client c : observers) {
                         try {
-                            c.notifyMatchAbort("Partita annullata: non ci sono abbastanza frasi");
+                            c.notifyMatchAbort("GAME ABORTED, there aren't enough phrases");
                         } catch (RemoteException e) {
                             leaveMatchAsObserver(c);
                         }
                     }
                     for (Player p : players) {
                         try {
-                            p.getClient().notifyMatchAbort("Partita annullata: non ci sono abbastanza frasi");
+                            p.getClient().notifyMatchAbort("GAME ABORTED, there aren't enough phrases");
                         } catch (RemoteException er) {
                             players.remove(p);
                         }
@@ -649,8 +609,8 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                     }
                     List<UsersDTO> admins = dbManager.getAllAdmin();
                     String email = "";
-                    String obj = "Mancanza di frasi in DBRdF";
-                    String txt = "Una o piu' partite sono state annullate a causa della mancanza di frasi nel database. Per favore aggiungere nuove frasi attraverso la piattaforma AdminRdf / ServerRdF";
+                    String obj = "ATTENTION RdF";
+                    String txt = "Add new phrases to the databse";
                     for (UsersDTO admin : admins) {
                         email = admin.getEmail();
                         emailmng.sendEmail(email, obj, txt);
@@ -697,14 +657,14 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
             try {
                 for (Client c : observers) {
                     try {
-                        c.notifyMatchAbort("Partita annullata: errore di comunicazione con il server");
+                        c.notifyMatchAbort("GAME ABORTED, connection error");
                     } catch (RemoteException d) {
                         leaveMatchAsObserver(c);
                     }
                 }
                 for (Player p : players) {
                     try {
-                        p.getClient().notifyMatchAbort("Partita annullata: errore di comunicazione con il server");
+                        p.getClient().notifyMatchAbort("GAME ABORTED, connection error");
                     } catch (RemoteException ex) {
                         players.remove(p);
                     }
@@ -721,12 +681,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         onGoing = true;
     }
 
-    /**
-     * Aggiunge un secondo apostrofo dove necessario per permettere l'inserimento nel database
-     *
-     * @param s la stringa da modificare
-     * @return la stringa aggiornata
-     */
+
     static String prepareStringForDB(String s) {
         String result = "";
         for (int i = 0; i < s.length(); i++) {
@@ -757,12 +712,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * Questo metodo conclude la manche
-     *
-     * @param winner il vincitore della manche o <code>null</code> se non c'è stato alcun vincitore
-     * @throws RemoteException
-     */
+
     public void endManche(Player winner) throws RemoteException {
         if(!matchEnded)
             manche.endManche(winner);
@@ -822,15 +772,8 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * Conclude il match
-     *
-     * @param isThereAWinner <code>true</code> se il match si è concluso dopo la conclusione della quinta manche portando ad un vincitore, <code>false</code> altrimenti
-     * @throws RemoteException
-     */
+
     public void endMatch(boolean isThereAWinner) throws RemoteException {
-//        if(timer.isAlive())
-//            timer.interrupt();
         MatchManager.deleteMatch(id);
         if (isThereAWinner) {
             Player winner = null;
@@ -887,11 +830,6 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         UnicastRemoteObject.unexportObject(this, true);
     }
 
-    /**
-     * @param c riferimento al concorrente
-     * @return full <code>true</code> se la partita è piena rendendo impossibile la partecipazione, <code>false</code> altrimenti
-     * @throws RemoteException
-     */
     public synchronized boolean addPlayer(Client c) throws RemoteException {
         boolean full;
         if (players.size() >= 3)
@@ -922,10 +860,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         return full;
     }
 
-    /**
-     * @param c riferimento all'osservatore
-     * @throws RemoteException
-     */
+
     public synchronized void addObserver(Client c) throws RemoteException {
         observers.add(c);
         if (onGoing) {
@@ -938,13 +873,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         if (players.size() == 3)
             startMatch();
     }
-
-    /**
-     * Il metodo si occupa di notificare ai partecipanti e ai giocatori l'abbandono di un giocatore e porta alla conclusione del match
-     *
-     * @param c Il client che abbandona il match
-     * @throws RemoteException
-     */
+    
     public synchronized void leaveMatchAsPlayer(Client c) throws RemoteException {
         String name = c.getNickname();
         int num = 0;
@@ -1036,17 +965,10 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         }
     }
 
-    /**
-     * Il suo abbandono non viene notificato
-     *
-     * @param c Il riferimento al client che smette di guardare la partita
-     * @throws RemoteException
-     */
     public synchronized void leaveMatchAsObserver(Client c) throws RemoteException {
         observers.remove(c);
     }
 
-    @Override
     public void askNotify(Client c) throws RemoteException {
         if (onGoing && manche.getNumManche() > 0) {
             Player p = null;
@@ -1067,9 +989,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
         return id;
     }
 
-    /**
-     * @return un oggetto di tipo MatchData contenente tutte le informazioni del match necessarie a MatchVisualizer
-     */
+
     public MatchData createMatchData() {
         MatchData result = new MatchData();
 

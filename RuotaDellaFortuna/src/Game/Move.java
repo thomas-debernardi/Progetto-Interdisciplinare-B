@@ -2,10 +2,6 @@ package Game;
 
 import java.util.UUID;
 
-/**
- * Classe di supporto per tenere traccia delle mosse prima che vengano salvate nel database alla conclusione di una manche. Contiene l'id del match, il numero della manche,
- * l'id del giocatore che ha effettuato la mossa, il tipo di mossa eseguita e il relativo risultato. I metodi permettono di accedere e modificare tali informazioni
- */
 public class Move {
     private String idPlayer;
     private String moveType;

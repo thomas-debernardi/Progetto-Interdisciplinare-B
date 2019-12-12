@@ -9,10 +9,9 @@ import Server.Server;
 import Services.AdminChecker;
 import Services.Client;
 import Services.ClientImplementation;
-import Services.Controller;
 import Services.Login;
 import Services.Notification;
-import GUI.TabPaneController;
+import GUI.TabPane;
 import PlayerRDF.PlayerRdf;
 
 import javax.swing.JPasswordField;
@@ -50,13 +49,13 @@ public class MainPane implements MouseListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		if (!InsubriaLoginController.forServer) {
+		if (!InsubriaLogin.forServer) {
 			WelcomePane.setController(this);
 			if (server == null) {
-				InsubriaLoginController.setController(this);
+				InsubriaLogin.setController(this);
 			}
 		} else
-			InsubriaLoginController.setController(this);
+			InsubriaLogin.setController(this);
 		try {
 			client = new ClientImplementation();
 		} catch (RemoteException e) {
@@ -195,24 +194,24 @@ public class MainPane implements MouseListener {
 			Login login = new Login(email, password);
 			int result = server.signIn(login, client, admin);
 			if (result < 0) {
-				Notification.notify("Mail Notification", "E-mail o password errati \nriprova!", true);
+				Notification.notify("ERROR", "Incorrect email or password", true);
 			} else if (result == 0) {
 				if (!isServer) {
-					TabPaneController tpc = new TabPaneController();
+					TabPane tpc = new TabPane();
 					frame.dispose();
 				} else {
 					HostView hv = new HostView();
 					frame.dispose();
 				}
 			} else {
-				Notification.notify("Mail Notification",
-						"Si sta provando ad accedere alla piattaforma dal client sbagliato \nriprova!", true);
+				Notification.notify("ERROR",
+						"YOU HAVE TO USE THE OTHER PLATFORM", true);
 			}
 		}
 	}
 
 	public void register() throws IOException {
-		InsubriaLoginController.forServer = false;
+		InsubriaLogin.forServer = false;
 		Registration r = new Registration(server, client, admin);
 		frame.setVisible(false);
 	}
@@ -244,7 +243,7 @@ public class MainPane implements MouseListener {
 		isServer = isS;
 	}
 
-	public static void setArgs(TabPaneController tb) {
+	public static void setArgs(TabPane tb) {
 		tb.setClient(client);
 		tb.setServer(server);
 		tb.setAdmin(admin);

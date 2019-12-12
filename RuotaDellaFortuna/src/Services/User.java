@@ -29,7 +29,7 @@ public class User extends Login implements Serializable {
 	public String getNickname() {
 		return nickname;
 	}
-	
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
@@ -37,8 +37,5 @@ public class User extends Login implements Serializable {
 	public String getId() {
 		return id;
 	}
-	
-	
-	
 
 }

@@ -26,14 +26,7 @@ public class DBManager implements DBManagerInterface{
         con = DriverManager.getConnection("jdbc:postgresql://" + url +"/dbrdf",userID, password);
     }
 
-    /**
-     * @param url l'url del database
-     * @param userID l'utente del database
-     * @param password password dell'utente del database
-     * @return dbManager il singleton di tipo DBManager
-     * @throws SQLException
-     */
-    public static DBManager createDBManager(String url, String userID, String password) throws SQLException {//TODO url del database
+    public static DBManager createDBManager(String url, String userID, String password) throws SQLException {
         if (dbManager == null) {
             dbManager = new DBManager(url,userID, password);
             return dbManager;
@@ -41,9 +34,7 @@ public class DBManager implements DBManagerInterface{
             return dbManager;
     }
 
-    /**
-     * Questo metodo inizializza l'instanza di MatchedDAO
-     */
+
     private void createMatchesDAO(){
         matchesDAO = new MatchesDAOImpl(con);
     }
@@ -70,9 +61,7 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    /**
-     * Questo metodo inizializza l'instanza di UsersDAO
-     */
+
     private synchronized void createUsersDAO(){
         usersDAO = new UsersDAOImpl(con);
     }
@@ -86,7 +75,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getUserByEmail(String email) {
         if(usersDAO==null)
             createUsersDAO();
@@ -98,7 +86,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getUserByNickname(String nickname) {
         if(usersDAO==null)
             createUsersDAO();
@@ -110,7 +97,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getUserById(String id) {
         if(usersDAO==null)
             createUsersDAO();
@@ -122,7 +108,6 @@ public class DBManager implements DBManagerInterface{
     }
 
 
-    @Override
     public synchronized boolean updateUser(UsersDTO user) {
         if(usersDAO==null)
             createUsersDAO();
@@ -133,7 +118,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public synchronized boolean deleteUser(String id) {
         if(usersDAO==null)
             createUsersDAO();
@@ -144,7 +128,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int checkLogin(String email, String password, boolean admin) {
         UsersDTO user = getUserByEmail(email);
         if(user == null){
@@ -162,7 +145,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public boolean getAnyAdmin() {
         if(usersDAO==null){
             createUsersDAO();
@@ -178,7 +160,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public List<UsersDTO> getAllAdmin() {
         if(usersDAO==null){
             createUsersDAO();
@@ -190,7 +171,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getBestUserForManche() {
         if(usersDAO==null)
             createUsersDAO();
@@ -201,7 +181,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getBestUserForMatch() {
         if(usersDAO == null)
             createUsersDAO();
@@ -212,7 +191,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getUserForMoreManchesPlayed() {
         if(usersDAO == null)
             createUsersDAO();
@@ -224,7 +202,7 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
+    
     public UsersDTO getUserForBestMancheAverage() {
         if(usersDAO == null)
             createUsersDAO();
@@ -235,7 +213,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getUserForMostLostTurn() {
         if(usersDAO == null)
             createUsersDAO();
@@ -246,7 +223,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public UsersDTO getUserForMostLosses() {
         if(usersDAO == null)
             createUsersDAO();
@@ -257,14 +233,10 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    /**
-     * Questo metodo inizializza l'instanza di PhrasesDAO
-     */
     private void createPhrasesDAO(){
         phrasesDAO = new PhrasesDAOImpl(con);
     }
 
-    @Override
     public List<PhrasesDTO> get5Phrases(String idPlayer1, String idPlayer2, String idPlayer3) {
         if(phrasesDAO ==null)
             createPhrasesDAO();
@@ -275,7 +247,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public synchronized boolean addPhrases(ArrayList<PhrasesDTO> phrases) {
         if(phrasesDAO ==null)
             createPhrasesDAO();
@@ -286,7 +257,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public List<PhrasesDTO> getAllPhrases() {
         if(phrasesDAO ==null)
             createPhrasesDAO();
@@ -297,14 +267,10 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    /**
-     * Questo metodo inizializza l'instanza di MovesDAO
-     */
     private void createMovesDAO(){
         movesDAO = new MovesDAOImpl(con);
     }
 
-    @Override
     public synchronized boolean addMove(Move move) {
         if(movesDAO==null)
             createMovesDAO();
@@ -315,7 +281,7 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
+    
     public MovesDTO getBestMove() {
         if(movesDAO==null)
             createMovesDAO();
@@ -326,7 +292,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getAverageMovesPerManche() {
         if(movesDAO == null)
             createMovesDAO();
@@ -340,7 +305,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getAveragePassedTurnPerMancheByUser(String id) {
         if(movesDAO == null)
             createMovesDAO();
@@ -357,7 +321,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getAveragePassedTurnPerMatchByUser(String id) {
         if(movesDAO == null)
             createMovesDAO();
@@ -374,7 +337,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getAverageLossPerMancheByUser(String id) {
         if(movesDAO == null)
             createMovesDAO();
@@ -391,7 +353,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getAverageLossPerMatchByUser(String id) {
         if(movesDAO == null)
             createMovesDAO();
@@ -408,9 +369,7 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    /**
-     * Questo metodo inizializza l'istanza di ManchesDAO
-     */
+
     private void createManchesDAO(){
         manchesDAO = new ManchesDAOImpl(con);
     }
@@ -426,9 +385,7 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    /**
-     * Questo metodo inizializza l'istanza di MancheWinnersDAO
-     */
+
     private void createMancheWinnersDAO(){mancheWinnersDAO = new MancheWinnersDAOImpl(con);}
 
     @Override
@@ -442,7 +399,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getWonManchesByUser(String id) {
         if(mancheWinnersDAO==null)
             createMancheWinnersDAO();
@@ -455,7 +411,6 @@ public class DBManager implements DBManagerInterface{
 
     private void createMancheJoinersDAO(){mancheJoinersDAO = new MancheJoinersDAOImpl(con);}
 
-    @Override
     public synchronized boolean addMancheJoiner(String idMatch, int numManche, String userId, boolean observer) {
         if(mancheJoinersDAO==null)
             createMancheJoinersDAO();
@@ -467,7 +422,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getManchePlayedByUser(String id) {
         if(mancheJoinersDAO == null)
             createMancheJoinersDAO();
@@ -478,7 +432,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getMatchesPlayedByUser(String id) {
         if(mancheJoinersDAO == null)
             createMancheJoinersDAO();
@@ -489,7 +442,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getObservedManchesByUser(String id) {
         if(mancheJoinersDAO == null)
             createMancheJoinersDAO();
@@ -500,7 +452,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getObservedMatchesByUser(String id) {
         if(mancheJoinersDAO == null)
             createMancheJoinersDAO();
@@ -513,7 +464,6 @@ public class DBManager implements DBManagerInterface{
 
     private void createMatchWinnersDAO(){matchWinnersDAO = new MatchWinnersDAOImpl(con);}
 
-    @Override
     public synchronized boolean addMatchWinner(String idMatch, String idPlayer, int amount) {
         if(matchWinnersDAO==null)
             createMatchWinnersDAO();
@@ -525,7 +475,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getWonMatchesByUser(String id) {
         if(matchWinnersDAO == null)
             createMatchWinnersDAO();
@@ -536,7 +485,6 @@ public class DBManager implements DBManagerInterface{
         }
     }
 
-    @Override
     public int getAveragePointsWonByUser(String id) {
         if(matchWinnersDAO == null)
             createMatchWinnersDAO();

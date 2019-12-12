@@ -1,18 +1,9 @@
 package GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-
 import Game.RemoteMatch;
 import Services.Client;
 import Services.Notification;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Tab;
-
-import java.awt.Frame;
-import java.awt.Label;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -22,15 +13,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
-
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
@@ -72,6 +59,9 @@ public class Game {
 	private JLabel lblTotal2;
 	private JLabel lblTotal3;
 	private JLabel lblTime;
+	private String phrase;
+	private JButton btnConsonant;
+	private JButton btnGiveSolution;
 
 	/**
 	 * Create the application.
@@ -92,84 +82,87 @@ public class Game {
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
-		
-		frame = new JFrame("Rdf: " + nickname);
 
+		frame = new JFrame("Rdf: " + nickname);
+		frame.setResizable(false);
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.GRAY);
 		frame.setVisible(true);
-		frame.setBounds(100, 100, 1487, 844);
+		frame.setBounds(100, 100, 1372, 689);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		lblPlayer1 = new JLabel("Player 1");
 		lblPlayer1.setForeground(Color.WHITE);
-		lblPlayer1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPlayer1.setBounds(1117, 28, 85, 13);
+		lblPlayer1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPlayer1.setBounds(1097, 10, 265, 21);
 		frame.getContentPane().add(lblPlayer1);
 
 		lblPlayer2 = new JLabel("Player 2");
 		lblPlayer2.setForeground(Color.WHITE);
-		lblPlayer2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPlayer2.setBounds(1117, 132, 85, 13);
+		lblPlayer2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPlayer2.setBounds(1097, 213, 265, 21);
 		frame.getContentPane().add(lblPlayer2);
 
 		lblPlayer3 = new JLabel("Player 3");
 		lblPlayer3.setForeground(Color.WHITE);
-		lblPlayer3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPlayer3.setBounds(1117, 224, 85, 13);
+		lblPlayer3.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPlayer3.setBounds(1097, 395, 265, 21);
 		frame.getContentPane().add(lblPlayer3);
 
 		lblJolly1 = new JLabel("Jolly: ");
+		lblJolly1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblJolly1.setForeground(Color.WHITE);
-		lblJolly1.setBounds(1117, 51, 46, 13);
+		lblJolly1.setBounds(1107, 41, 46, 13);
 		frame.getContentPane().add(lblJolly1);
 
 		lblJolly2 = new JLabel("Jolly: ");
+		lblJolly2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblJolly2.setForeground(Color.WHITE);
-		lblJolly2.setBounds(1117, 155, 46, 13);
+		lblJolly2.setBounds(1097, 244, 46, 13);
 		frame.getContentPane().add(lblJolly2);
 
 		lblJolly3 = new JLabel("Jolly: ");
+		lblJolly3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblJolly3.setForeground(Color.WHITE);
-		lblJolly3.setBounds(1117, 247, 46, 13);
+		lblJolly3.setBounds(1097, 426, 46, 13);
 		frame.getContentPane().add(lblJolly3);
 
 		lblPartial1 = new JLabel("Partial");
 		lblPartial1.setForeground(Color.WHITE);
-		lblPartial1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPartial1.setBounds(1266, 51, 85, 13);
+		lblPartial1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPartial1.setBounds(1182, 41, 85, 13);
 		frame.getContentPane().add(lblPartial1);
 
 		lblPartial2 = new JLabel("Partial");
 		lblPartial2.setForeground(Color.WHITE);
-		lblPartial2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPartial2.setBounds(1266, 155, 85, 13);
+		lblPartial2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPartial2.setBounds(1182, 242, 85, 13);
 		frame.getContentPane().add(lblPartial2);
 
 		lblPartial3 = new JLabel("Partial");
 		lblPartial3.setForeground(Color.WHITE);
-		lblPartial3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPartial3.setBounds(1266, 247, 85, 13);
+		lblPartial3.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPartial3.setBounds(1182, 426, 85, 13);
 		frame.getContentPane().add(lblPartial3);
 
 		lblTotal1 = new JLabel("Total");
 		lblTotal1.setForeground(Color.WHITE);
-		lblTotal1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTotal1.setBounds(1378, 51, 85, 13);
+		lblTotal1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTotal1.setBounds(1277, 41, 85, 13);
 		frame.getContentPane().add(lblTotal1);
 
 		lblTotal2 = new JLabel("Total");
 		lblTotal2.setForeground(Color.WHITE);
-		lblTotal2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTotal2.setBounds(1378, 155, 85, 13);
+		lblTotal2.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTotal2.setBounds(1277, 242, 85, 13);
 		frame.getContentPane().add(lblTotal2);
 
 		lblTotal3 = new JLabel("Total");
 		lblTotal3.setForeground(Color.WHITE);
-		lblTotal3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTotal3.setBounds(1378, 247, 85, 13);
+		lblTotal3.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTotal3.setBounds(1277, 426, 85, 13);
 		frame.getContentPane().add(lblTotal3);
 
 		JButton btnExit = new JButton("EXIT");
@@ -185,7 +178,7 @@ public class Game {
 		btnExit.setForeground(Color.WHITE);
 		btnExit.setBackground(Color.RED);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnExit.setBounds(1388, 779, 85, 21);
+		btnExit.setBounds(1277, 647, 85, 21);
 		frame.getContentPane().add(btnExit);
 
 		panelPhrase = new JPanel();
@@ -201,7 +194,7 @@ public class Game {
 		panelAction.setLayout(null);
 
 		btnSpin = new JButton("SPIN");
-		btnSpin.setBounds(997, 60, 73, 31);
+		btnSpin.setBounds(962, 18, 96, 113);
 		panelAction.add(btnSpin);
 		btnSpin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -209,42 +202,22 @@ public class Game {
 			}
 		});
 		btnSpin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnSpin.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnSpin.setFont(new Font("Dialog", Font.PLAIN, 18));
 		btnSpin.setBackground(Color.GREEN);
 		btnSpin.setForeground(Color.WHITE);
 
 		textFieldCharacter = new JTextField();
-		textFieldCharacter.setBounds(259, 101, 96, 19);
+		textFieldCharacter.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldCharacter.setFont(new Font("Tahoma", Font.BOLD, 20));
+		textFieldCharacter.setBounds(676, 59, 263, 31);
 		panelAction.add(textFieldCharacter);
 		textFieldCharacter.setColumns(10);
-
-		JButton btnCharacter = new JButton("SEND");
-		btnCharacter.setEnabled(false);
-		btnCharacter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (textFieldCharacter.getText().equals("") || textFieldCharacter.getText().length() > 1) {
-					Notification.notify("ATTENTION", "INSERT E CHARACTER", true);
-				} else {
-					try {
-						onEnter();
-						// updatePhrase(textFieldCharacter.getText().toUpperCase());
-						textFieldCharacter.setText("");
-					} catch (RemoteException e) {
-						e.printStackTrace();
-					}
-
-				}
-
-			}
-		});
-		btnCharacter.setBounds(365, 100, 85, 21);
-		panelAction.add(btnCharacter);
 
 		tfSolution = new JTextField();
 		tfSolution.setHorizontalAlignment(SwingConstants.CENTER);
 		tfSolution.setToolTipText("Insert the solution here");
 		tfSolution.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		tfSolution.setBounds(10, 10, 520, 31);
+		tfSolution.setBounds(10, 59, 520, 31);
 		panelAction.add(tfSolution);
 		tfSolution.setColumns(10);
 
@@ -252,31 +225,19 @@ public class Game {
 		btnSendSolution.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					giveSolution();
+					confirmSolution();
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 		btnSendSolution.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnSendSolution.setBounds(540, 10, 155, 31);
+		btnSendSolution.setBounds(10, 100, 520, 31);
 		btnSendSolution.setEnabled(false);
 		panelAction.add(btnSendSolution);
 
-		btnJolly = new JButton("JOLLY");
-		btnJolly.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					giveJolly();
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		btnJolly.setBounds(10, 57, 85, 21);
-		panelAction.add(btnJolly);
-
-		btnVocal = new JButton("VOCAL");
+		btnVocal = new JButton("BUY VOCAL");
+		btnVocal.setFont(new Font("Dialog", Font.PLAIN, 15));
 		btnVocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -286,8 +247,60 @@ public class Game {
 				}
 			}
 		});
-		btnVocal.setBounds(10, 87, 85, 21);
+		btnVocal.setBounds(809, 18, 130, 31);
 		panelAction.add(btnVocal);
+
+		btnGiveSolution = new JButton("GIVE SOLUTION");
+		btnGiveSolution.setForeground(Color.WHITE);
+		btnGiveSolution.setBackground(Color.CYAN);
+		btnGiveSolution.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnGiveSolution.setBounds(10, 18, 520, 31);
+		panelAction.add(btnGiveSolution);
+		btnGiveSolution.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					giveSolution();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		btnConsonant = new JButton("SEND LETTER");
+		btnConsonant.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnConsonant.setEnabled(false);
+		btnConsonant.setBounds(676, 18, 130, 31);
+		panelAction.add(btnConsonant);
+		
+				btnJolly = new JButton("JOLLY");
+				btnJolly.setFont(new Font("Dialog", Font.PLAIN, 18));
+				btnJolly.setBounds(676, 100, 263, 31);
+				panelAction.add(btnJolly);
+				
+						lblTime = new JLabel("TIMER");
+						lblTime.setBounds(540, 32, 130, 82);
+						panelAction.add(lblTime);
+						lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+						lblTime.setForeground(Color.WHITE);
+						lblTime.setFont(new Font("Tahoma", Font.BOLD, 45));
+				btnJolly.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							giveJolly();
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+		btnConsonant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					onEnter();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		lblTheme = new JLabel("");
 		lblTheme.setForeground(Color.WHITE);
@@ -300,21 +313,14 @@ public class Game {
 		lblWheelResult.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWheelResult.setForeground(Color.WHITE);
 		lblWheelResult.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblWheelResult.setBounds(1266, 404, 144, 181);
+		lblWheelResult.setBounds(1165, 486, 144, 151);
 		frame.getContentPane().add(lblWheelResult);
 
 		lblTurn = new JLabel("Is");
 		lblTurn.setForeground(Color.WHITE);
 		lblTurn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTurn.setBounds(10, 810, 169, 13);
+		lblTurn.setBounds(10, 666, 235, 13);
 		frame.getContentPane().add(lblTurn);
-
-		lblTime = new JLabel("TIME");
-		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTime.setForeground(Color.WHITE);
-		lblTime.setFont(new Font("Tahoma", Font.BOLD, 50));
-		lblTime.setBounds(1117, 357, 151, 82);
-		frame.getContentPane().add(lblTime);
 
 		letter = new JButton[4][15];
 
@@ -340,8 +346,8 @@ public class Game {
 		// frame.setUndecorated(false);
 		// device.setFullScreenWindow(frame);
 
-		if (TabPaneController.creator) {
-			TabPaneController.setGameControlle(this);
+		if (TabPane.creator) {
+			TabPane.setGameControlle(this);
 		} else {
 			GameBeingPlayed.setGameControllerObserver(this);
 			if (!GameBeingPlayed.player) {
@@ -368,116 +374,17 @@ public class Game {
 			e.printStackTrace();
 		}
 
-		// notifyPlayerStats(0,client.getNickname(), 0, 0, 0);
-
 	}
 
 	public void createTableOfPhrase() {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 15; j++) {
-				letter[i][j] = new JButton();
+				letter[i][j] = new JButton("");
 				letter[i][j].setBackground(space);
 				letter[i][j].setFont(new Font("Tahoma", Font.BOLD, 30));
 				panelPhrase.add(letter[i][j]);
 			}
 
-		}
-	}
-
-	public void wheelSpin() {
-		Thread t = new Thread() {
-			public void run() {
-				try {
-					wheelResult = match.wheelSpin();
-					wheelButtonPressed = true;
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		t.start();
-	}
-
-	public void wheelResult(String result) {
-		Thread t = new Thread() {
-			public void run() {
-				lblWheelResult.setText(result);
-			}
-		};
-		t.start();
-	}
-
-	public void onEnter() throws RemoteException {
-		String letter = textFieldCharacter.getText();
-		letter = letter.trim();
-		letter = letter.toUpperCase();
-		if (wheelButtonPressed) {
-			match.giveConsonant(letter, wheelResult);
-			wheelButtonPressed = false;
-		} else if (vowelButtonPressed) {
-			match.giveVocal(letter);
-			vowelButtonPressed = false;
-		}
-		textFieldCharacter.setText("");
-	}
-
-	public void giveVocal() throws RemoteException {
-		match.askForVocal();
-		vowelButtonPressed = true;
-	}
-
-	public void giveJolly() throws RemoteException {
-		match.jolly();
-	}
-
-	public void setTurn(String nickName) throws RemoteException {
-		Thread t = new Thread() {
-			public void run() {
-				if (nickName.equals(lblPlayer1.getText())) {
-					lblTurn.setText("Is " + nickName + " turn");
-					lblPlayer1.setForeground(Color.GREEN);
-					lblPlayer2.setForeground(Color.BLACK);
-					lblPlayer3.setForeground(Color.BLACK);
-				} else if (nickName.equals(lblPlayer2.getText())) {
-					lblTurn.setText("Is " + nickName + " turn");
-					lblPlayer1.setForeground(Color.BLACK);
-					lblPlayer2.setForeground(Color.GREEN);
-					lblPlayer3.setForeground(Color.BLACK);
-				} else if (nickName.equals(lblPlayer3.getText())) {
-					lblTurn.setText("Is " + nickName + " turn");
-					lblPlayer1.setForeground(Color.BLACK);
-					lblPlayer2.setForeground(Color.BLACK);
-					lblPlayer3.setForeground(Color.GREEN);
-				}
-				try {
-					if (!nickName.equals(client.getNickname())) {
-						disableAll();
-					}
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		t.start();
-	}
-
-	public void yourTurn() {
-		activeAll();
-	}
-
-	public void exitMatch() throws IOException {
-		try {
-			if (isObserver) {
-				match.leaveMatchAsObserver(client);
-			} else {
-				match.leaveMatchAsPlayer(client);
-			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} finally {
-			match = null;
-			TabPaneController.setVisible();
-			frame.dispose();
 		}
 	}
 
@@ -500,8 +407,6 @@ public class Game {
 		};
 		t.start();
 	}
-
-	private String phrase;
 
 	public void updatePhrase(boolean[] phrase) {
 		Thread t = new Thread() {
@@ -546,6 +451,7 @@ public class Game {
 		String theme = theme2;
 		Thread t = new Thread() {
 			public void run() {
+				lblTheme.setText(theme);
 				panelPhrase.removeAll();
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < 15; j++) {
@@ -554,9 +460,6 @@ public class Game {
 						panelPhrase.add(letter[i][j]);
 					}
 				}
-
-				lblTheme.setText(theme);
-
 				int column = 0;
 				int row = 0;
 				char car;
@@ -616,6 +519,38 @@ public class Game {
 
 	}
 
+	public void hideAll() {
+		btnJolly.setVisible(false);
+		btnVocal.setVisible(false);
+		btnSpin.setVisible(false);
+		btnSendSolution.setVisible(false);
+		tfSolution.setVisible(false);
+		textFieldCharacter.setVisible(false);
+		btnConsonant.setVisible(false);
+		btnGiveSolution.setVisible(false);
+	}
+
+	public void disableAll() {
+		btnJolly.setEnabled(false);
+		btnVocal.setEnabled(false);
+		btnSpin.setEnabled(false);
+		btnSendSolution.setEnabled(false);
+		tfSolution.setEnabled(false);
+		textFieldCharacter.setEnabled(false);
+		btnConsonant.setEnabled(false);
+		btnGiveSolution.setEnabled(false);
+	}
+
+	public void activeAll() {
+		btnJolly.setEnabled(true);
+		btnVocal.setEnabled(true);
+		btnSpin.setEnabled(true);
+		tfSolution.setEnabled(true);
+		textFieldCharacter.setEnabled(true);
+		btnConsonant.setEnabled(true);
+		btnGiveSolution.setEnabled(true);
+	}
+
 	public void giveSolution() throws RemoteException {
 		match.askForSolution();
 		btnSendSolution.setEnabled(true);
@@ -629,31 +564,106 @@ public class Game {
 		tfSolution.setText("");
 	}
 
-	public void hideAll() {
-		btnJolly.setVisible(false);
-		btnVocal.setVisible(false);
-		btnSpin.setVisible(false);
-		btnSendSolution.setVisible(false);
-		tfSolution.setVisible(false);
-		textFieldCharacter.setVisible(false);
+	public void wheelSpin() {
+		Thread t = new Thread() {
+			public void run() {
+				try {
+					wheelResult = match.wheelSpin();
+					wheelButtonPressed = true;
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
 	}
 
-	public void disableAll() {
-		btnJolly.setEnabled(false);
-		btnVocal.setEnabled(false);
-		btnSpin.setEnabled(false);
-		btnSendSolution.setEnabled(false);
-		tfSolution.setEnabled(false);
-		textFieldCharacter.setEnabled(false);
+	public void wheelResult(String result) {
+		Thread t = new Thread() {
+			public void run() {
+				lblWheelResult.setText(result);
+			}
+		};
+		t.start();
 	}
 
-	public void activeAll() {
-		btnJolly.setEnabled(true);
-		btnVocal.setEnabled(true);
-		btnSpin.setEnabled(true);
-		btnSendSolution.setEnabled(true);
-		tfSolution.setEnabled(true);
-		textFieldCharacter.setEnabled(true);
+	public void onEnter() throws RemoteException {
+		String letter = textFieldCharacter.getText();
+		letter = letter.trim();
+		letter = letter.toUpperCase();
+		if (wheelButtonPressed) {
+			match.giveConsonant(letter, wheelResult);
+			wheelButtonPressed = false;
+		} else if (vowelButtonPressed) {
+			match.giveVocal(letter);
+			vowelButtonPressed = false;
+		}
+		textFieldCharacter.setText("");
+	}
+
+	public void giveVocal() throws RemoteException {
+		match.askForVocal();
+		vowelButtonPressed = true;
+	}
+
+	public void giveJolly() throws RemoteException {
+		match.jolly();
+	}
+
+	public void setTurn(String nickName) throws RemoteException {
+		Thread t = new Thread() {
+			public void run() {
+				if (nickName.equals(lblPlayer1.getText())) {
+					lblTurn.setText("Is " + nickName + " turn");
+					lblPlayer1.setForeground(Color.GREEN);
+					lblPlayer2.setForeground(Color.BLACK);
+					lblPlayer3.setForeground(Color.BLACK);
+					lblWheelResult.setText("Spin the wheel");
+				} else if (nickName.equals(lblPlayer2.getText())) {
+					lblTurn.setText("Is " + nickName + " turn");
+					lblPlayer1.setForeground(Color.BLACK);
+					lblPlayer2.setForeground(Color.GREEN);
+					lblPlayer3.setForeground(Color.BLACK);
+					lblWheelResult.setText("Spin the wheel");
+
+				} else if (nickName.equals(lblPlayer3.getText())) {
+					lblTurn.setText("Is " + nickName + " turn");
+					lblPlayer1.setForeground(Color.BLACK);
+					lblPlayer2.setForeground(Color.BLACK);
+					lblPlayer3.setForeground(Color.GREEN);
+					lblWheelResult.setText("Spin the wheel");
+
+				}
+				try {
+					if (!nickName.equals(client.getNickname())) {
+						disableAll();
+					}
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
+	}
+
+	public void yourTurn() {
+		activeAll();
+	}
+
+	public void exitMatch() throws IOException {
+		try {
+			if (isObserver) {
+				match.leaveMatchAsObserver(client);
+			} else {
+				match.leaveMatchAsPlayer(client);
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} finally {
+			match = null;
+			TabPane.setVisible();
+			frame.dispose();
+		}
 	}
 
 	public void notifyPlayerStats(int pos, String nickname, int partial, int total, int numJolly) {
@@ -742,7 +752,7 @@ public class Game {
 		Thread t = new Thread() {
 			public void run() {
 				String message = nickname + "\nha lasciato la partita";
-				TabPaneController.notifyLeaver(message);
+				TabPane.notifyLeaver(message);
 			}
 		};
 		t.start();
@@ -751,9 +761,9 @@ public class Game {
 	public void notifyMatchAbort(String reason) {
 		Thread t = new Thread() {
 			public void run() {
-				TabPaneController.setVisible();
+				TabPane.setVisible();
 				frame.dispose();
-				TabPaneController.notifyMatchAbort(reason);
+				TabPane.notifyMatchAbort(reason);
 			}
 		};
 		t.start();
@@ -815,9 +825,9 @@ public class Game {
 			public void run() {
 				String message = winner + "\nha vinto la partita ";
 				match = null;
-				TabPaneController.setVisible();
+				TabPane.setVisible();
 				frame.dispose();
-				TabPaneController.notifyMatchEnd(message);
+				TabPane.notifyMatchEnd(message);
 			}
 		};
 		t.start();
@@ -827,9 +837,9 @@ public class Game {
 		Thread t = new Thread() {
 			public void run() {
 				match = null;
-				TabPaneController.setVisible();
+				TabPane.setVisible();
 				frame.dispose();
-				TabPaneController.notifyMatchWin();
+				TabPane.notifyMatchWin();
 			}
 		};
 		t.start();
@@ -880,5 +890,4 @@ public class Game {
 		};
 		t.start();
 	}
-
 }
