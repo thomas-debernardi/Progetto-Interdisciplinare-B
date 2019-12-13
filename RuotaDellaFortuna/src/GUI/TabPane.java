@@ -22,7 +22,7 @@ import javax.swing.JTabbedPane;
 import Game.RemoteMatch;
 import Server.Server;
 import Services.Client;
-import Services.CountryRender;
+import Services.GameBeingPlayed2Render;
 import Services.CryptPassword;
 import Services.GameBeingPlayed2;
 import Services.MatchData;
@@ -93,7 +93,7 @@ public class TabPane {
 	private JPanel panelGames;
 	ArrayList<MatchData> list2;
 	private DefaultListModel<GameBeingPlayed2> listModel;
-	JList<GameBeingPlayed2> countryList2;
+	JList<GameBeingPlayed2> gamePlayedList;
 
 	/**
 	 * Create the application.
@@ -232,15 +232,15 @@ public class TabPane {
 		listModel = new DefaultListModel<>();
 		// create the list
 		list2 = new ArrayList<>();
-		countryList2 = new JList<GameBeingPlayed2>(listModel);
-		countryList2.setForeground(Color.WHITE);
-		countryList2.setFont(new Font("Tahoma", Font.BOLD, 18));
-		countryList2.setBackground(Color.GRAY);
+		gamePlayedList = new JList<GameBeingPlayed2>(listModel);
+		gamePlayedList.setForeground(Color.WHITE);
+		gamePlayedList.setFont(new Font("Tahoma", Font.BOLD, 18));
+		gamePlayedList.setBackground(Color.GRAY);
 		uploadGameInProgress();
 		panelGames.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		countryList2.setCellRenderer(new CountryRender());
+		gamePlayedList.setCellRenderer(new GameBeingPlayed2Render());
 		// frame.getContentPane().add(new JScrollPane(countryList2));
-		panelGames.add(countryList2);
+		panelGames.add(gamePlayedList);
 
 		JPanel panelUsersStatistics = new JPanel();
 		panelUsersStatistics.setBackground(Color.GRAY);
@@ -754,14 +754,14 @@ public class TabPane {
 			}
 		});
 
-		countryList2.addMouseListener(new MouseAdapter() {
+		gamePlayedList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
 				posY = e.getY();
 			}
 		});
 
-		countryList2.addMouseMotionListener(new MouseAdapter() {
+		gamePlayedList.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent evt) {
 				// sets frame position when mouse dragged
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
@@ -772,9 +772,9 @@ public class TabPane {
 
 	public void uploadGameInProgress() {
 		list2.clear();
-		CountryRender.setChosen(false);
-		countryList2.removeAll();
-		countryList2.clearSelection();
+		GameBeingPlayed2Render.setChosen(false);
+		gamePlayedList.removeAll();
+		gamePlayedList.clearSelection();
 		listModel.clear();
 		try {
 			list2 = server.visualizeMatch(client);

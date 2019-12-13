@@ -17,7 +17,7 @@ import GUI.GameBeingPlayed;
  *
  * @author wwww.codejava.net
  */
-public class CountryRender extends JLabel implements ListCellRenderer<GameBeingPlayed2> {
+public class GameBeingPlayed2Render extends JLabel implements ListCellRenderer<GameBeingPlayed2> {
 	private static boolean chosen2 = false;
 
 	/**
@@ -48,5 +48,6 @@ public class CountryRender extends JLabel implements ListCellRenderer<GameBeingP
 	public static void setChosen(boolean chosen) {
 		chosen2 = chosen;
 	}
+
 
 }

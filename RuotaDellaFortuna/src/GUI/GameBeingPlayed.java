@@ -19,7 +19,7 @@ import Game.RemoteMatch;
 import Server.Server;
 import Services.AdminChecker;
 import Services.Client;
-import Services.CountryRender;
+import Services.GameBeingPlayed2Render;
 import Services.MatchData;
 import Services.Notification;
 import javafx.scene.control.ListCell;
@@ -116,7 +116,7 @@ public class GameBeingPlayed extends JDesktopPane{
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				CountryRender.setChosen(false);
+				GameBeingPlayed2Render.setChosen(false);
 			}
 		});
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
