@@ -352,7 +352,7 @@ public class Game {
 			GameBeingPlayed.setGameControllerObserver(this);
 			if (!GameBeingPlayed.player) {
 				hideAll();
-				//updatePhrase(phraseB);
+				
 			}
 		}
 
@@ -408,6 +408,8 @@ public class Game {
 		t.start();
 	}
 	
+	/*
+	
 	public void updatePhrase(boolean[] phraseB) {
 		Thread t = new Thread() {
 			public void run() {
@@ -419,9 +421,9 @@ public class Game {
 			}
 		}; t.start();
 	}
-	
+	*/
 
-	/*
+	
 	public void updatePhrase(boolean[] phrase) {
 		Thread t = new Thread() {
 			public void run() {
@@ -459,7 +461,6 @@ public class Game {
 		t.start();
 
 	}
-	*/
 
 	public void setNewPhrase(String theme2, String phrase2) {
 		phrase = phrase2.toUpperCase();		

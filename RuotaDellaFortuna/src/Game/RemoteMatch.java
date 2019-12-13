@@ -28,4 +28,5 @@ public interface RemoteMatch extends Remote {
 	public void askForVocal() throws RemoteException;
 
 	public void tryForStartMatch() throws RemoteException;
+	
 }

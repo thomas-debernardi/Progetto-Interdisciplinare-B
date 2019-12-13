@@ -233,6 +233,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 leaveMatchAsPlayer(p);
             }
         }
+        
         String phrase = manche.getCurrentPhrase().getPhrase().toUpperCase();
         StringTokenizer st = new StringTokenizer(phrase, " ',!?.:;\"/()\\^<>-+*0123456789");
         int counter = 0;
