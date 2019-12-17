@@ -31,7 +31,6 @@ public class Game {
 	private boolean wheelButtonPressed;
 	private boolean vowelButtonPressed;
 	private int posX = 0, posY = 0;
-
 	private JButton[][] letter;
 	private JPanel panelPhrase;
 	private JLabel lblTheme;
@@ -352,7 +351,11 @@ public class Game {
 			GameBeingPlayed.setGameControllerObserver(this);
 			if (!GameBeingPlayed.player) {
 				hideAll();
-				
+				for(int i = 0; i < 4; i++) {
+					for(int j = 0; j < 14; j++) {
+						System.out.println(letter[i][j] + "VUOTO");
+					}
+				}
 			}
 		}
 
@@ -461,6 +464,63 @@ public class Game {
 		t.start();
 
 	}
+	
+/*	 public void updatePhrase(boolean[] phrase) {
+	     Thread t = new Thread() {
+	    	 public void run() {
+	    		 int column = 0;
+	             int row = 0;
+	             int i = 0;
+	             while (i < phrase.length) {
+	            	 for(int x = 0; x < 14; x++) {
+	            		 for(int y = 0; y < 4; y++) {
+	            			 if(letter[x][y].getBackground() != space && !letter[x][y].getText().equals("")) {
+	            				 if(phrase[i] == true) {
+	            					 letter[x][y].setText(text);
+	            				 }
+	            			 }
+	            		 }
+	            	 }
+	            	 
+	                    node = (StackPane) getNodeByRowColumnIndex(row, column);
+	                    label = (Label) node.getChildren().get(0);
+	                    if (!label.isVisible() && !label.getText().equals("")) {
+	                        if (phrase[i] == true) {
+	                            label.setVisible(true);
+	                            node.setStyle(" -fx-background-color: #d6e2e0;\n" +
+	                                    "    -fx-border-color: #08FBE1;\n" +
+	                                    "    -fx-border-radius: 3px;\n" +
+	                                    "    -fx-background-radius: 3px;\n" +
+	                                    "    -fx-border-width: 2px;");
+	                            i++;
+	                            if (column < 14) {
+	                                column++;
+	                            } else {
+	                                column = 0;
+	                                row++;
+	                            }
+	                        } else {
+	                            i++;
+	                            if (column < 14) {
+	                                column++;
+	                            } else {
+	                                column = 0;
+	                                row++;
+	                            }
+	                        }
+	                    } else {
+	                        if (column < 14) {
+	                            column++;
+	                        } else {
+	                            column = 0;
+	                            row++;
+	                        }
+	                    }
+	                }
+	    	 }
+	     }; t.start();
+	    }
+*/
 
 	public void setNewPhrase(String theme2, String phrase2) {
 		phrase = phrase2.toUpperCase();		

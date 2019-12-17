@@ -177,7 +177,7 @@ public class GameBeingPlayed extends JDesktopPane{
 
 	}
 
-	protected void updateItem(MatchData item, boolean empty) {
+/*	protected void updateItem(MatchData item, boolean empty) {
 		if (AdminChecker.isIsAdmin())
 			btnJoin.setEnabled(false);
 
@@ -221,7 +221,7 @@ public class GameBeingPlayed extends JDesktopPane{
 			}
 		});
 	}
-	
+	*/
 	 private void setAviableLabel(boolean aviable) {
 	        if (aviable) {
 	            btnJoin.setEnabled(true);
