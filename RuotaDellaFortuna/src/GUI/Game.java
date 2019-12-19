@@ -270,27 +270,27 @@ public class Game {
 		btnConsonant.setEnabled(false);
 		btnConsonant.setBounds(676, 18, 130, 31);
 		panelAction.add(btnConsonant);
-		
-				btnJolly = new JButton("JOLLY");
-				btnJolly.setFont(new Font("Tahoma", Font.BOLD, 18));
-				btnJolly.setBounds(676, 100, 263, 31);
-				panelAction.add(btnJolly);
-				
-						lblTime = new JLabel("TIMER");
-						lblTime.setBounds(540, 32, 130, 82);
-						panelAction.add(lblTime);
-						lblTime.setHorizontalAlignment(SwingConstants.CENTER);
-						lblTime.setForeground(Color.WHITE);
-						lblTime.setFont(new Font("Tahoma", Font.BOLD, 45));
-				btnJolly.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						try {
-							giveJolly();
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-					}
-				});
+
+		btnJolly = new JButton("JOLLY");
+		btnJolly.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnJolly.setBounds(676, 100, 263, 31);
+		panelAction.add(btnJolly);
+
+		lblTime = new JLabel("TIMER");
+		lblTime.setBounds(540, 32, 130, 82);
+		panelAction.add(lblTime);
+		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTime.setForeground(Color.WHITE);
+		lblTime.setFont(new Font("Tahoma", Font.BOLD, 45));
+		btnJolly.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					giveJolly();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		btnConsonant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -351,11 +351,6 @@ public class Game {
 			GameBeingPlayed.setGameControllerObserver(this);
 			if (!GameBeingPlayed.player) {
 				hideAll();
-				for(int i = 0; i < 4; i++) {
-					for(int j = 0; j < 14; j++) {
-						System.out.println(letter[i][j] + "VUOTO");
-					}
-				}
 			}
 		}
 
@@ -410,64 +405,32 @@ public class Game {
 		};
 		t.start();
 	}
-	
-	/*
-	
-	public void updatePhrase(boolean[] phraseB) {
-		Thread t = new Thread() {
-			public void run() {
-				for(int i = 0; i < phraseB.length; i++) {
-					if(phraseB[i]==true) {
-						updatePhrase(""+phrase.charAt(i));
-					}
-				}
-			}
-		}; t.start();
-	}
-	*/
 
-	
-	public void updatePhrase(boolean[] phrase) {
+	public void updatePhrase(boolean[] phrase2) {
+		String s = phrase.replaceAll("\\s", "");
 		Thread t = new Thread() {
 			public void run() {
-				int column = 0;
-				int row = 0;
-				int z = 0;
-				String c;
-				// TRASFORMO MATRICE IN UN ARRAY
-				JButton[] array = new JButton[letter.length * letter[0].length];
-				int k = 0;
-				for (int i = 0; i < letter.length; i++) {
-					for (int j = 0; j < letter[i].length; j++) {
-						if (letter[i][j].getText() == " ")
-							j--;
-						else
-							array[k++] = letter[i][j];
-					}
-				}
-				while (z < phrase.length) {
-					if (phrase[z] == true) {
-						c = array[z].getText();
-						for (int w = 0; w < 4; w++) {
-							for (int ww = 0; ww < 14; w++) {
-								if (letter[w][ww].getText() == c) {
-									letter[w][ww].setText(c);
-									letter[w][ww].setBackground(find);
+				char c;
+				for (int i = 0; i < phrase2.length; i++) {
+					if (phrase2[i]) {
+						c = s.charAt(i);
+						for (int ii = 0; ii < 4; ii++) {
+							for (int jj = 0; jj < 15; jj++) {
+								if (x[ii][jj] == c) {
+									letter[ii][jj].setText(c + "");
 								}
 							}
 						}
 					}
-					z++;
 				}
 			}
 		};
 		t.start();
 
 	}
-	
 
 	public void setNewPhrase(String theme2, String phrase2) {
-		phrase = phrase2.toUpperCase();		
+		phrase = phrase2.toUpperCase();
 		String theme = theme2;
 		Thread t = new Thread() {
 			public void run() {

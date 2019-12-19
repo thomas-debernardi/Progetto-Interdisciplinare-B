@@ -865,11 +865,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
     public synchronized void addObserver(Client c) throws RemoteException {
         observers.add(c);
         if (onGoing) {
-            dbManager.addMancheJoiner(id, manche.getNumManche(), c.getId(), true);
-            
-            //PROVA
-            c.updatePhrase(phraseStatus);
-            
+            dbManager.addMancheJoiner(id, manche.getNumManche(), c.getId(), true);            
         }
     }
 
