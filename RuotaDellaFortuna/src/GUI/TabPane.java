@@ -854,11 +854,10 @@ public class TabPane {
 		}
 	}
 
-	public void notifyTooManyPlayers() {
-
+	public static void notifyTooManyPlayers() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Giocatori", "Troppi giocatori", true);
+				Notification.notify("ERROR", "GAME STARTED YET", true);
 			}
 		};
 		t.start();

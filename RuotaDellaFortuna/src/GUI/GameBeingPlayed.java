@@ -156,6 +156,7 @@ public class GameBeingPlayed extends JDesktopPane{
 					TabPane.creator = false;
 					Game game = new Game(match, client);
 					TabPane.setInvisible();
+					frame.dispose();
 				}
 			}
 		});

@@ -201,7 +201,7 @@ public class Game {
 			}
 		});
 		btnSpin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnSpin.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnSpin.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnSpin.setBackground(Color.GREEN);
 		btnSpin.setForeground(Color.WHITE);
 
@@ -230,13 +230,13 @@ public class Game {
 				}
 			}
 		});
-		btnSendSolution.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSendSolution.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnSendSolution.setBounds(10, 100, 520, 31);
 		btnSendSolution.setEnabled(false);
 		panelAction.add(btnSendSolution);
 
 		btnVocal = new JButton("BUY VOCAL");
-		btnVocal.setFont(new Font("Dialog", Font.PLAIN, 15));
+		btnVocal.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnVocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -266,13 +266,13 @@ public class Game {
 		});
 
 		btnConsonant = new JButton("SEND LETTER");
-		btnConsonant.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnConsonant.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnConsonant.setEnabled(false);
 		btnConsonant.setBounds(676, 18, 130, 31);
 		panelAction.add(btnConsonant);
 		
 				btnJolly = new JButton("JOLLY");
-				btnJolly.setFont(new Font("Dialog", Font.PLAIN, 18));
+				btnJolly.setFont(new Font("Tahoma", Font.BOLD, 18));
 				btnJolly.setBounds(676, 100, 263, 31);
 				panelAction.add(btnJolly);
 				
@@ -465,62 +465,6 @@ public class Game {
 
 	}
 	
-/*	 public void updatePhrase(boolean[] phrase) {
-	     Thread t = new Thread() {
-	    	 public void run() {
-	    		 int column = 0;
-	             int row = 0;
-	             int i = 0;
-	             while (i < phrase.length) {
-	            	 for(int x = 0; x < 14; x++) {
-	            		 for(int y = 0; y < 4; y++) {
-	            			 if(letter[x][y].getBackground() != space && !letter[x][y].getText().equals("")) {
-	            				 if(phrase[i] == true) {
-	            					 letter[x][y].setText(text);
-	            				 }
-	            			 }
-	            		 }
-	            	 }
-	            	 
-	                    node = (StackPane) getNodeByRowColumnIndex(row, column);
-	                    label = (Label) node.getChildren().get(0);
-	                    if (!label.isVisible() && !label.getText().equals("")) {
-	                        if (phrase[i] == true) {
-	                            label.setVisible(true);
-	                            node.setStyle(" -fx-background-color: #d6e2e0;\n" +
-	                                    "    -fx-border-color: #08FBE1;\n" +
-	                                    "    -fx-border-radius: 3px;\n" +
-	                                    "    -fx-background-radius: 3px;\n" +
-	                                    "    -fx-border-width: 2px;");
-	                            i++;
-	                            if (column < 14) {
-	                                column++;
-	                            } else {
-	                                column = 0;
-	                                row++;
-	                            }
-	                        } else {
-	                            i++;
-	                            if (column < 14) {
-	                                column++;
-	                            } else {
-	                                column = 0;
-	                                row++;
-	                            }
-	                        }
-	                    } else {
-	                        if (column < 14) {
-	                            column++;
-	                        } else {
-	                            column = 0;
-	                            row++;
-	                        }
-	                    }
-	                }
-	    	 }
-	     }; t.start();
-	    }
-*/
 
 	public void setNewPhrase(String theme2, String phrase2) {
 		phrase = phrase2.toUpperCase();		
@@ -533,6 +477,7 @@ public class Game {
 					for (int j = 0; j < 15; j++) {
 						letter[i][j].setText("");
 						letter[i][j].setBackground(space);
+						x[i][j] = ' ';
 						panelPhrase.add(letter[i][j]);
 					}
 				}
@@ -545,7 +490,6 @@ public class Game {
 
 				while (st.hasMoreTokens()) {
 					s = st.nextToken();
-					System.out.println(s);
 					if (s.length() < 15 - column) {
 						for (int i = 0; i < s.length(); i++) {
 							x[row][column] = s.charAt(i);
