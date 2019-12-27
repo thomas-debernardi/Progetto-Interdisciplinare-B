@@ -223,7 +223,7 @@ public class Registration {
 
 	public void back() throws IOException {
 		if (!isServer) {
-			WelcomePane wp = new WelcomePane();
+			HostNameConnection wp = new HostNameConnection();
 		} else {
 			InsubriaLogin ilc = new InsubriaLogin();
 		}

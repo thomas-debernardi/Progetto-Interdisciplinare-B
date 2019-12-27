@@ -31,7 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionEvent;
 
-public class WelcomePane {
+public class HostNameConnection {
 
 	private JFrame frame;
 	private JTextField textFieldHostName;
@@ -40,7 +40,7 @@ public class WelcomePane {
 	private static Client client;
 	int posX = 0, posY = 0;
 
-	public WelcomePane() {
+	public HostNameConnection() {
 		initialize();
 	}
 

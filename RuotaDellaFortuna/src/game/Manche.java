@@ -101,10 +101,10 @@ public class Manche {
 			manche.setMatch(new MatchesDTO(match, matchTime));
 			if (winner != null) {
 				manche.setNumber(numManche);
-				PhrasesDTO newPhras = getCurrentPhrase();
-				String them = Match.prepareStringForDB(newPhras.getTheme());
-				String phras = Match.prepareStringForDB(newPhras.getPhrase());
-				manche.setPhrase(new PhrasesDTO(them, phras));
+				PhrasesDTO newPhrase = getCurrentPhrase();
+				String them = Match.prepareStringForDB(newPhrase.getTheme());
+				String phras = Match.prepareStringForDB(newPhrase.getPhrase());
+				manche.setPhrase(new PhrasesDTO(newPhrase.getId(),them, phras));
 				dbManager.addMancheWinner(winner.getIdPlayer(), manche, winner.getPartialPoints());
 			}
 			setNumManche(numManche + 1);
@@ -113,7 +113,7 @@ public class Manche {
 				PhrasesDTO newPhrase = getCurrentPhrase();
 				String theme = Match.prepareStringForDB(newPhrase.getTheme());
 				String phrase = Match.prepareStringForDB(newPhrase.getPhrase());
-				manche.setPhrase(new PhrasesDTO(theme, phrase));
+				manche.setPhrase(new PhrasesDTO(newPhrase.getId(),theme, phrase));
 				calledConsonant = new ArrayList<String>();
 				boolean tur = turns.saveMoves(dbManager);
 				boolean man = true;

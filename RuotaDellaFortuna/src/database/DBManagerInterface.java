@@ -9,111 +9,81 @@ import services.User;
 
 public interface DBManagerInterface {
 
-    boolean addMatch(String id, LocalDateTime time);
+	boolean addMatch(String id, LocalDateTime time);
 
+	boolean addUser(User user, boolean isAdmin);
 
-    boolean addUser(User user, boolean isAdmin);
+	UsersDTO getUserByEmail(String email);
 
-    UsersDTO getUserByEmail(String email);
+	UsersDTO getUserByNickname(String nickname);
 
-    UsersDTO getUserByNickname(String nickname);
+	UsersDTO getUserById(String id);
 
+	List<UsersDTO> getAllAdmin();
 
-    UsersDTO getUserById(String id);
+	boolean getAnyAdmin();
 
+	boolean deleteUser(String id);
 
+	int checkLogin(String email, String password, boolean admin);
 
-    List<UsersDTO> getAllAdmin();
+	List<PhrasesDTO> get5Phrases(String idPlayer1, String idPlayer2, String idPlayer3);
 
-    boolean getAnyAdmin();
+	boolean addPhrases(ArrayList<PhrasesDTO> phrases);
 
+	List<PhrasesDTO> getAllPhrases();
+	
+	boolean deletePhrase(int position);
 
-    boolean deleteUser(String id);
+	boolean deleteMatch(String idMatch);
 
+	boolean addMove(Move move);
 
-    int checkLogin(String email, String password, boolean admin);
+	boolean addManche(ManchesDTO manche);
 
+	boolean addMancheWinner(String idPlayer, ManchesDTO manche, int amount);
 
-    List<PhrasesDTO> get5Phrases(String idPlayer1, String idPlayer2, String idPlayer3);
+	boolean addMancheJoiner(String idMatch, int numManche, String userId, boolean observer);
 
+	boolean addMatchWinner(String idMatch, String idPlayer, int amount);
 
-    boolean addPhrases(ArrayList<PhrasesDTO> phrases);
+	boolean updateUser(UsersDTO user);
 
-    List<PhrasesDTO> getAllPhrases();
+	MovesDTO getBestMove();
 
+	int getAverageMovesPerManche();
 
-    boolean deleteMatch(String idMatch);
+	int getWonManchesByUser(String id);
 
+	int getManchePlayedByUser(String id);
 
-    boolean addMove(Move move);
+	int getMatchesPlayedByUser(String id);
 
+	int getWonMatchesByUser(String id);
 
+	int getObservedManchesByUser(String id);
 
-    boolean addManche(ManchesDTO manche);
+	int getObservedMatchesByUser(String id);
 
+	int getAveragePointsWonByUser(String id);
 
-    boolean addMancheWinner(String idPlayer, ManchesDTO manche, int amount);
+	int getAveragePassedTurnPerMancheByUser(String id);
 
+	int getAveragePassedTurnPerMatchByUser(String id);
 
-    boolean addMancheJoiner(String idMatch, int numManche, String userId, boolean observer);
+	int getAverageLossPerMancheByUser(String id);
 
+	int getAverageLossPerMatchByUser(String id);
 
-    boolean addMatchWinner(String idMatch, String idPlayer, int amount);
+	UsersDTO getBestUserForManche();
 
+	UsersDTO getBestUserForMatch();
 
-    boolean updateUser(UsersDTO user);
+	UsersDTO getUserForMoreManchesPlayed();
 
+	UsersDTO getUserForBestMancheAverage();
 
-    MovesDTO getBestMove();
+	UsersDTO getUserForMostLostTurn();
 
-
-    int getAverageMovesPerManche();
-
-
-    int getWonManchesByUser(String id);
-
-
-    int getManchePlayedByUser(String id);
-
-    int getMatchesPlayedByUser(String id);
-
-    int getWonMatchesByUser(String id);
-
-    int getObservedManchesByUser(String id);
-
-
-    int getObservedMatchesByUser(String id);
-
-
-    int getAveragePointsWonByUser(String id);
-
-
-    int getAveragePassedTurnPerMancheByUser(String id);
-
-
-    int getAveragePassedTurnPerMatchByUser(String id);
-
-
-    int getAverageLossPerMancheByUser(String id);
-
-
-    int getAverageLossPerMatchByUser(String id);
-
-
-    UsersDTO getBestUserForManche();
-
-
-    UsersDTO getBestUserForMatch();
-
-
-    UsersDTO getUserForMoreManchesPlayed();
-
-
-    UsersDTO getUserForBestMancheAverage();
-
-
-    UsersDTO getUserForMostLostTurn();
-
-
-    UsersDTO getUserForMostLosses();
+	UsersDTO getUserForMostLosses();
 }

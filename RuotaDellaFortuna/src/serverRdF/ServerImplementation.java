@@ -6,10 +6,14 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JList;
 
 import com.opencsv.exceptions.CsvValidationException;
 
 import database.DBManager;
+import database.PhrasesDTO;
 import game.MatchManager;
 import game.RemoteMatch;
 import services.Client;
@@ -93,6 +97,15 @@ public class ServerImplementation extends UnicastRemoteObject implements Server 
             return false;
         }
     }
+    
+    
+    public List<PhrasesDTO> getAllPhrases() throws RemoteException{
+    	return phraseManager.getAllPhrases();
+    }
+    
+    
+    
+    
 
 
     public boolean changePassword(String password, Client c) throws RemoteException {
@@ -139,4 +152,21 @@ public class ServerImplementation extends UnicastRemoteObject implements Server 
     public boolean checkPassword(String nickname,String password, Client c) throws RemoteException{
         return registrationManager.checkPassword(nickname,password);
     }
+    
+    
+    public boolean addPhrase(String[] theme, String[] phrase) {
+    	return phraseManager.addPhrase(theme, phrase);
+    }
+    
+    public boolean deleteAllPhrases() {
+    	return phraseManager.deleteAllPhrases();
+    }
+    
+    public boolean deletePhrase(int position) {
+    	return phraseManager.deletePhrase(position);
+    }
+     
+    
+    
+    
 }

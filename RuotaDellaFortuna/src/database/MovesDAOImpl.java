@@ -24,7 +24,7 @@ public class MovesDAOImpl implements MovesDAO {
 
     public MovesDTO getBestMove() throws SQLException{
         String queryGet = "SELECT * FROM "+UsersDAO.UserTable+" M JOIN "+MovesTable+" U ON M.id = U.id JOIN "+ManchesDAO.ManchesTable+" MT ON U.idmanche = MT.id AND U.number = MT.number "+
-                "JOIN "+PhrasesDAO.PhraseTable+" PT ON MT.phrase = PT.phrase WHERE U.outcome = (SELECT MAX("+MovesOutcomeAttribute+") FROM "+MovesTable+");";
+                "JOIN "+PhrasesDAO.PhraseTable+" PT ON MT.phrase = PT.id WHERE U.outcome = (SELECT MAX("+MovesOutcomeAttribute+") FROM "+MovesTable+");";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(queryGet);
         if(rs.next()) {

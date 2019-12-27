@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JList;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -58,4 +61,27 @@ public class PhraseManager {
 		}
 		return dbManager.addPhrases(phrases);
 	}
+	
+	public List<PhrasesDTO> getAllPhrases(){
+		return dbManager.getAllPhrases();
+	}
+	
+	public boolean addPhrase(String[] theme, String[] phrase) {
+		ArrayList<PhrasesDTO> phrases = new ArrayList<>();
+		for(int i = 0; i < theme.length; i++) {
+			phrases.add(new PhrasesDTO(theme[i], phrase[i]));
+		}
+		return dbManager.addPhrases(phrases);
+	}
+	
+	public boolean deleteAllPhrases() {
+		return dbManager.deleteAllPhrases();
+	}
+	
+	public boolean deletePhrase(int position) {
+		return dbManager.deletePhrase(position);
+	}
+	
+	
+	
 }

@@ -586,7 +586,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
             String idPlayer3 = players.get(2).getIdPlayer();
 
             List<PhrasesDTO> phrases = dbManager.get5Phrases(idPlayer1, idPlayer2, idPlayer3);
-
+            
             if (phrases == null || phrases.size() < 5) {
                 try {
                     for (Client c : observers) {
@@ -630,7 +630,7 @@ public class Match extends UnicastRemoteObject implements RemoteMatch {
                 ManchesDTO manches = new ManchesDTO();
                 manches.setNumber(manche.getNumManche());
                 manches.setMatch(new MatchesDTO(id, creationTime));
-                manches.setPhrase(new PhrasesDTO(theme, phrase));
+                manches.setPhrase(new PhrasesDTO(newPhrase.getId(),theme, phrase));
                 dbManager.addManche(manches);
                 for (Client c : observers) {
                     try {

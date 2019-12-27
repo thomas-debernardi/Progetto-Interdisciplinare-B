@@ -1,11 +1,14 @@
 package database;
 
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import services.Notification;
 
 public class PhrasesDAOImpl implements PhrasesDAO {
 	private Connection con;
@@ -16,7 +19,7 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 
 	@Override
 	public List<PhrasesDTO> get5Phrases(String idPlayer1, String idPlayer2, String idPlayer3) throws SQLException {
-		String query5Phrases = "SELECT * FROM " + PhraseTable + " WHERE " + PhrasePhraseAttribute + " NOT IN "
+		String query5Phrases = "SELECT * FROM " + PhraseTable + " WHERE " + PhraseIdAttribute + " NOT IN "
 				+ "(SELECT " + PhrasePhraseAttribute
 				+ " FROM Manches M JOIN MancheJoiners MJ ON M.id=MJ.id AND M.number = MJ.number " + "WHERE idPlayer = '"
 				+ idPlayer1 + "' OR idPlayer = '" + idPlayer2 + "' OR idPlayer = '" + idPlayer3 + "' " + "GROUP BY "
@@ -28,7 +31,7 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 		ArrayList<PhrasesDTO> pDTO = new ArrayList<>();
 		int i = 0;
 		while (resultSet.next() && i < 5) {
-			pDTO.add(new PhrasesDTO(resultSet.getString(PhraseThemeAttribute),
+			pDTO.add(new PhrasesDTO(Integer.parseInt(resultSet.getString(PhraseIdAttribute)),resultSet.getString(PhraseThemeAttribute),
 					resultSet.getString(PhrasePhraseAttribute)));
 			i++;
 		}
@@ -61,8 +64,36 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 			return null;
 		ArrayList<PhrasesDTO> pDTO = new ArrayList<>();
 		while (resultSet.next())
-			pDTO.add(new PhrasesDTO(resultSet.getString(PhraseThemeAttribute),
+			pDTO.add(new PhrasesDTO(Integer.parseInt(resultSet.getString(PhraseIdAttribute)),resultSet.getString(PhraseThemeAttribute),
 					resultSet.getString(PhrasePhraseAttribute)));
 		return pDTO;
+	}
+
+	public boolean deleteAllPhrases() throws SQLException {
+		String query = "DELETE FROM " + PhraseTable + ";";
+		Statement stmt = con.createStatement();
+		try {
+			stmt.execute(query);
+		} catch (SQLException e) {
+			System.err.println("Phrases not deleted");
+			System.out.print(e);
+		} finally {
+			query = "";
+		}
+		return true;
+
+	}
+	
+	public boolean deletePhrase(int position) throws SQLException{		
+		String query = "DELETE FROM " + PhraseTable + " WHERE " + PhraseIdAttribute + " = " + position + ";";
+		Statement stmt = con.createStatement();
+		try {
+			stmt.execute(query);
+		} catch (SQLException e) {
+			System.err.println("Phrases not deleted");
+		} finally {
+			query = "";
+		}
+		return true;
 	}
 }

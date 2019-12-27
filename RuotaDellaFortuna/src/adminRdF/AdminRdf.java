@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import gui.MainPane;
-import gui.WelcomePane;
+import gui.HostNameConnection;
 import serverRdF.Server;
 import services.AdminChecker;
 import services.Client;
@@ -24,6 +24,6 @@ public class AdminRdf {
 	 */
 	public static void main(String[] args) {
 		AdminChecker.setIsAdmin(true);
-		WelcomePane wp = new WelcomePane();
+		HostNameConnection wp = new HostNameConnection();
 	}
 }

@@ -18,15 +18,16 @@ create table matches
 
 create table phrases
 (
-    phrase varchar(60) primary key,
-    theme  varchar(60) not null
+	id		serial 	primary key,
+    phrase 	varchar(60) not null 	unique,
+    theme  	varchar(60) not null
 );
 
 create table manches
 (
     number numeric(1)                              not null,
     id     varchar(36) references matches (id)     not null,
-    phrase varchar(60) references phrases (phrase) not null,
+    phrase integer references phrases (id) not null,
     primary key (id, number)
 );
 

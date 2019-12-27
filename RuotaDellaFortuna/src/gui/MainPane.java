@@ -50,7 +50,7 @@ public class MainPane implements MouseListener {
 	 */
 	private void initialize() {
 		if (!InsubriaLogin.forServer) {
-			WelcomePane.setController(this);
+			HostNameConnection.setController(this);
 			if (server == null) {
 				InsubriaLogin.setController(this);
 			}

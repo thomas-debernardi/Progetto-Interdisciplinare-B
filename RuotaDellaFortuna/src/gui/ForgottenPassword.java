@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import net.miginfocom.swing.MigLayout;
 import serverRdF.Server;
 import services.Client;
 import services.Notification;

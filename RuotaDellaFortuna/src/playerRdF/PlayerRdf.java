@@ -3,7 +3,7 @@ package playerRdF;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-import gui.WelcomePane;
+import gui.HostNameConnection;
 import serverRdF.Server;
 import services.AdminChecker;
 import services.Client;
@@ -23,7 +23,7 @@ public class PlayerRdf {
 	 */
 	public static void main(String[] args) {
 		AdminChecker.setIsAdmin(false);
-		WelcomePane wp = new WelcomePane();
+		HostNameConnection wp = new HostNameConnection();
 	}
 
 }

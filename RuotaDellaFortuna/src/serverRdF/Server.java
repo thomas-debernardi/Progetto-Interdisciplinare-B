@@ -4,9 +4,11 @@ import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.opencsv.exceptions.CsvValidationException;
 
+import database.PhrasesDTO;
 import game.RemoteMatch;
 import services.Client;
 import services.Login;
@@ -32,6 +34,8 @@ public interface Server extends Remote {
 	public RemoteMatch observeMatch(Client c, String idMatch) throws RemoteException;
 
 	public boolean addPhrases(File file) throws RemoteException, CsvValidationException;
+	
+	public boolean addPhrase(String[] theme, String[] phrase) throws RemoteException;
 
 	public boolean changePassword(String password, Client c) throws RemoteException;
 
@@ -52,5 +56,11 @@ public interface Server extends Remote {
     public boolean changeSurname(String surname, Client c) throws RemoteException;
 
     public boolean changeName(String name, Client c) throws RemoteException;
+    
+    public List<PhrasesDTO> getAllPhrases() throws RemoteException;
+    
+    public boolean deleteAllPhrases() throws RemoteException;
+    
+    public boolean deletePhrase(int position) throws RemoteException;
 
 }

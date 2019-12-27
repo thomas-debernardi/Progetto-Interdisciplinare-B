@@ -6,12 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
@@ -45,8 +51,15 @@ import java.awt.HeadlessException;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.opencsv.exceptions.CsvValidationException;
+import com.sun.mail.imap.protocol.ListInfo;
+
+import database.PhrasesDTO;
 
 import javax.swing.JPasswordField;
 import javax.swing.JList;
@@ -102,6 +115,17 @@ public class TabPane {
 	private JPasswordField passwordFieldVecchia;
 	private JLabel lblSurname;
 	private JLabel lblName;
+	private JList listPhrases;
+	private JList listThemes;
+	private DefaultListModel<String> modelThemes;
+	private DefaultListModel<String> modelPhrases;
+	private DefaultListModel<Integer> modelId;
+	private JTextField textFieldPhrase;
+	private JTextField textFieldTheme;
+	private int selectedListItem;
+	private String[] themesArray;
+	private String[] phrasesArray;
+	private JList listId;
 
 	/**
 	 * Create the application.
@@ -571,20 +595,21 @@ public class TabPane {
 		panelGlobalStatistics.add(lblAverageMovesSolutionValue);
 
 		JPanel panelAddPhrases = new JPanel();
+		panelAddPhrases.setBorder(null);
 		panelAddPhrases.setBackground(Color.GRAY);
 		panel.add(panelAddPhrases, "name_861757544902700");
 		panelAddPhrases.setLayout(null);
 
 		textFieldAddPhrase = new JTextField();
 		textFieldAddPhrase.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textFieldAddPhrase.setBounds(93, 272, 430, 19);
+		textFieldAddPhrase.setBounds(127, 22, 430, 19);
 		panelAddPhrases.add(textFieldAddPhrase);
 		textFieldAddPhrase.setColumns(10);
 
 		JLabel lblPhrase = new JLabel("Phrases file .csv");
 		lblPhrase.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblPhrase.setForeground(Color.WHITE);
-		lblPhrase.setBounds(93, 249, 311, 13);
+		lblPhrase.setBounds(10, 25, 311, 13);
 		panelAddPhrases.add(lblPhrase);
 
 		JButton btnSend = new JButton("SEND");
@@ -592,6 +617,9 @@ public class TabPane {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					enterFilePhrase();
+					modelPhrases.clear();
+					modelThemes.clear();
+					downloadPhrases();
 				} catch (CsvValidationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -601,8 +629,175 @@ public class TabPane {
 		btnSend.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnSend.setBackground(Color.GREEN);
 		btnSend.setForeground(Color.WHITE);
-		btnSend.setBounds(556, 338, 85, 21);
+		btnSend.setBounds(663, 20, 85, 21);
 		panelAddPhrases.add(btnSend);
+
+		modelPhrases = new DefaultListModel<>();
+		listPhrases = new JList(modelPhrases);
+		listPhrases.setForeground(Color.WHITE);
+		listPhrases.setBackground(Color.DARK_GRAY);
+		listPhrases.setBounds(57, 62, 411, 498);
+		panelAddPhrases.add(listPhrases);
+
+		listPhrases.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				listThemes.setSelectedIndex(listPhrases.getSelectedIndex());
+				listId.setSelectedIndex(listPhrases.getSelectedIndex());
+			}
+		});
+
+		listPhrases.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getClickCount() == 2) {
+					textFieldPhrase.setText((String) listPhrases.getSelectedValue());
+					textFieldTheme.setText((String) listThemes.getSelectedValue());
+					selectedListItem = listPhrases.getSelectedIndex();
+				}
+			}
+		});
+
+		modelThemes = new DefaultListModel<>();
+		listThemes = new JList(modelThemes);
+		listThemes.setForeground(Color.WHITE);
+		listThemes.setBackground(Color.DARK_GRAY);
+		listThemes.setBounds(478, 62, 270, 498);
+		panelAddPhrases.add(listThemes);
+
+		textFieldPhrase = new JTextField();
+		textFieldPhrase.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldPhrase.setBounds(10, 593, 432, 19);
+		panelAddPhrases.add(textFieldPhrase);
+		textFieldPhrase.setColumns(10);
+
+		textFieldTheme = new JTextField();
+		textFieldTheme.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textFieldTheme.setBounds(452, 593, 296, 19);
+		panelAddPhrases.add(textFieldTheme);
+		textFieldTheme.setColumns(10);
+
+		JLabel lblSelectThePhrase = new JLabel(
+				"Select the phrase or the theme (double click on it) and edit it, remeber to upload the changes by clicking on the UPLOAD buttom!! ");
+		lblSelectThePhrase.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblSelectThePhrase.setForeground(Color.WHITE);
+		lblSelectThePhrase.setBounds(10, 570, 738, 13);
+		panelAddPhrases.add(lblSelectThePhrase);
+
+		JButton btnConfirmChanges = new JButton("CONFIRM CHANGES");
+		btnConfirmChanges.setBackground(Color.ORANGE);
+		btnConfirmChanges.setForeground(Color.WHITE);
+		btnConfirmChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textFieldPhrase.getText().equals("") || textFieldTheme.getText().equals("")) {
+					Notification.notify("ATTENTION", "Select the phrase or theme to edit", true);
+				} else {
+					modelPhrases.setElementAt(textFieldPhrase.getText(), selectedListItem);
+					modelThemes.setElementAt(textFieldTheme.getText(), selectedListItem);
+
+					listPhrases.clearSelection();
+					listThemes.clearSelection();
+					listId.clearSelection();
+					textFieldPhrase.setText("");
+					textFieldTheme.setText("");
+				}
+			}
+		});
+		btnConfirmChanges.setBounds(127, 622, 233, 21);
+		panelAddPhrases.add(btnConfirmChanges);
+		btnConfirmChanges.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+
+		modelId = new DefaultListModel<Integer>();
+		listId = new JList(modelId);
+		listId.setForeground(Color.WHITE);
+		listId.setBackground(Color.DARK_GRAY);
+		listId.setBounds(10, 62, 37, 498);
+		panelAddPhrases.add(listId);
+		
+				JButton btnUpload = new JButton("UPLOAD");
+				btnUpload.setBounds(370, 622, 128, 21);
+				panelAddPhrases.add(btnUpload);
+				btnUpload.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						uploadPhrases();
+					}
+				});
+				btnUpload.setForeground(Color.WHITE);
+				btnUpload.setBackground(Color.CYAN);
+				btnUpload.setFont(new Font("Tahoma", Font.BOLD, 18));
+				
+				JButton btnDelete = new JButton("DELETE");
+				btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				btnDelete.setForeground(Color.RED);
+				btnDelete.setBounds(514, 622, 120, 21);
+				panelAddPhrases.add(btnDelete);
+		
+		
+		listThemes.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				JList list = (JList) e.getSource();
+				if (e.getClickCount() == 2) {
+					textFieldPhrase.setText((String) listPhrases.getSelectedValue());
+					textFieldTheme.setText((String) listThemes.getSelectedValue());
+					selectedListItem = listThemes.getSelectedIndex();
+				}
+			}
+		});
 
 		JPanel panelProfile = new JPanel();
 		panelProfile.setBackground(Color.GRAY);
@@ -819,7 +1014,7 @@ public class TabPane {
 			JButton btnExit = new JButton("EXIT");
 			btnExit.setBackground(Color.RED);
 			btnExit.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			btnExit.setBounds(955, 651, 85, 21);
+			btnExit.setBounds(943, 651, 85, 21);
 			frame.getContentPane().add(btnExit);
 			btnExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -857,6 +1052,8 @@ public class TabPane {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
 		});
+
+		downloadPhrases();
 
 	}
 
@@ -954,7 +1151,10 @@ public class TabPane {
 	}
 
 	public void refresh() {
+		textFieldPhrase.setText("");
+		textFieldTheme.setText("");
 		uploadGameInProgress();
+		downloadPhrases();
 		try {
 			setUserStat();
 			setGlobalStats();
@@ -1000,9 +1200,9 @@ public class TabPane {
 		} else {
 			String password = passwordFieldNuova.getText();
 			String pswVecchia = passwordFieldVecchia.getText();
-			
-			if(server.checkPassword(client.getNickname(), pswVecchia, client)) {
-				//password = CryptPassword.crypt(password);
+
+			if (server.checkPassword(client.getNickname(), pswVecchia, client)) {
+				// password = CryptPassword.crypt(password);
 				boolean bool = false;
 				try {
 					bool = server.changePassword(password, client);
@@ -1026,7 +1226,7 @@ public class TabPane {
 				passwordFieldNuova.setText("");
 				passwordFieldVecchia.setText("");
 			}
-			
+
 		}
 
 	}
@@ -1163,6 +1363,62 @@ public class TabPane {
 				Notification.notify("ERROR", "", true);
 			}
 			textFieldChangeName.setText("");
+		}
+	}
+
+	public void downloadPhrases() {
+		Thread t = new Thread() {
+			public void run() {
+				modelPhrases.clear();
+				modelThemes.clear();
+				modelId.clear();
+				List<PhrasesDTO> listPhrasesDTO = null;
+				try {
+					listPhrasesDTO = server.getAllPhrases();
+				} catch (RemoteException e) {
+					Notification.notify("ERROR", "", true);
+					System.out.println(e.toString());
+				}
+				for (int i = 0; i < listPhrasesDTO.size(); i++) {
+					modelPhrases.addElement(listPhrasesDTO.get(i).getPhrase());
+					modelThemes.addElement(listPhrasesDTO.get(i).getTheme());
+					modelId.addElement(listPhrasesDTO.get(i).getId());
+				}
+			}
+		};
+		t.start();
+
+	}
+
+	public void uploadPhrases() {
+		createArray();
+		try {
+			server.addPhrase(themesArray, phrasesArray);
+			Notification.notify("SUCCESS", "Phrases updated", false);
+		} catch (RemoteException e) {
+			Notification.notify("ERROR", "Phrases non uploaded", true);
+		}
+	}
+
+	public void createArray() {
+		phrasesArray = new String[listPhrases.getModel().getSize()];
+		themesArray = new String[listThemes.getModel().getSize()];
+		for (int i = 0; i < listPhrases.getModel().getSize(); i++) {
+			listPhrases.setSelectedIndex(i);
+			listThemes.setSelectedIndex(i);
+			phrasesArray[i] = (String) listPhrases.getSelectedValue();
+			themesArray[i] = (String) listPhrases.getSelectedValue();
+		}
+		listPhrases.clearSelection();
+		listThemes.clearSelection();
+	}
+
+	public void deletePhrase(int position) {
+		try {
+			server.deletePhrase(position);
+			Notification.notify("SUCCESS", "Phrase deleted", false);
+		} catch (RemoteException e) {
+			Notification.notify("ERROR", "Phrase not found", true);
 		}
 	}
 }
