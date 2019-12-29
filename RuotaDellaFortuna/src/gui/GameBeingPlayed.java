@@ -1,35 +1,23 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
-
 import java.awt.Font;
 import javax.swing.SwingConstants;
-
 import game.RemoteMatch;
-import javafx.scene.control.ListCell;
 import serverRdF.ServerInterface;
 import services.AdminChecker;
 import services.ClientInterface;
 import services.GameBeingPlayed2Render;
 import services.MatchData;
 import services.Notification;
-
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.awt.event.ActionEvent;
 
@@ -52,6 +40,9 @@ public class GameBeingPlayed extends JDesktopPane{
 
 	/**
 	 * Create the application.
+	 * @param server
+	 * @param client
+	 * @param matchData
 	 */
 	public GameBeingPlayed(ServerInterface server, ClientInterface client, MatchData matchData) {
 		this.server = server;
@@ -178,51 +169,6 @@ public class GameBeingPlayed extends JDesktopPane{
 
 	}
 
-/*	protected void updateItem(MatchData item, boolean empty) {
-		if (AdminChecker.isIsAdmin())
-			btnJoin.setEnabled(false);
-
-		lblPlayer.setText(item.getPlayer1());
-		lblPlayer_1.setText(item.getPlayer2());
-		lblPlayer_2.setText(item.getPlayer3());
-		btnJoin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					player = true;
-					match = server.joinMatch(client, item.getIdMatch());
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				if (match == null) {
-					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
-				} else {
-					TabPane.creator = false;
-					Game game = new Game(match, client);
-					TabPane.setInvisible();
-
-				}
-			}
-		});
-
-		btnObserve.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				player = false;
-				try {
-					match = server.observeMatch(client, item.getIdMatch());
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				if (match == null) {
-					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
-				} else {
-					TabPane.creator = false;
-					Game game = new Game(match, client);
-					TabPane.setInvisible();
-				}
-			}
-		});
-	}
-	*/
 	 private void setAviableLabel(boolean aviable) {
 	        if (aviable) {
 	            btnJoin.setEnabled(true);

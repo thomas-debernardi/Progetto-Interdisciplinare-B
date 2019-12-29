@@ -21,7 +21,7 @@ public interface ServerInterface extends Remote {
      * Questo metodo controlla se c'e' gia' un utente registrato con la mail fornita
      *
      * @param email la mail dell'utente
-     * @return <code>false</code> se la mail esiste gia', <code>true</code> altrimenti
+     * @return false se la mail esiste gia', true altrimenti
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
 	public boolean checkEMail(String email) throws RemoteException;
@@ -30,7 +30,7 @@ public interface ServerInterface extends Remote {
      * Questo metodo controlla se c'e' gia' un utente registrato con il nickname fornito
      *
      * @param nickname la mail dell'utente
-     * @return <code>false</code> se il nickname esiste gia', <code>true</code> altrimenti
+     * @return false se il nickname esiste gia', true altrimenti
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
 	public boolean checkNickname(String nickname) throws RemoteException;
@@ -40,7 +40,7 @@ public interface ServerInterface extends Remote {
      *
      * @param form  un oggetto di tipo User contenente tutti i dati necessari
      * @param c     il riferimento al client
-     * @param admin <code>true</code> se si prova a registrare un admin, <code>false</code> altrimenti
+     * @param admin true se si prova a registrare un admin, false altrimenti
      * @return un oggetto remoto OTPHelper necessario ad ultimare la registrazione
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
@@ -51,7 +51,7 @@ public interface ServerInterface extends Remote {
      *
      * @param form  un oggetto di tipo Login contenente email e password
      * @param c     il riferimento al client
-     * @param admin <code>true</code> se si prova ad accedere come admin, <code>false</code> altrimenti
+     * @param admin true se si prova ad accedere come admin, false altrimenti
      * @return 0 se il login va a buon fine, -1 se email o password sono sbagliati o 1 se le credenziali sono giuste ma si sta tentando l'accesso dalla piattaforma sbagliata
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
@@ -99,7 +99,7 @@ public interface ServerInterface extends Remote {
      * Questo metodo permette all'admin di aggiungere nuove frasi al database per mezzo di un file CSV
      *
      * @param file il file CSV dal quale recuperare le frasi
-     * @return <code>true</code> se l'inserimento va a buon fine, altrimenti <code>false</code>
+     * @return true se l'inserimento va a buon fine, altrimenti false
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
 	public boolean addPhrases(File file) throws RemoteException, CsvValidationException;
@@ -111,7 +111,7 @@ public interface ServerInterface extends Remote {
      *
      * @param password la nuova password da sostituire al vecchio
      * @param c il riferimento al client
-     * @return <code>true</code> se la modifica e' andata a buon fine, <code>false</code> altrimenti
+     * @return true se la modifica e' andata a buon fine, false altrimenti
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
 	public boolean changePassword(String password, ClientInterface c) throws RemoteException;
@@ -157,7 +157,7 @@ public interface ServerInterface extends Remote {
      *
      * @param c riferimento al client
      * @param mail l'indirizzo email dell'account da resettare
-     * @return <code>true</code> se il reset avviene con successo, <code>false</code> se l'indirizzo email non esiste nel database
+     * @return true se il reset avviene con successo, false se l'indirizzo email non esiste nel database
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
 	public boolean resetPassword(ClientInterface c, String mail) throws RemoteException;
@@ -169,7 +169,7 @@ public interface ServerInterface extends Remote {
 	 * @param nickname nickname del giocatore
 	 * @param password password del giocatore
 	 * @param c riferimento al client
-	 * @return <code>false</code> se la password è già stata usata, altrimenti <code>true</code>
+	 * @return false se la password è già stata usata, altrimenti true
 	 * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
 	 */
 	public boolean checkPassword(String nickname, String password, ClientInterface c) throws RemoteException;
@@ -179,7 +179,7 @@ public interface ServerInterface extends Remote {
      *
      * @param nickname il nuovo cognome da sostituire al vecchio
      * @param c il riferimento al client
-     * @return <code>true</code> se la modifica e' andata a buon fine, <code>false</code> se la modifica non e' stata possibile, ad esempio a causa dell'utilizzo di un nickname gia' esistente
+     * @return true se la modifica e' andata a buon fine, false se la modifica non e' stata possibile, ad esempio a causa dell'utilizzo di un nickname gia' esistente
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
 	public boolean changeNickname(String nickname, ClientInterface c) throws RemoteException;
@@ -189,7 +189,7 @@ public interface ServerInterface extends Remote {
      *
      * @param surname il nuovo cognome da sostituire al vecchio
      * @param c il riferimento al client
-     * @return <code>true</code> se la modifica e' andata a buon fine, <code>false</code> altrimenti
+     * @return true se la modifica e' andata a buon fine, false altrimenti
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
     public boolean changeSurname(String surname, ClientInterface c) throws RemoteException;
@@ -199,7 +199,7 @@ public interface ServerInterface extends Remote {
      *
      * @param name il nuovo nome da sostituire al vecchio
      * @param c il riferimento al client
-     * @return <code>true</code> se la modifica e' andata a buon fine, <code>false</code> altrimenti
+     * @return true se la modifica e' andata a buon fine, false altrimenti
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
     public boolean changeName(String name, ClientInterface c) throws RemoteException;
@@ -215,7 +215,7 @@ public interface ServerInterface extends Remote {
     /**
      * Questo metodo permette di cancellare tutte le frasi
      * 
-     * @return <code>true</code> se la cancellazione delle frasi è andata a buon fine, altrimenti <code>false</code>
+     * @return true se la cancellazione delle frasi è andata a buon fine, altrimenti false
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
     public boolean deleteAllPhrases() throws RemoteException;
@@ -224,7 +224,7 @@ public interface ServerInterface extends Remote {
      * Questo metodo permette di eliminare una determinata frase
      * 
      * @param position id della frase da eliminare 
-     * @return <code>true</code> se la cancellazione delle frasi è andata a buon fine, altrimenti <code>false</code>
+     * @return true se la cancellazione delle frasi è andata a buon fine, altrimenti false
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
     public boolean deletePhrase(int position) throws RemoteException;
@@ -233,7 +233,7 @@ public interface ServerInterface extends Remote {
      * Questo metodo permette di aggiungere una frase
      * 
      * @param DTO frase da aggiungere
-     * @return <code>true</code> se l'aggiunta della frase è andata a buon fine, altrimenti <code>false</code>
+     * @return true se l'aggiunta della frase è andata a buon fine, altrimenti false
      * @throws RemoteException nel caso in cui non sia possibile comunicare con il server
      */
     public boolean addPhrase(PhrasesDTO DTO) throws RemoteException;

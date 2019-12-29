@@ -106,7 +106,7 @@ public class GameBeingPlayed2 {
 
 	/**
 	 * Questo metodo inizializza il secondo giocatore
-	 * @param player1 nome giocatore
+	 * @param player2 nome giocatore
 	 */
 	public void setPlayer2(String player2) {
 		this.player2 = player2;
@@ -123,7 +123,7 @@ public class GameBeingPlayed2 {
 
 	/**
 	 * Questo metodo inizializza il terzo giocatore
-	 * @param player1 nome giocatore
+	 * @param player3 nome giocatore
 	 */
 	public void setPlayer3(String player3) {
 		this.player3 = player3;
@@ -132,14 +132,14 @@ public class GameBeingPlayed2 {
 
 	/**
 	 * Questo metodo notifica i join ad una partita
-	 * @return <code>true</code> se è stata eseguita l'unione, altrimenti <code>false</code>
+	 * @return true se è stata eseguita l'unione, altrimenti false
 	 */
 	public boolean isJoin() {
 		return join;
 	}
 	/**
 	 * Questo metodo permette di impostare i joiners
-	 * @param join <code>true</code> se si è unito, altrimenti <code>false</code>
+	 * @param join true se si è unito, altrimenti false
 	 */
 	public void setJoin(boolean join) {
 		this.join = join;
@@ -147,14 +147,14 @@ public class GameBeingPlayed2 {
 	
 	/**
 	 * Questo metodo notifica se l'utente è un osservatore
-	 * @return <code>true</code> se è osservatore, altrimenti <code>false<code>
+	 * @return true se è osservatore, altrimenti false
 	 */
 	public boolean isObserve() {
 		return observe;
 	}
 	/**
 	 * Questo metodo permette di impostare gli observer
-	 * @param observe <code>true</code> se l'utente è osservatore, altrimenti <code>false</code>
+	 * @param observe true se l'utente è osservatore, altrimenti false
 	 */
 	public void setObserve(boolean observe) {
 		this.observe = observe;

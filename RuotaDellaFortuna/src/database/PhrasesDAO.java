@@ -26,8 +26,8 @@ public interface PhrasesDAO {
 	 * Metodo che permette l'inserimento delle frasi nel db
 	 * 
 	 * @param phrases lista di frasi da inserire
-	 * @return <code>true</code> se le frasi sono inserite correttamente, altrimenti
-	 *         <code>false>/code>
+	 * @return true se le frasi sono inserite correttamente, altrimenti
+	 *         false
 	 * @throws SQLException gestione errori di accesso al db
 	 */
 	boolean addPhrases(ArrayList<PhrasesDTO> phrases) throws SQLException;
@@ -43,8 +43,8 @@ public interface PhrasesDAO {
 	/**
 	 * Metodo per l'eliminazione di tutte le frasi nel db
 	 * 
-	 * @return <code>true</code> se vengono eliminate tutte le frasi, altrimenti
-	 *         <code>false</code>
+	 * @return true se vengono eliminate tutte le frasi, altrimenti
+	 *         false
 	 * @throws SQLException gestione errori di accesso al db
 	 */
 	boolean deleteAllPhrases() throws SQLException;
@@ -53,8 +53,8 @@ public interface PhrasesDAO {
 	 * Metodo che permette di eliminare frasi nel db
 	 * 
 	 * @param position posizione della frase
-	 * @return <code>true</code> se la frase viene eliminata, altrimenti
-	 *         <code>false</code>
+	 * @return true se la frase viene eliminata, altrimenti
+	 *         false
 	 * @throws SQLException gestione errori di accesso al db
 	 */
 	boolean deletePhrase(int position) throws SQLException;
@@ -63,8 +63,8 @@ public interface PhrasesDAO {
 	 * Metodo che permette di aggiornare frase nel db
 	 * 
 	 * @param DTO frase da aggiornare
-	 * @return <code>true</code> se la frase viene aggiornata, altrimenti
-	 *         <code>false</code>
+	 * @return true se la frase viene aggiornata, altrimenti
+	 *         false
 	 * @throws SQLException gestione errori di accesso al db
 	 */
 	boolean uploadPhrase(PhrasesDTO DTO) throws SQLException;
@@ -73,8 +73,8 @@ public interface PhrasesDAO {
 	 * Metodo che permette di aggiungere frase nel db
 	 * 
 	 * @param DTO frase da aggiungere
-	 * @return <code>true</code> se la frase viene aggiunta, altrimenti
-	 *         <code>false</code>
+	 * @return true se la frase viene aggiunta, altrimenti
+	 *         false
 	 * @throws SQLException gestione errori di accesso al db
 	 */
 	boolean addPhrase(PhrasesDTO DTO) throws SQLException;

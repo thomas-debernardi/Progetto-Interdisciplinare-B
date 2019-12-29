@@ -66,8 +66,8 @@ public interface ClientInterface extends Remote {
 	/**
 	 * Questo metodo permette di inizializzare il gioco
 	 * 
-	 * @param game gioco che eseguirà l'inizializzazione
-	 * @throws RemoteException errore connessione con il server
+	 * @param e gioco che eseguirà l'inizializzazione
+	 * @throws RemoteException 
 	 */
 	public void setGame(Game e) throws RemoteException;
 

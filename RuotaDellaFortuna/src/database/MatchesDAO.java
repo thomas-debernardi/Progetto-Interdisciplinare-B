@@ -12,7 +12,7 @@ public interface MatchesDAO {
 	 * Metodo che permette l'inserimento di un match nel db
 	 * 
 	 * @param matchesDTO riferimento al Data Trasfer Object relativo al match
-	 * @return <code>true</code> se l'inserimento va a buon fine, altrimenti <code>false</code>
+	 * @return true se l'inserimento va a buon fine, altrimenti false
 	 * @throws SQLException gestione errori di collegamento al db
 	 */
 	boolean addMatch(MatchesDTO matchesDTO) throws SQLException;
@@ -20,7 +20,7 @@ public interface MatchesDAO {
 	/**
 	 * Metodo per l'eliminazione di un match dal db
 	 * @param idMatch identificativo match che si vuole eliminare
-	 * @return <code>true<code> se il match viene eliminato correttamente, altrimenti <code>false</code>
+	 * @return true se il match viene eliminato correttamente, altrimenti false
 	 * @throws SQLException gestione errori di collegamento al db
 	 */
 	boolean deleteMatch(String idMatch) throws SQLException;

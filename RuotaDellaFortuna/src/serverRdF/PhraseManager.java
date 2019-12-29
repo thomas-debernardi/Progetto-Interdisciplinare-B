@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-
 import database.DBManager;
 import database.PhrasesDTO;
 

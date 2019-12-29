@@ -79,7 +79,7 @@ public class MoveTimer extends Thread {
                         }
                     }
                 }
-                sleep(5000); 
+                sleep(1000); 
             }
 //            sleep(time);
             if(!match.isMatchEnded()) {

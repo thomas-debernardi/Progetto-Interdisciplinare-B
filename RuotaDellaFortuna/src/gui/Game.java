@@ -66,6 +66,8 @@ public class Game {
 
 	/**
 	 * Create the application.
+	 * @param match oggetto RemoteMAtch
+	 * @param client oggetto ClientInterface
 	 */
 	public Game(RemoteMatch match, ClientInterface client) {
 		this.match = match;

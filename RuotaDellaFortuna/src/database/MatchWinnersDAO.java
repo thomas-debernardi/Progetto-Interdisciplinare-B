@@ -14,9 +14,9 @@ public interface MatchWinnersDAO {
 	 * @param idMatch  identificativo del match
 	 * @param idPlayer identificativo vincitore
 	 * @param amount   punteggio del vincitore
-	 * @return <code>true</code> se si verifica il corretto inserimento, altrimenti
-	 *         <code>false</code>
-	 * @throws SQLException gestione errori di connessione al db
+	 * @return true se si verifica il corretto inserimento, altrimenti
+	 *         false
+	 * @throws SQLException
 	 */
 	boolean addMatchWinner(String idMatch, String idPlayer, int amount) throws SQLException;
 

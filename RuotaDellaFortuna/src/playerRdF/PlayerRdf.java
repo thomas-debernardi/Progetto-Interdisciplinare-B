@@ -20,6 +20,7 @@ public class PlayerRdf {
 
 	/**
 	 * Launch the application.
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		AdminChecker.setIsAdmin(false);

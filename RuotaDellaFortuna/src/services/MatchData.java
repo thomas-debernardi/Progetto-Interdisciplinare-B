@@ -90,7 +90,7 @@ public class MatchData implements Serializable {
     /**
      * Questo metodo permette di inizializzare il secondo giocatore 
      * 
-     * @param player1 nome giocatore
+     * @param player2 nome giocatore
      */
     public void setPlayer2(String player2) {
         Player2 = player2;
@@ -99,7 +99,7 @@ public class MatchData implements Serializable {
     /**
      * Questo metodo permette di inizializzare il terzo giocatore 
      * 
-     * @param player1 nome giocatore
+     * @param player3 nome giocatore
      */
     public void setPlayer3(String player3) {
         Player3 = player3;
