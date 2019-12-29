@@ -7,9 +7,9 @@ import javax.swing.JTextField;
 import adminRdF.AdminRdf;
 import gui.TabPane;
 import playerRdF.PlayerRdf;
-import serverRdF.Server;
+import serverRdF.ServerInterface;
 import services.AdminChecker;
-import services.Client;
+import services.ClientInterface;
 import services.ClientImplementation;
 import services.Login;
 import services.Notification;
@@ -32,8 +32,8 @@ public class MainPane implements MouseListener {
 	private JTextField textFieldEmail;
 	private JPasswordField passwordField;
 
-	private static Server server;
-	private static Client client;
+	private static ServerInterface server;
+	private static ClientInterface client;
 	private static boolean admin;
 	private static boolean isServer = false;
 	int posX = 0, posY = 0;
@@ -185,16 +185,16 @@ public class MainPane implements MouseListener {
 		String email = textFieldEmail.getText();
 		String password = passwordField.getText();
 		if (email.equals("")) {
-			Notification.notify("ERRORE", "You didn't insert an email addres", false);
+			Notification.notify("ERRORE", "You didn't insert an email addres");
 		}
 		if (password.equals("")) {
-			Notification.notify("ERRORE", "You didn't insert a password", false);
+			Notification.notify("ERRORE", "You didn't insert a password");
 		}
 		if (!(email.equals("") || password.equals(""))) {
 			Login login = new Login(email, password);
 			int result = server.signIn(login, client, admin);
 			if (result < 0) {
-				Notification.notify("ERROR", "Incorrect email or password", true);
+				Notification.notify("ERROR", "Incorrect email or password");
 			} else if (result == 0) {
 				if (!isServer) {
 					TabPane tpc = new TabPane();
@@ -205,7 +205,7 @@ public class MainPane implements MouseListener {
 				}
 			} else {
 				Notification.notify("ERROR",
-						"YOU HAVE TO USE THE OTHER PLATFORM", true);
+						"YOU HAVE TO USE THE OTHER PLATFORM");
 			}
 		}
 	}
@@ -227,11 +227,11 @@ public class MainPane implements MouseListener {
 		registration.setAdmin(AdminChecker.isIsAdmin());
 	}
 
-	public static void setServer(Server server) {
+	public static void setServer(ServerInterface server) {
 		MainPane.server = server;
 	}
 
-	public static void setClient(Client client) {
+	public static void setClient(ClientInterface client) {
 		MainPane.client = client;
 	}
 

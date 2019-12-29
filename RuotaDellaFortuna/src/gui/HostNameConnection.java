@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import serverRdF.Server;
+import serverRdF.ServerInterface;
 import services.AdminChecker;
-import services.Client;
+import services.ClientInterface;
 import services.Notification;
 
 import javax.swing.JLabel;
@@ -36,8 +36,8 @@ public class HostNameConnection {
 	private JFrame frame;
 	private JTextField textFieldHostName;
 	private Registry registry;
-	private static Server server;
-	private static Client client;
+	private static ServerInterface server;
+	private static ClientInterface client;
 	int posX = 0, posY = 0;
 
 	public HostNameConnection() {
@@ -109,11 +109,11 @@ public class HostNameConnection {
 		String host = textFieldHostName.getText();
 		try {
 			registry = LocateRegistry.getRegistry(host, 1099);
-			server = (Server) registry.lookup("SERVER");
+			server = (ServerInterface) registry.lookup("SERVER");
 			MainPane mp = new MainPane();
 			frame.dispose();
 		} catch (RemoteException e) {
-			Notification.notify("ERROR", "Connection lost", true);
+			Notification.notify("ERROR", "Connection lost");
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}

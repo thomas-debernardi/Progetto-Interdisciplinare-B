@@ -17,9 +17,9 @@ import javax.swing.SwingConstants;
 
 import game.RemoteMatch;
 import javafx.scene.control.ListCell;
-import serverRdF.Server;
+import serverRdF.ServerInterface;
 import services.AdminChecker;
-import services.Client;
+import services.ClientInterface;
 import services.GameBeingPlayed2Render;
 import services.MatchData;
 import services.Notification;
@@ -42,8 +42,8 @@ public class GameBeingPlayed extends JDesktopPane{
 	private JButton btnJoin;
 	private JButton btnObserve;
 
-	private Server server;
-	private static Client client;
+	private ServerInterface server;
+	private static ClientInterface client;
 	private MatchData matchData;
 	private static RemoteMatch match;
 	public static boolean player;
@@ -53,7 +53,7 @@ public class GameBeingPlayed extends JDesktopPane{
 	/**
 	 * Create the application.
 	 */
-	public GameBeingPlayed(Server server, Client client, MatchData matchData) {
+	public GameBeingPlayed(ServerInterface server, ClientInterface client, MatchData matchData) {
 		this.server = server;
 		this.client = client;
 		this.matchData = matchData;
@@ -131,7 +131,7 @@ public class GameBeingPlayed extends JDesktopPane{
 					e1.printStackTrace();
 				}
 				if (match == null) {
-					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
+					Notification.notify("ERROR", "GAME DOESN'T EXIST");
 				} else {
 					TabPane.creator = false;
 					Game game = new Game(match, client);
@@ -151,7 +151,7 @@ public class GameBeingPlayed extends JDesktopPane{
 					e1.printStackTrace();
 				}
 				if (match == null) {
-					Notification.notify("ERROR", "GAME DOESN'T EXIST", true);
+					Notification.notify("ERROR", "GAME DOESN'T EXIST");
 				} else {
 					TabPane.creator = false;
 					Game game = new Game(match, client);

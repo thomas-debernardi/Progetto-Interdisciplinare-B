@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -52,6 +51,7 @@ public class DatabaseBuilder {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					@SuppressWarnings("unused")
 					DatabaseBuilder dp = new DatabaseBuilder();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -131,6 +131,7 @@ public class DatabaseBuilder {
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnCreate.setBackground(Color.GREEN);
 		btnCreate.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				host = textFieldHost.getText();
 				port = textFieldPort.getText();
@@ -184,18 +185,18 @@ public class DatabaseBuilder {
 					}
 					String s = sb.toString();
 					statement.executeUpdate(s);
-					Notification.notify("OK", "Database created", false);
+					Notification.notify("OK", "Database created");
 					dbCreated = true;
 					conn.close();
 				} else {
-					Notification.notify("DATABASE ALREADY EXIST", "", true);
+					Notification.notify("DATABASE ALREADY EXIST", "");
 				}
 			}
 		} catch (SQLException ex) {
-			Notification.notify("ERROR", "Acces error", true);
+			Notification.notify("ERROR", "Acces error");
 			ex.printStackTrace();
 		} catch (FileNotFoundException ex) {
-			Notification.notify("ERORR", "FILE SQL NOT FOUND", true);
+			Notification.notify("ERORR", "FILE SQL NOT FOUND");
 			ex.printStackTrace();
 		}
 	}

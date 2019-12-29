@@ -1,6 +1,5 @@
 package database;
 
-import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +18,8 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 
 	@Override
 	public List<PhrasesDTO> get5Phrases(String idPlayer1, String idPlayer2, String idPlayer3) throws SQLException {
-		String query5Phrases = "SELECT * FROM " + PhraseTable + " WHERE " + PhraseIdAttribute + " NOT IN "
-				+ "(SELECT " + PhrasePhraseAttribute
+		String query5Phrases = "SELECT * FROM " + PhraseTable + " WHERE " + PhraseIdAttribute + " NOT IN " + "(SELECT "
+				+ PhrasePhraseAttribute
 				+ " FROM Manches M JOIN MancheJoiners MJ ON M.id=MJ.id AND M.number = MJ.number " + "WHERE idPlayer = '"
 				+ idPlayer1 + "' OR idPlayer = '" + idPlayer2 + "' OR idPlayer = '" + idPlayer3 + "' " + "GROUP BY "
 				+ PhrasePhraseAttribute + ");";
@@ -31,8 +30,8 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 		ArrayList<PhrasesDTO> pDTO = new ArrayList<>();
 		int i = 0;
 		while (resultSet.next() && i < 5) {
-			pDTO.add(new PhrasesDTO(Integer.parseInt(resultSet.getString(PhraseIdAttribute)),resultSet.getString(PhraseThemeAttribute),
-					resultSet.getString(PhrasePhraseAttribute)));
+			pDTO.add(new PhrasesDTO(Integer.parseInt(resultSet.getString(PhraseIdAttribute)),
+					resultSet.getString(PhraseThemeAttribute), resultSet.getString(PhrasePhraseAttribute)));
 			i++;
 		}
 		return pDTO;
@@ -64,8 +63,8 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 			return null;
 		ArrayList<PhrasesDTO> pDTO = new ArrayList<>();
 		while (resultSet.next())
-			pDTO.add(new PhrasesDTO(Integer.parseInt(resultSet.getString(PhraseIdAttribute)),resultSet.getString(PhraseThemeAttribute),
-					resultSet.getString(PhrasePhraseAttribute)));
+			pDTO.add(new PhrasesDTO(Integer.parseInt(resultSet.getString(PhraseIdAttribute)),
+					resultSet.getString(PhraseThemeAttribute), resultSet.getString(PhrasePhraseAttribute)));
 		return pDTO;
 	}
 
@@ -83,14 +82,46 @@ public class PhrasesDAOImpl implements PhrasesDAO {
 		return true;
 
 	}
-	
-	public boolean deletePhrase(int position) throws SQLException{		
-		String query = "DELETE FROM " + PhraseTable + " WHERE " + PhraseIdAttribute + " = " + position + ";";
+
+	public boolean deletePhrase(int position) throws SQLException {
+		Integer pos = position;
+		String query = "DELETE FROM " + PhraseTable + " WHERE " + PhraseIdAttribute + " = " + pos + ";";
 		Statement stmt = con.createStatement();
 		try {
 			stmt.execute(query);
 		} catch (SQLException e) {
-			System.err.println("Phrases not deleted");
+			System.err.println("Phrases not deleted because it was used in a manche");
+		} finally {
+			query = "";
+		}
+		return true;
+	}
+
+	public boolean addPhrase(PhrasesDTO DTO) throws SQLException {
+		String query = "INSERT INTO " + PhraseTable + " (" + PhraseThemeAttribute + "," + PhrasePhraseAttribute
+				+ ") VALUES ";
+		query += "('" + DTO.getTheme() + "','" + DTO.getPhrase() + "');";
+		Statement stmt = con.createStatement();
+		try {
+			stmt.execute(query);
+			Notification.notify("SUCCESS", "Phrase added");
+		} catch (SQLException e) {
+			System.err.println("Phrase not added");
+		} finally {
+			query = "";
+		}
+		return true;
+	}
+
+	public boolean uploadPhrase(PhrasesDTO DTO) throws SQLException {
+		String query = "UPDATE " + PhraseTable + " SET " + PhraseThemeAttribute + " = '" + DTO.getTheme() + "', "
+				+ PhrasePhraseAttribute + " = '" + DTO.getPhrase() + "' WHERE " + PhraseIdAttribute + " = '" + DTO.getId()
+				+ "';";
+		Statement stmt = con.createStatement();
+		try {
+			stmt.execute(query);
+		} catch (SQLException e) {
+			System.err.println("Phrase not uploaded");
 		} finally {
 			query = "";
 		}

@@ -6,9 +6,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JList;
-
 import game.Move;
 import services.User;
 
@@ -551,6 +548,28 @@ public class DBManager implements DBManagerInterface {
 			return phrasesDAO.deletePhrase(position);
 		} catch (SQLException e) {
 			System.err.println("SQLException in deletePhrase");
+			return false;
+		}
+	}
+	
+	public boolean uploadPhrase(PhrasesDTO DTO) {
+		if (phrasesDAO == null)
+			createPhrasesDAO();
+		try {
+			return phrasesDAO.uploadPhrase(DTO);
+		} catch (SQLException e) {
+			System.err.println("SQLException in uploadPhrase");
+			return false;
+		}
+	}
+	
+	public boolean addPhrase(PhrasesDTO DTO) {
+		if (phrasesDAO == null)
+			createPhrasesDAO();
+		try {
+			return phrasesDAO.addPhrase(DTO);
+		} catch (SQLException e) {
+			System.err.println("SQLException in addPhrase");
 			return false;
 		}
 	}

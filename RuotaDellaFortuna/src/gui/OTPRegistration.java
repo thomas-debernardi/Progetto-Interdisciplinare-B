@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import serverRdF.OTPHelper;
-import serverRdF.Server;
-import services.Client;
+import serverRdF.OTPManagerInterface;
+import serverRdF.ServerInterface;
+import services.ClientInterface;
 import services.Notification;
 
 import javax.swing.JTextField;
@@ -29,9 +29,9 @@ public class OTPRegistration {
 	private JTextField textField;
 	private int timeSeconds = 0;
 	private int timeMinutes = 10;
-	private Server server;
-	private Client client;
-	private OTPHelper otp;
+	private ServerInterface server;
+	private ClientInterface client;
+	private OTPManagerInterface otp;
 	private JFrame frame;
 	private JLabel lblTimer;
 
@@ -123,8 +123,8 @@ public class OTPRegistration {
 
 	public void enter() throws IOException {
 		if (textField.getText().equals(""))
-			Notification.notify("ERROR", "NO OTP CODE", false);
-		String otpStr = textField.getText();
+			Notification.notify("ERROR", "NO OTP CODE");
+		String otpStr = textField.getText().trim();
 		boolean check = false;
 		try {
 			check = otp.checkOTP(otpStr, client);
@@ -132,9 +132,9 @@ public class OTPRegistration {
 			e.printStackTrace();
 		}
 		if (!check) {
-			Notification.notify("ERRROR", "INVALID OTP", true);
+			Notification.notify("ERRROR", "INVALID OTP");
 		} else {
-			Notification.notify("OK", "CODE ACCEPTED", true);
+			Notification.notify("OK", "CODE ACCEPTED");
 			MainPane mp = new MainPane();
 			// CHIUDERE APPLICAZIONE
 			frame.dispose();
@@ -142,18 +142,18 @@ public class OTPRegistration {
 	}
 
 	public void notifyWrongOTP() {
-		Notification.notify("ERRROR", "INVALID OTP", true);
+		Notification.notify("ERRROR", "INVALID OTP");
 	}
 
-	public void setServer(Server server) {
+	public void setServer(ServerInterface server) {
 		this.server = server;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(ClientInterface client) {
 		this.client = client;
 	}
 
-	public void setOtp(OTPHelper otp) {
+	public void setOtp(OTPManagerInterface otp) {
 		this.otp = otp;
 	}
 
@@ -179,7 +179,7 @@ public class OTPRegistration {
 								seconds = 0;
 								minutes = 10;
 								Notification.notify("ERROR",
-										"TIME OUT", false);
+										"TIME OUT");
 								state = false;
 								break;
 							}

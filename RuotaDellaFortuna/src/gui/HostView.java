@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import serverRdF.Server;
+import serverRdF.ServerInterface;
 
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -31,7 +31,7 @@ public class HostView {
 
 	private JPanel contentPane;
 	private Registry r;
-	private Server server;
+	private ServerInterface server;
 	private JLabel lblHost;
 	int posX = 0, posY = 0;
 	private JPanel panel;
@@ -128,7 +128,7 @@ public class HostView {
 		return r;
 	}
 
-	public Server getServer() {
+	public ServerInterface getServer() {
 		return server;
 	}
 
@@ -136,7 +136,7 @@ public class HostView {
 		this.r = r;
 	}
 
-	public void setServer(Server server) {
+	public void setServer(ServerInterface server) {
 		this.server = server;
 	}
 

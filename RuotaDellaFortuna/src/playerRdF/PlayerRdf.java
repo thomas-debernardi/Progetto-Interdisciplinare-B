@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import gui.HostNameConnection;
-import serverRdF.Server;
+import serverRdF.ServerInterface;
 import services.AdminChecker;
-import services.Client;
+import services.ClientInterface;
 
 import java.rmi.registry.Registry;
 
@@ -15,8 +15,8 @@ public class PlayerRdf {
 	private JFrame frame;
 	private JTextField textFieldHostName;
 	private Registry registry;
-	private static Server server;
-	private static Client client;
+	private static ServerInterface server;
+	private static ClientInterface client;
 
 	/**
 	 * Launch the application.

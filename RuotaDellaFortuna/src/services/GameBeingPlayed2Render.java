@@ -3,9 +3,6 @@ package services;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -13,9 +10,9 @@ import javax.swing.ListCellRenderer;
 import gui.GameBeingPlayed;
 
 /**
- * Custom renderer to display a country's flag alongside its name
+ * Custom renderer per mostrare i bottoni in una lista
  *
- * @author wwww.codejava.net
+ * 
  */
 public class GameBeingPlayed2Render extends JLabel implements ListCellRenderer<GameBeingPlayed2> {
 	private static boolean chosen2 = false;

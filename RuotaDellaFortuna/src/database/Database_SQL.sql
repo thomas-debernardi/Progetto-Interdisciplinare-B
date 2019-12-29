@@ -1,7 +1,7 @@
 create table users
 (
     id       varchar(36) primary key,
-    tipo     numeric(1)  not null,
+    type     numeric(1)  not null,
     name     varchar(50) not null,
     surname  varchar(50) not null,
     nickname varchar(50) not null unique,

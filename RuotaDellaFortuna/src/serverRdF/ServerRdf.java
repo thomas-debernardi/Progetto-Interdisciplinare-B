@@ -1,6 +1,5 @@
 package serverRdF;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -26,6 +25,10 @@ import java.awt.Color;
 
 public class ServerRdf extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldUser;
 	private JPasswordField passwordField;
@@ -122,6 +125,7 @@ public class ServerRdf extends JFrame {
 		
 		JButton btnStart = new JButton("START");
 		btnStart.setBackground(Color.GREEN);
+		btnStart.setForeground(Color.WHITE);
 		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,19 +168,21 @@ public class ServerRdf extends JFrame {
 	
     public void login() throws IOException {
         String user = textFieldUser.getText();
-        String password = passwordField.getText();
+        @SuppressWarnings("deprecation")
+		String password = passwordField.getText();
         String hostname = textFieldHostname.getText();
         String port = textFieldPort.getText();
         try {
             String url = hostname + ":" + port;
             manager = DBManager.createDBManager(url, user, password);
             InsubriaLogin.setDbManager(manager);
-            InsubriaLogin ilc = new InsubriaLogin();     
-            Notification.notify("OK", "", false);
+            @SuppressWarnings("unused")
+			InsubriaLogin ilc = new InsubriaLogin();     
+            Notification.notify("OK", "");
             frame.dispose();
         } catch (SQLException e) {
         	System.out.println(e);
-            Notification.notify("ERROR", e.toString(), true);
+            Notification.notify("ERROR", e.toString());
         }
 
     }

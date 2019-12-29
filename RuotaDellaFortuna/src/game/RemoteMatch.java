@@ -3,7 +3,7 @@ package game;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import services.Client;
+import services.ClientInterface;
 
 public interface RemoteMatch extends Remote {
 
@@ -19,11 +19,11 @@ public interface RemoteMatch extends Remote {
 
 	public void giveSolution(String solution) throws RemoteException;
 
-	public void leaveMatchAsPlayer(Client c) throws RemoteException;
+	public void leaveMatchAsPlayer(ClientInterface c) throws RemoteException;
 
-	public void leaveMatchAsObserver(Client c) throws RemoteException;
+	public void leaveMatchAsObserver(ClientInterface c) throws RemoteException;
 
-	public void askNotify(Client c) throws RemoteException;
+	public void askNotify(ClientInterface c) throws RemoteException;
 
 	public void askForVocal() throws RemoteException;
 

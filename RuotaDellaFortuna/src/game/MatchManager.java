@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import database.DBManager;
-import serverRdF.ServerImplementation;
-import services.Client;
+import serverRdF.Server;
+import services.ClientInterface;
 import services.EmailManager;
 
 
@@ -27,6 +27,13 @@ public class MatchManager {
 
 
 
+    /**
+     * Metodo per la creazione di un gestore di partita
+     * 
+     * @param dbmng contiene il gestore di database del sistema
+     * @param email contiene il gestore di mail del sistema
+     * @return ritorna il gestore di partita appena creato
+     */
     public static MatchManager createMatchManager(DBManager dbmng, EmailManager email) {
         if (matchManager == null) {
             matchManager = new MatchManager(dbmng, email);
@@ -37,7 +44,14 @@ public class MatchManager {
 
 
 
-    public synchronized RemoteMatch createMatch(Client c) {
+    /**
+     * Metodo per la creazione del match da parte di un utente
+     * 
+     * @param c contiene il Client del creatore del match
+     * @return match ritorna un oggetto di tipo Match riferito alla partita che si sta creando
+     */
+    @SuppressWarnings("finally")
+	public synchronized RemoteMatch createMatch(ClientInterface c) {
         String id = UUID.randomUUID().toString();
         LocalDateTime currentTime = LocalDateTime.now();
         Match match = null;
@@ -56,13 +70,20 @@ public class MatchManager {
             matches.put(id, match);
             return match;
         } catch (RemoteException e) {
-            ServerImplementation.serverError(c);
+            Server.serverError(c);
         } finally {
             return match;
         }
     }
 
-    public RemoteMatch joinMatch(Client c, String idMatch) {
+    /**
+     * Metodo per la partecipazione ad un match già creato
+     * 
+     * @param c contiene il Client che vuole aggiungersi alla partita
+     * @param idMatch contiene l'ID del match a cui ci si vuole aggiungere
+     * @return ritorna il match se avviene la partecipazione, null altrimenti
+     */
+    public RemoteMatch joinMatch(ClientInterface c, String idMatch) {
         Match match = matches.get(idMatch);
         if(match == null)
             return null;
@@ -96,7 +117,14 @@ public class MatchManager {
     }
 
 
-    public RemoteMatch observeMatch(Client c, String idMatch) {
+    /**
+     * Metodo per ottenere accesso al match come osservatore
+     * 
+     * @param c contiene il Client dell'utente interessato ad unirsi alla partita
+     * @param idMatch contiene l'ID del match a cui si vuol partecipare
+     * @return ritorna il match se avviene la partecipazione, null altrimenti
+     */
+    public RemoteMatch observeMatch(ClientInterface c, String idMatch) {
         Match match = matches.get(idMatch);
         if(match == null)
             return null;
@@ -114,10 +142,20 @@ public class MatchManager {
         return match;
     }
 
+    /**
+     * Metodo per la cancellazione di un match tramite ID
+     * 
+     * @param idMatch contiene l'ID del match da eliminare
+     */
     static void deleteMatch(String idMatch) {
         matches.remove(idMatch);
     }
 
+    /**
+     * Metodo getter per ottenere l'HashMap dei match
+     * 
+     * @return ritorna i match attualmente validi
+     */
     public HashMap<String, Match> getMatches() {
         return matches;
     }

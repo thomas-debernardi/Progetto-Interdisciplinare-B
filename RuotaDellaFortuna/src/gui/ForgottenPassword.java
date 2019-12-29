@@ -1,21 +1,15 @@
 package gui;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import java.awt.Component;
+
 import javax.swing.JTextField;
-import java.awt.CardLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import serverRdF.Server;
-import services.Client;
+import serverRdF.ServerInterface;
+import services.ClientInterface;
 import services.Notification;
 
 import javax.swing.GroupLayout;
@@ -32,8 +26,8 @@ public class ForgottenPassword {
 
 	private JFrame frame;
 	private JTextField textField;
-    private Server server;
-    private Client client;
+    private ServerInterface server;
+    private ClientInterface client;
     int posX = 0, posY = 0;
 
 	/**
@@ -143,18 +137,18 @@ public class ForgottenPassword {
 	        String mail = textField.getText();
 	        boolean bool = server.resetPassword(client, mail);
 	        if (!bool) {
-	            Notification.notify("ERROR", "Email doesn't exist", true);
+	            Notification.notify("ERROR", "Email doesn't exist");
 	        } else {
-	            Notification.notify("OK", "Email with new password sended", false);
+	            Notification.notify("OK", "Email with new password sended");
 	            frame.dispose();
 	        }
 	    }
 
-	    public void setServer(Server server) {
+	    public void setServer(ServerInterface server) {
 	        this.server = server;
 	    }
 
-	    public void setClient(Client client) {
+	    public void setClient(ClientInterface client) {
 	        this.client = client;
 	    }
 }

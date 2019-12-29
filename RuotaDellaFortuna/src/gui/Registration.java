@@ -8,9 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import serverRdF.OTPHelper;
-import serverRdF.Server;
-import services.Client;
+import serverRdF.OTPManagerInterface;
+import serverRdF.ServerInterface;
+import services.ClientInterface;
 import services.Notification;
 import services.User;
 
@@ -35,17 +35,17 @@ public class Registration {
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldRepeat;
 
-	private static Server server;
-	private static Client client;
+	private static ServerInterface server;
+	private static ClientInterface client;
 	private User user;
 	private static boolean isServer;
-	private static OTPHelper otp;
+	private static OTPManagerInterface otp;
 	private boolean admin;
 	int posX = 0, posY = 0;
 
 	private JFrame frame;
 
-	public Registration(Server server, Client client, boolean admin) {
+	public Registration(ServerInterface server, ClientInterface client, boolean admin) {
 		this.server = server;
 		this.client = client;
 		this.admin = admin;
@@ -110,6 +110,7 @@ public class Registration {
 		contentPane.add(lblRepeatPassword);
 
 		JButton btnRegister = new JButton("REGISTER");
+		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnRegister.setBackground(Color.GREEN);
 		btnRegister.setForeground(Color.WHITE);
 		btnRegister.addActionListener(new ActionListener() {
@@ -193,16 +194,16 @@ public class Registration {
 
 	public void confirm() throws IOException {
 		if (!(passwordFieldRepeat.getText().equals(passwordField.getText())))
-			Notification.notify("ERROR", "password", false);
+			Notification.notify("ERROR", "password");
 
 		else if (!(textFieldName.getText().equals("") || textFieldSurname.getText().equals("")
 				|| textFieldNickname.getText().equals("") || textFieldEmail.getText().equals("")
 				|| passwordField.getText().equals("") || passwordFieldRepeat.getText().equals(""))) {
 			if (!server.checkEMail(textFieldEmail.getText())) {
-				Notification.notify("ERROR", "email already registered", true);
+				Notification.notify("ERROR", "email already registered");
 
 			} else if (!server.checkNickname(textFieldNickname.getText())) {
-				Notification.notify("ERROR", "nickname already exist", true);
+				Notification.notify("ERROR", "nickname already exist");
 			} else {
 				String nameStr = textFieldName.getText();
 				String surnameStr = textFieldSurname.getText();
@@ -217,7 +218,7 @@ public class Registration {
 				frame.dispose();
 			}
 		} else {
-			Notification.notify("ERROR", "compile all field", true);
+			Notification.notify("ERROR", "compile all field");
 		}
 	}
 
@@ -233,11 +234,11 @@ public class Registration {
 		isServer = server;
 	}
 
-	public void setServer(Server server) {
+	public void setServer(ServerInterface server) {
 		this.server = server;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(ClientInterface client) {
 		this.client = client;
 	}
 
@@ -253,6 +254,6 @@ public class Registration {
 
 
 	public void notifyIllegalEmailAddress() {
-		Notification.notify("Errore", "L'indirizzo email inserito non\nè disponibile o non esiste.", true);
+		Notification.notify("Errore", "L'indirizzo email inserito non\nè disponibile o non esiste.");
 	}
 }

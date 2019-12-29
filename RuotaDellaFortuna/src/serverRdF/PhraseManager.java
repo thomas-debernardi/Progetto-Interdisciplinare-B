@@ -5,9 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JList;
-
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -22,6 +19,12 @@ public class PhraseManager {
 		this.dbManager = dbManager;
 	}
 
+	/**
+	 * Questo metodo crea il singleton di PhraseManager
+	 * 
+	 * @param dbmng il riferimento a DBManager
+	 * @return Il riferimento al singleton di PhraseManager
+	 */
 	public static PhraseManager createPhraseManager(DBManager dbmng) {
 		if (phraseManager == null) {
 			phraseManager = new PhraseManager(dbmng);
@@ -31,6 +34,15 @@ public class PhraseManager {
 		}
 	}
 
+	/**
+	 * Questo metodo aggiunge al database le frasi ottenute attraverso un file di
+	 * tipo .csv
+	 *
+	 * @param file il file da leggere
+	 * @return <code>true</code> se l'inserimento avviene con successo,
+	 *         <code>false</code> altrimenti
+	 * @throws IOException in caso di errori nella lettura del file
+	 */
 	public boolean addPhrases(File file) throws IOException, CsvValidationException {
 		CSVReader reader = new CSVReader(new FileReader(file));
 		ArrayList<PhrasesDTO> phrases = new ArrayList<>();
@@ -61,27 +73,43 @@ public class PhraseManager {
 		}
 		return dbManager.addPhrases(phrases);
 	}
-	
-	public List<PhrasesDTO> getAllPhrases(){
+
+	/**
+	 * Questo metoto permette la visualizzazione di tutte le frasi
+	 * @return lista di frasi
+	 */
+	public List<PhrasesDTO> getAllPhrases() {
 		return dbManager.getAllPhrases();
 	}
-	
-	public boolean addPhrase(String[] theme, String[] phrase) {
-		ArrayList<PhrasesDTO> phrases = new ArrayList<>();
-		for(int i = 0; i < theme.length; i++) {
-			phrases.add(new PhrasesDTO(theme[i], phrase[i]));
-		}
-		return dbManager.addPhrases(phrases);
+
+	public boolean uploadPhrase(PhrasesDTO DTO) {
+		return dbManager.uploadPhrase(DTO);
 	}
-	
+
+	/**
+	 * Questo metodo permette di eliminare tutte le frasi
+	 * @return <code>true</code> se l'eliminazione è andata a buon fine, altrimenti <code>false</code>
+	 */
 	public boolean deleteAllPhrases() {
 		return dbManager.deleteAllPhrases();
 	}
-	
+
+	/**
+	 * Questo metodo permette di eliminare una determinata frase
+	 * @param position id della frase
+	 * @return <code>true</code> se l'eliminazione è andata a buon fine, altrimenti <code>false</code>
+	 */
 	public boolean deletePhrase(int position) {
 		return dbManager.deletePhrase(position);
 	}
-	
-	
-	
+
+	/**
+	 * Questo metodo permette di aggiungere una frase
+	 * @param DTO frase da aggiungere al db
+	 * @return <code>true</code> se l'inserimento è andato a buon fine, altrimenti <code>false</code>
+	 */
+	public boolean addPhrase(PhrasesDTO DTO) {
+		return dbManager.addPhrase(DTO);
+	}
+
 }

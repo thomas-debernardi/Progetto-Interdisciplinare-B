@@ -3,7 +3,7 @@ package gui;
 import javax.swing.JFrame;
 
 import game.RemoteMatch;
-import services.Client;
+import services.ClientInterface;
 import services.Notification;
 
 import java.awt.Color;
@@ -29,7 +29,7 @@ public class Game {
 	private static boolean isObserver;
 	private int wheelResult;
 	private static RemoteMatch match;
-	private Client client;
+	private ClientInterface client;
 	private boolean wheelButtonPressed;
 	private boolean vowelButtonPressed;
 	private int posX = 0, posY = 0;
@@ -67,7 +67,7 @@ public class Game {
 	/**
 	 * Create the application.
 	 */
-	public Game(RemoteMatch match, Client client) {
+	public Game(RemoteMatch match, ClientInterface client) {
 		this.match = match;
 		this.client = client;
 		initialize();
@@ -458,14 +458,12 @@ public class Game {
 					if (s.length() < 15 - column) {
 						for (int i = 0; i < s.length(); i++) {
 							x[row][column] = s.charAt(i);
-							// letter[row][column].setText(""+s.charAt(i));
 							letter[row][column].setBackground(find);
 							column++;
 						}
 						pointer += s.length();
 						if (column < 14) {
-							x[row][column] = ' '; // HO TOLTO IL PIU UNO
-							// letter[row][column].setText(" ");
+							x[row][column] = ' '; 
 							letter[row][column].setBackground(space);
 							column++;
 						} else {
@@ -479,14 +477,12 @@ public class Game {
 						pointer = 0;
 						for (int i = 0; i < s.length(); i++) {
 							x[row][column] = s.charAt(i);
-							// letter[row][column].setText(""+s.charAt(i));
 							letter[row][column].setBackground(find);
 							column++;
 						}
 						pointer += s.length();
 						if (column < 14) {
 							x[row][column] = ' ';
-							// letter[row][column].setText(" ");
 							letter[row][column].setBackground(space);
 							column++;
 						} else {
@@ -682,8 +678,8 @@ public class Game {
 	public void vocalCallNotify(String nickname) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = nickname + " ha chiamato la vocale";
-				Notification.notify("Notifica di partita", message, false);
+				String message = nickname + "called a vowel";
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -692,8 +688,8 @@ public class Game {
 	public void callSolutionNotify(String nickname) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = nickname + " da la soluzione ";
-				Notification.notify("Notifica di partita", message, false);
+				String message = nickname + " gave the solution ";
+				Notification.notify("NOTIFICATION", message);
 
 			}
 		};
@@ -703,8 +699,8 @@ public class Game {
 	public void jollyNotify(String nickname) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = nickname + " ha giocato il jolly";
-				Notification.notify("Notifica di partita", message, false);
+				String message = nickname + " played a jolly";
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -713,8 +709,8 @@ public class Game {
 	public void callLetterNotify(String nickname, String letter) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = nickname + " ha scelto la lettera " + letter;
-				Notification.notify("Notifica di partita", message, false);
+				String message = nickname + " choose " + letter;
+				Notification.notify("NOTIFICATION", message);
 
 			}
 		};
@@ -729,14 +725,14 @@ public class Game {
 		isObserver = observer;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(ClientInterface client) {
 		this.client = client;
 	}
 
 	public void notifyLeaver(String nickname) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = nickname + "\nha lasciato la partita";
+				String message = nickname + "\n left the game";
 				TabPane.notifyLeaver(message);
 			}
 		};
@@ -757,8 +753,8 @@ public class Game {
 	public void notifyMatchStart() {
 		Thread t = new Thread() {
 			public void run() {
-				String message = "Partita iniziata";
-				Notification.notify("Notifica di partita", message, false);
+				String message = "GAME STARTED";
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -767,7 +763,7 @@ public class Game {
 	public void notifyMancheVictory() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", "HAI VINTO LA MANCHE!!!", false);
+				Notification.notify("NOTIFICATION", "!!YOU WIN!!");
 			}
 		};
 		t.start();
@@ -777,8 +773,8 @@ public class Game {
 		Thread t = new Thread() {
 			@Override
 			public void run() {
-				String message = winner + "\nha vinto la manche ";
-				Notification.notify("Notifica di partita", message, false);
+				String message = winner + "\n won the manche ";
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -787,8 +783,8 @@ public class Game {
 	public void notifyNewManche(int numManche) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = "la manche numero " + numManche + "\nsta per cominciare";
-				Notification.notify("Notifica di partita", message, false);
+				String message = numManche + "\n manche is started";
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -797,7 +793,7 @@ public class Game {
 	public void notifyYourTurn() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", "è il tuo turno", false);
+				Notification.notify("NOTIFICATION", "is your turn");
 			}
 		};
 		t.start();
@@ -808,7 +804,7 @@ public class Game {
 		Thread t = new Thread() {
 			@Override
 			public void run() {
-				String message = winner + "\nha vinto la partita ";
+				String message = winner + "\n won the game";
 				match = null;
 				TabPane.setVisible();
 				frame.dispose();
@@ -833,7 +829,7 @@ public class Game {
 	public void notifyTimeOut() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", "Tempo scaduto", false);
+				Notification.notify("NOTIFICATION", "time out");
 			}
 		};
 		t.start();
@@ -842,7 +838,7 @@ public class Game {
 	public void askForJolly() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", "Hai fatto un errore\nVuoi usare il jolly?", false);
+				Notification.notify("NOTIFICATION", "do you want to use a jolly");
 			}
 		};
 		t.start();
@@ -851,8 +847,8 @@ public class Game {
 	public void notifyPlayerError(String name) {
 		Thread t = new Thread() {
 			public void run() {
-				String message = name + "\nha commesso un errore";
-				Notification.notify("Notifica di partita", message, false);
+				String message = name + "\n made a mistake";
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -861,7 +857,7 @@ public class Game {
 	public void notifyNoMoreConsonant() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", "sono state chiamate tutte le consonanti", false);
+				Notification.notify("NOTIFICATION", "all consonant have been called");
 			}
 		};
 		t.start();

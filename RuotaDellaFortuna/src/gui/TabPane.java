@@ -1,46 +1,31 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.rmi.Remote;
+
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.ResourceBundle;
+
 import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 
 import game.RemoteMatch;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import serverRdF.Server;
-import services.Client;
-import services.CryptPassword;
+
+import serverRdF.ServerInterface;
+import services.ClientInterface;
 import services.GameBeingPlayed2;
 import services.GameBeingPlayed2Render;
 import services.MatchData;
 import services.Notification;
-import services.User;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -51,13 +36,10 @@ import java.awt.HeadlessException;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.opencsv.exceptions.CsvValidationException;
-import com.sun.mail.imap.protocol.ListInfo;
 
 import database.PhrasesDTO;
 
@@ -65,16 +47,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
-import java.awt.Rectangle;
+import javax.swing.ImageIcon;
+
 
 public class TabPane {
 
 	private static JFrame frame;
-	private static Client client;
-	private static Server server;
+	private static ClientInterface client;
+	private static ServerInterface server;
 	private static RemoteMatch match;
 	private static MatchData matchData;
 	private boolean isAdmin;
@@ -126,6 +106,7 @@ public class TabPane {
 	private String[] themesArray;
 	private String[] phrasesArray;
 	private JList listId;
+	private JButton btnAdd;
 
 	/**
 	 * Create the application.
@@ -691,6 +672,14 @@ public class TabPane {
 		listThemes.setBackground(Color.DARK_GRAY);
 		listThemes.setBounds(478, 62, 270, 498);
 		panelAddPhrases.add(listThemes);
+		listThemes.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				listPhrases.setSelectedIndex(listThemes.getSelectedIndex());
+				listThemes.setSelectedIndex(listThemes.getSelectedIndex());
+			}
+		});
 
 		textFieldPhrase = new JTextField();
 		textFieldPhrase.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -705,7 +694,7 @@ public class TabPane {
 		textFieldTheme.setColumns(10);
 
 		JLabel lblSelectThePhrase = new JLabel(
-				"Select the phrase or the theme (double click on it) and edit it, remeber to upload the changes by clicking on the UPLOAD buttom!! ");
+				"Select the phrase or the theme (double click on it) and edit it, remeber to upload the changes by clicking on the CONFIRM CHANGES buttom!! ");
 		lblSelectThePhrase.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSelectThePhrase.setForeground(Color.WHITE);
 		lblSelectThePhrase.setBounds(10, 570, 738, 13);
@@ -717,11 +706,12 @@ public class TabPane {
 		btnConfirmChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textFieldPhrase.getText().equals("") || textFieldTheme.getText().equals("")) {
-					Notification.notify("ATTENTION", "Select the phrase or theme to edit", true);
+					Notification.notify("ATTENTION", "Select the phrase or theme to edit");
 				} else {
 					modelPhrases.setElementAt(textFieldPhrase.getText(), selectedListItem);
 					modelThemes.setElementAt(textFieldTheme.getText(), selectedListItem);
-
+					uploadPhrases(modelId.getElementAt(listId.getSelectedIndex()), textFieldTheme.getText(),
+							textFieldPhrase.getText());
 					listPhrases.clearSelection();
 					listThemes.clearSelection();
 					listId.clearSelection();
@@ -734,33 +724,86 @@ public class TabPane {
 		panelAddPhrases.add(btnConfirmChanges);
 		btnConfirmChanges.setFont(new Font("Tahoma", Font.BOLD, 18));
 
-
 		modelId = new DefaultListModel<Integer>();
 		listId = new JList(modelId);
 		listId.setForeground(Color.WHITE);
 		listId.setBackground(Color.DARK_GRAY);
 		listId.setBounds(10, 62, 37, 498);
 		panelAddPhrases.add(listId);
-		
-				JButton btnUpload = new JButton("UPLOAD");
-				btnUpload.setBounds(370, 622, 128, 21);
-				panelAddPhrases.add(btnUpload);
-				btnUpload.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						uploadPhrases();
-					}
-				});
-				btnUpload.setForeground(Color.WHITE);
-				btnUpload.setBackground(Color.CYAN);
-				btnUpload.setFont(new Font("Tahoma", Font.BOLD, 18));
-				
-				JButton btnDelete = new JButton("DELETE");
-				btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 18));
-				btnDelete.setForeground(Color.RED);
-				btnDelete.setBounds(514, 622, 120, 21);
-				panelAddPhrases.add(btnDelete);
-		
-		
+		listId.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				listPhrases.setSelectedIndex(listId.getSelectedIndex());
+				listThemes.setSelectedIndex(listId.getSelectedIndex());
+			}
+		});
+		listId.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getClickCount() == 2) {
+					textFieldPhrase.setText(modelPhrases.getElementAt(listId.getSelectedIndex()));
+					textFieldTheme.setText(modelThemes.getElementAt(listId.getSelectedIndex()));
+				}
+			}
+		});
+
+		JButton btnDelete = new JButton("DELETE");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deletePhrase(modelId.getElementAt(listId.getSelectedIndex()));
+				refresh();
+				listId.clearSelection();
+				listPhrases.clearSelection();
+				listThemes.clearSelection();
+			}
+		});
+		btnDelete.setBackground(Color.RED);
+		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnDelete.setForeground(Color.BLACK);
+		btnDelete.setBounds(514, 622, 120, 21);
+		panelAddPhrases.add(btnDelete);
+
+		btnAdd = new JButton("ADD");
+		btnAdd.setBackground(Color.GREEN);
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnAdd.setForeground(Color.WHITE);
+		btnAdd.setBounds(383, 622, 121, 21);
+		panelAddPhrases.add(btnAdd);
+		btnAdd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addPhrase();
+			}
+		});
+
 		listThemes.addMouseListener(new MouseListener() {
 
 			@Override
@@ -808,15 +851,9 @@ public class TabPane {
 		lblName.setHorizontalAlignment(SwingConstants.LEFT);
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblName.setForeground(Color.WHITE);
-		lblName.setBounds(307, 105, 159, 18);
+		lblName.setBounds(78, 105, 159, 18);
 		panelProfile.add(lblName);
 
-		JButton button = new JButton("");
-		// button.setIcon(new
-		// ImageIcon(TabPaneController.class.getResource("/img/icons8-user-96.png")));
-		button.setBackground(Color.GRAY);
-		button.setBounds(61, 80, 217, 203);
-		panelProfile.add(button);
 
 		lblSurname = new JLabel("Surname");
 		lblSurname.setHorizontalAlignment(SwingConstants.LEFT);
@@ -826,17 +863,17 @@ public class TabPane {
 		panelProfile.add(lblSurname);
 
 		lblNickname = new JLabel("Nickname");
-		lblNickname.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNickname.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNickname.setForeground(Color.WHITE);
 		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNickname.setBounds(307, 151, 159, 18);
+		lblNickname.setBounds(78, 151, 526, 18);
 		panelProfile.add(lblNickname);
 
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEmail.setForeground(Color.WHITE);
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblEmail.setBounds(307, 197, 437, 25);
+		lblEmail.setBounds(78, 197, 526, 25);
 		panelProfile.add(lblEmail);
 
 		JLabel lblChangePassword = new JLabel("Change Password");
@@ -847,7 +884,7 @@ public class TabPane {
 		panelProfile.add(lblChangePassword);
 
 		passwordFieldNuova = new JPasswordField();
-		passwordFieldNuova.setToolTipText("Insert the new password here");
+		passwordFieldNuova.setToolTipText("Insert the new password");
 		passwordFieldNuova.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordFieldNuova.setBounds(464, 451, 140, 22);
 		panelProfile.add(passwordFieldNuova);
@@ -925,7 +962,7 @@ public class TabPane {
 			setGlobalStats();
 		} catch (RemoteException e) {
 
-			Notification.notify("ERROR", "Statistics not uploaded", true);
+			Notification.notify("ERROR", "Statistics not uploaded");
 		}
 
 		try {
@@ -1066,7 +1103,7 @@ public class TabPane {
 		try {
 			list2 = server.visualizeMatch(client);
 		} catch (RemoteException e) {
-			Notification.notify("ERROR", "The server is offline", true);
+			Notification.notify("ERROR", "The server is offline");
 		}
 		if (list2.size() > 0) {
 			for (MatchData matchData : list2) {
@@ -1137,14 +1174,14 @@ public class TabPane {
 			lblBestCalledConsonant2.setText(phrase);
 			lblAverageMovesSolutionValue.setText(String.valueOf(avSolManches));
 		} catch (RemoteException e) {
-			Notification.notify("Errore", "Server offline", true);
+			Notification.notify("Errore", "Server offline");
 		}
 	}
 
 	public static void notifyTooManyPlayers() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("ERROR", "GAME STARTED YET", true);
+				Notification.notify("ERROR", "GAME STARTED YET");
 			}
 		};
 		t.start();
@@ -1166,7 +1203,7 @@ public class TabPane {
 	public void enterFilePhrase() throws CsvValidationException {
 		String phrases = textFieldAddPhrase.getText();
 		if (phrases.equals(""))
-			Notification.notify("ERROR", "INSERT A VALID CSV", false);
+			Notification.notify("ERROR", "INSERT A VALID CSV");
 		else {
 			String phrasesTrim = phrases.trim();
 			File filePhrases = new File(phrasesTrim);
@@ -1175,20 +1212,20 @@ public class TabPane {
 				if (bool) {
 					Thread t = new Thread() {
 						public void run() {
-							Notification.notify("OK", "Phrases added", false);
+							Notification.notify("OK", "Phrases added");
 						}
 					};
 					t.start();
 				} else {
 					Thread t = new Thread() {
 						public void run() {
-							Notification.notify("ERROR", "Retry", false);
+							Notification.notify("ERROR", "Retry");
 						}
 					};
 					t.start();
 				}
 			} catch (RemoteException e) {
-				Notification.notify("ERROR", "Server offline", true);
+				Notification.notify("ERROR", "Server offline");
 			}
 		}
 
@@ -1196,7 +1233,7 @@ public class TabPane {
 
 	public void changePassword() throws RemoteException {
 		if (passwordFieldNuova.getText().equals("") || passwordFieldVecchia.getText().equals("")) {
-			Notification.notify("ERRRO", "Insert the password", false);
+			Notification.notify("ERRRO", "Insert the password");
 		} else {
 			String password = passwordFieldNuova.getText();
 			String pswVecchia = passwordFieldVecchia.getText();
@@ -1207,22 +1244,22 @@ public class TabPane {
 				try {
 					bool = server.changePassword(password, client);
 				} catch (RemoteException e) {
-					Notification.notify("ERROR", "Server offline", true);
+					Notification.notify("ERROR", "Server offline");
 					passwordFieldNuova.setText("");
 					passwordFieldVecchia.setText("");
 				}
 				if (bool) {
-					Notification.notify("OK", "Password changed", false);
+					Notification.notify("OK", "Password changed");
 					passwordFieldNuova.setText("");
 					passwordFieldVecchia.setText("");
 
 				} else {
-					Notification.notify("ERROR", "RETRY", true);
+					Notification.notify("ERROR", "RETRY");
 					passwordFieldNuova.setText("");
 					passwordFieldVecchia.setText("");
 				}
 			} else {
-				Notification.notify("ERROR", "Current password error", true);
+				Notification.notify("ERROR", "Current password error");
 				passwordFieldNuova.setText("");
 				passwordFieldVecchia.setText("");
 			}
@@ -1231,11 +1268,11 @@ public class TabPane {
 
 	}
 
-	public void setClient(Client client) {
+	public void setClient(ClientInterface client) {
 		this.client = client;
 	}
 
-	public void setServer(Server server) {
+	public void setServer(ServerInterface server) {
 		this.server = server;
 	}
 
@@ -1252,7 +1289,7 @@ public class TabPane {
 	public static void notifyMatchAbort(String reason) {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("GAME", reason, false);
+				Notification.notify("GAME", reason);
 			}
 		};
 		t.start();
@@ -1261,7 +1298,7 @@ public class TabPane {
 	public static void notifyMatchEnd(String message) {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("GAME", message, false);
+				Notification.notify("GAME", message);
 			}
 		};
 		t.start();
@@ -1270,7 +1307,7 @@ public class TabPane {
 	public static void notifyMatchWin() {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("GAME", "YOU WON!", false);
+				Notification.notify("GAME", "YOU WON!");
 			}
 		};
 		t.start();
@@ -1279,7 +1316,7 @@ public class TabPane {
 	public static void notifyLeaver(String message) {
 		Thread t = new Thread() {
 			public void run() {
-				Notification.notify("Notifica di partita", message, false);
+				Notification.notify("NOTIFICATION", message);
 			}
 		};
 		t.start();
@@ -1301,7 +1338,7 @@ public class TabPane {
 			try {
 				bool = server.changeNickname(nickname, client);
 			} catch (RemoteException e) {
-				Notification.notify("ERROR", "SERVER OFFLINE", true);
+				Notification.notify("ERROR", "SERVER OFFLINE");
 			}
 			if (bool) {
 				try {
@@ -1310,9 +1347,9 @@ public class TabPane {
 					e.printStackTrace();
 				}
 				lblNickname.setText(nickname);
-				Notification.notify("SUCCES", "Nickname changed", false);
+				Notification.notify("SUCCES", "Nickname changed");
 			} else {
-				Notification.notify("ERROR", "Nickname already in use", true);
+				Notification.notify("ERROR", "Nickname already in use");
 			}
 			textFieldNickname.setText("");
 		}
@@ -1325,7 +1362,7 @@ public class TabPane {
 			try {
 				bool = server.changeSurname(surname, client);
 			} catch (RemoteException e) {
-				Notification.notify("Errore", "Server offline", true);
+				Notification.notify("Errore", "Server offline");
 			}
 			if (bool) {
 				lblSurname.setText(surname);
@@ -1334,9 +1371,9 @@ public class TabPane {
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
-				Notification.notify("SUCCES", "Surname changed", false);
+				Notification.notify("SUCCES", "Surname changed");
 			} else {
-				Notification.notify("ERROR", "", true);
+				Notification.notify("ERROR", "");
 			}
 			textFieldChangeSurname.setText("");
 		}
@@ -1349,7 +1386,7 @@ public class TabPane {
 			try {
 				bool = server.changeName(name, client);
 			} catch (RemoteException e) {
-				Notification.notify("Errore", "Server offline", true);
+				Notification.notify("Errore", "Server offline");
 			}
 			if (bool) {
 				lblName.setText(name);
@@ -1358,9 +1395,9 @@ public class TabPane {
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
-				Notification.notify("SUCCES", "Name changed", false);
+				Notification.notify("SUCCES", "Name changed");
 			} else {
-				Notification.notify("ERROR", "", true);
+				Notification.notify("ERROR", "");
 			}
 			textFieldChangeName.setText("");
 		}
@@ -1376,7 +1413,7 @@ public class TabPane {
 				try {
 					listPhrasesDTO = server.getAllPhrases();
 				} catch (RemoteException e) {
-					Notification.notify("ERROR", "", true);
+					Notification.notify("ERROR", "");
 					System.out.println(e.toString());
 				}
 				for (int i = 0; i < listPhrasesDTO.size(); i++) {
@@ -1390,13 +1427,12 @@ public class TabPane {
 
 	}
 
-	public void uploadPhrases() {
-		createArray();
+	public void uploadPhrases(int id, String theme, String phrase) {
 		try {
-			server.addPhrase(themesArray, phrasesArray);
-			Notification.notify("SUCCESS", "Phrases updated", false);
+			server.uploadPhrase(new PhrasesDTO(id, theme, phrase));
+			Notification.notify("SUCCESS", "Phrases updated");
 		} catch (RemoteException e) {
-			Notification.notify("ERROR", "Phrases non uploaded", true);
+			Notification.notify("ERROR", "Phrases non uploaded");
 		}
 	}
 
@@ -1413,12 +1449,33 @@ public class TabPane {
 		listThemes.clearSelection();
 	}
 
+	public void addPhrase() {
+		if (btnAdd.getText().equals("ADD")) {
+			btnAdd.setText("UPLOAD");
+			textFieldPhrase.setText("New Phrase");
+			textFieldTheme.setText("New Theme");
+			Notification.notify("", "Insert the new phrase with the theme");
+		} else if (btnAdd.getText().equals("UPLOAD")) {
+			if (textFieldPhrase.getText().equals("New Phrase") || textFieldTheme.getText().equals("New Theme")
+					|| textFieldPhrase.getText().equals("") || textFieldTheme.getText().equals("")) {
+				Notification.notify("", "You have to change the phrase or the theme");
+			} else {
+				btnAdd.setText("ADD");
+				try {
+					server.addPhrase(new PhrasesDTO(textFieldTheme.getText(), textFieldPhrase.getText()));
+					refresh();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	public void deletePhrase(int position) {
 		try {
 			server.deletePhrase(position);
-			Notification.notify("SUCCESS", "Phrase deleted", false);
 		} catch (RemoteException e) {
-			Notification.notify("ERROR", "Phrase not found", true);
+			Notification.notify("ERROR", "Phrase not found");
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
@@ -9,9 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.DBManager;
+import serverRdF.ServerInterface;
 import serverRdF.Server;
-import serverRdF.ServerImplementation;
-import services.Client;
+import services.ClientInterface;
 import services.ClientImplementation;
 import services.EmailManager;
 import services.Notification;
@@ -37,8 +36,8 @@ public class InsubriaLogin {
 	private EmailManager emailManager;
     private static DBManager dbManager;
     private static Registry registry;
-    private static Server server;
-    private static Client client;
+    private static ServerInterface server;
+    private static ClientInterface client;
     public static boolean forServer = false;
     private JFrame frame;
     private JButton btnExit;
@@ -149,22 +148,23 @@ public class InsubriaLogin {
 	
 	 public void loginManager() throws IOException, RemoteException {
 			String email = textFieldEmail.getText();
-	        String password = passwordField.getText();
+	        @SuppressWarnings("deprecation")
+			String password = passwordField.getText();
 	        boolean logged = EmailManager.logIntoAccount(email, password);
 	        if (logged) {
 	            forServer = true;
 	            emailManager = EmailManager.createEmailManager(email, password);
-	            server = new ServerImplementation(dbManager, emailManager);
+	            server = new Server(dbManager, emailManager);
 	            client = new ClientImplementation();
 	            if (dbManager.getAnyAdmin()) {
-	            	MainPane mp = new MainPane();
+					MainPane mp = new MainPane();
 	            	frame.dispose();
 	            } else {
-	            	Registration reg = new Registration(server, client, true);
+					Registration reg = new Registration(server, client, true);
 	                frame.dispose();
 	            }
 	        } else {
-	            Notification.notify("ERROR", "Incorrect email or password", true);
+	            Notification.notify("ERROR", "Incorrect email or password");
 	        }
 	    }
 	
@@ -172,7 +172,7 @@ public class InsubriaLogin {
         dbManager = db;
     }
 
-    public static Server getServer() {
+    public static ServerInterface getServer() {
         return server;
     }
 
@@ -180,7 +180,8 @@ public class InsubriaLogin {
         return registry;
     }
 
-    public static void setReg(Registration r) {
+    @SuppressWarnings("static-access")
+	public static void setReg(Registration r) {
         r.setServer(true);
         r.setServer(server);
         r.setAdmin(true);

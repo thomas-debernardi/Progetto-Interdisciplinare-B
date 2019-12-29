@@ -8,7 +8,7 @@ import gui.Game;
 import gui.OTPRegistration;
 import gui.TabPane;
 
-public class ClientImplementation extends UnicastRemoteObject implements Client, Serializable, Runnable {
+public class ClientImplementation extends UnicastRemoteObject implements ClientInterface, Serializable, Runnable {
 
 	public static final long serialVersionUID = 1L;
 
@@ -199,7 +199,7 @@ public class ClientImplementation extends UnicastRemoteObject implements Client,
 
 	@Override
 	public void run() {
-		Notification.notify("ERROR", "Connection", true);
+		Notification.notify("ERROR", "Connection");
 
 	}
 }
